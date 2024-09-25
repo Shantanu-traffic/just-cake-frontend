@@ -1,0 +1,10 @@
+.cheif_area {
+    height: 100vh;
+    background: linear-gradient(130deg, #fdc5b1 27%, #fb8263 27%);
+}
+
+@media screen and (max-width: 850px) {
+    .chef-section{
+        padding: 12px;
+    }
+}
