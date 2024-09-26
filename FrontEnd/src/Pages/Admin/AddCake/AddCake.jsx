@@ -7,17 +7,23 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../../Store/actions/modalActions';
+import { addProduct } from '../../../Store/actions/productActions';
 
 const AddCake = () => {
-    // State for form fields
+    const user = useSelector((state) => state.auth);
     const [cakeDetails, setCakeDetails] = useState({
-        name: '',
-        price: '',
+        title: '',
+        description: '',
         image: '',
-        description: ''
+        price: 0,
+        stock: 0,
+        category: '',
+        created_by: user.id
     });
+    const [error, setError] = useState('');
     const dispatch = useDispatch();
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
+    const { loading, success, message } = useSelector(state => state.product);
     const handleClose = () => {
         dispatch(closeModal())
     }
@@ -31,17 +37,26 @@ const AddCake = () => {
     // Handle form submit
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        // Validate form fields
+        if (!cakeDetails.title || !cakeDetails.description || !cakeDetails.image || !cakeDetails.price || !cakeDetails.category) {
+            setError('All fields are mandatory');
+            return;
+        } else {
+            setError(''); // Clear error message if validation passes
+        }
         // Create object from form data
         const newCake = {
-            name: cakeDetails.name,
-            price: cakeDetails.price,
+            title: cakeDetails.title,
+            description: cakeDetails.description,
             image: cakeDetails.image,
-            description: cakeDetails.description
+            price: cakeDetails.price,
+            stock: 0,
+            category: cakeDetails.category,
+            created_by: user.id
         };
         console.log('New Cake Object:', newCake);
-        if(newCake){
-            alert("form submitted")
+        if (newCake && user.id) {
+            dispatch(addProduct(newCake));
         }
     }
 
@@ -55,14 +70,37 @@ const AddCake = () => {
                 <DialogTitle>Add Cake</DialogTitle>
                 <form onSubmit={handleSubmit}>
                     <DialogContent>
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
                         <TextField
                             margin="dense"
-                            label="Cake Name"
-                            name="name"
+                            label="Title"
+                            name="title"
                             type="text"
                             fullWidth
                             variant="outlined"
-                            value={cakeDetails.name}
+                            value={cakeDetails.title}
+                            onChange={handleChange}
+                        />
+                        <TextField
+                            margin="dense"
+                            label="Description"
+                            name="description"
+                            type="text"
+                            fullWidth
+                            variant="outlined"
+                            multiline
+                            rows={4}
+                            value={cakeDetails.description}
+                            onChange={handleChange}
+                        />
+                        <TextField
+                            margin="dense"
+                            label="Upload Image"
+                            name="image"
+                            type="text"
+                            fullWidth
+                            variant="outlined"
+                            value={cakeDetails.image}
                             onChange={handleChange}
                         />
                         <TextField
@@ -77,24 +115,12 @@ const AddCake = () => {
                         />
                         <TextField
                             margin="dense"
-                            label="Image URL"
-                            name="image"
+                            label="Category"
+                            name="category"
                             type="text"
                             fullWidth
                             variant="outlined"
-                            value={cakeDetails.image}
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            margin="dense"
-                            label="Description"
-                            name="description"
-                            type="text"
-                            fullWidth
-                            variant="outlined"
-                            multiline
-                            rows={4}
-                            value={cakeDetails.description}
+                            value={cakeDetails.category}
                             onChange={handleChange}
                         />
                     </DialogContent>

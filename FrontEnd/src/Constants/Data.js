@@ -1,3 +1,5 @@
+import { img1, img2, img3, img4, img5, img6 } from "../assets"
+
 export const navLinks = [
     {
         id: "",
@@ -8,7 +10,7 @@ export const navLinks = [
         title: "Cart"
     },
     {
-        id: "contact",
+        id: "contactus",
         title: "Contact Us"
     },
     {
@@ -26,7 +28,7 @@ export const MobNavLinks = [
         title: "Cart"
     },
     {
-        id: "contact",
+        id: "contactus",
         title: "Contact Us"
     },
     {
@@ -82,5 +84,56 @@ export const chefExp = [
     {
         id: 7,
         detail: "Worked as an Executive Chef in Auckland Hotel."
+    },
+]
+
+export const products = [
+    {
+        id: "1",
+        image: img1,
+        title: "Bery Cake",
+        price: "70",
+        category: "All time favourite 9, 12, 15 inch",
+        description: "Cake cream choclolate vanilla"
+    },
+    {
+        id: "2",
+        image: img2,
+        title: "Carrot Cake",
+        price: "70",
+        description: "Cake cream choclolate vanilla",
+        category: "All time favourite 9, 12, 15 inch"
+    },
+    {
+        id: "3",
+        image: img3,
+        title: "Chocolate Cream Cake",
+        price: "70",
+        description: "Cake cream choclolate vanilla",
+        category: "All time favourite 9, 12, 15 inch"
+    },
+    {
+        id: "4",
+        image: img4,
+        title: "Chocolate Nougat Cake",
+        price: "70",
+        description: "Cake cream choclolate vanilla",
+        category: "All time favourite 9, 12, 15 inch"
+    },
+    {
+        id: "5",
+        image: img5,
+        title: "Dundee Cake",
+        price: "70",
+        description: "Cake cream choclolate vanilla",
+        category: "All time favourite 9, 12, 15 inch"
+    },
+    {
+        id: "6",
+        image: img6,
+        title: "Mango Cake",
+        price: "70",
+        description: "Cake cream choclolate vanilla",
+        category: "All time favourite 9, 12, 15 inch"
     },
 ]
