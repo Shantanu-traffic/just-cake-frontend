@@ -4,19 +4,24 @@ import { CakeHeroLogo } from '../../assets'
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../Store/actions/authActions';
 import { Spinner } from '../../Components/index.js';
+import { openModal } from '../../Store/actions/modalActions.js';
+import ViewOrderHistory from './ViewOrderHistory/ViewOrderHistory.jsx';
 
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { loading, error, user } = useSelector((state) => state.auth);
-  // const user = {
-  //   id: '8766781b-6d44-41c1-8368-f89e34589e60',
-  //   google_id: '104489160412937725357',
-  //   email: 'faisal@traffic.net.nz',
-  //   display_name: 'Md Faisal',
-  //   profile_picture: 'https://lh3.googleusercontent.com/a/ACg8ocKkZKMn9Wv-zXwELId8rynNJgb0PSLLRrJXPPhZrSbbAUQUW_U=s96-c',
-  //   is_admin: false
-  // }
+  const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
+  console.log("isModalOpen", isModalOpen)
+  const { loading, error } = useSelector((state) => state.auth);
+
+  const user = {
+    id: '8766781b-6d44-41c1-8368-f89e34589e60',
+    google_id: '104489160412937725357',
+    email: 'faisal@traffic.net.nz',
+    display_name: 'Md Faisal',
+    profile_picture: 'https://lh3.googleusercontent.com/a/ACg8ocKkZKMn9Wv-zXwELId8rynNJgb0PSLLRrJXPPhZrSbbAUQUW_U=s96-c',
+    is_admin: false
+  }
   const handleAuthClick = () => {
     dispatch(login());
   };
@@ -38,6 +43,9 @@ const Login = () => {
                 />
                 <h1 className="text-white text-xl font-bold">Welcome, {user.display_name} Happy Cake!</h1>
                 <p className="text-white">{user.email}</p>
+                <button onClick={() => dispatch(openModal())} className='flex items-center transition delay-150 duration-300 ease-in-out mx-2 py-2 px-32 bg-white font-poppins font-medium text-black outline-none rounded-lg'>
+                  View Order History
+                </button>
                 <button
                   type="button"
                   className="flex items-center transition delay-150 duration-300 ease-in-out mx-2 py-2 px-32 bg-white font-poppins font-medium text-black outline-none rounded-lg"
@@ -78,8 +86,9 @@ const Login = () => {
             )}
           </div>
           {error && <p className="text-red-500">{error}</p>}
-        </section>
+        </section >
       )}
+      {isModalOpen && <ViewOrderHistory isModalOpen={isModalOpen} />}
     </>
   );
 };

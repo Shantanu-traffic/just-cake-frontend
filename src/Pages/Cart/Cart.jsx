@@ -35,6 +35,7 @@ const CartItem = ({ value, title, img, increment, decrement, product_id }) => {
         const productId = product_id;
         dispatch(deleteFromCart(productId));
     };
+
     return (
         <div className="flex ss:flex-row flex-col justify-between items-center border-b p-4 gap-4 bg-white rounded-xl">
             <div className="flex items-center space-x-4">
@@ -61,6 +62,11 @@ const Cart = () => {
         dispatch(getAllCartItems(user.id)); // Dispatch the action to fetch all cart items
     }, [dispatch, user]);
 
+    // Calculate the total price by summing up price * quantity for each item
+    const totalCartPrice = cartData.reduce((total, item) => {
+        return total + (parseFloat(item.price) * item.quantity);
+    }, 0);
+
     const { cartItems, loading, error } = useSelector((state) => state.cart);
     const increment = (item) => { /* Handle increment */ };
     const decrement = (item) => { /* Handle decrement */ };
@@ -77,49 +83,25 @@ const Cart = () => {
                             <CartItem key={item.id} value={item.price} title={item.title} img={item.image} increment={increment} decrement={decrement} product_id={item.product_id} />
                         )
                     })}
-                    {/* <CartItem title={"Cheese Burger"} product_id={"1"} img={cakeLogo} value={0}
-                        increment={() => increment(1)}
-                        decrement={() => decrement(1)}
-                    />
-                    <CartItem title={"Veg Burger"} img={logo} value={0}
-                        increment={() => increment(2)}
-                        decrement={() => decrement(2)}
-                    />
-                    <CartItem title={"Chicken Burger"} img={cakeLogo} value={0}
-                        increment={() => increment(3)}
-                        decrement={() => decrement(3)}
-                    />
-                    <CartItem title={"Cheese Burger"} img={cakeLogo} value={0}
-                        increment={() => increment(1)}
-                        decrement={() => decrement(1)}
-                    />
-                    <CartItem title={"Veg Burger"} img={logo} value={0}
-                        increment={() => increment(2)}
-                        decrement={() => decrement(2)}
-                    />
-                    <CartItem title={"Chicken Burger"} img={cakeLogo} value={0}
-                        increment={() => increment(3)}
-                        decrement={() => decrement(3)}
-                    /> */}
                     <article className="space-y-3 mt-5 border-t pt-4">
                         <button onClick={() => dispatch(openModal())} className='px-4 py-2 bg-white text-black font-semibold rounded-md shadow hover:#fb8263 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75'>
                             Add shipping Address
                         </button>
-                        <div className="flex justify-between">
+                        {/* <div className="flex justify-between">
                             <h4 className="text-lg font-semibold">Sub Total</h4>
                             <p>₹2000</p>
-                        </div>
-                        <div className="flex justify-between">
+                        </div> */}
+                        {/* <div className="flex justify-between">
                             <h4 className="text-lg font-semibold">Tax</h4>
                             <p>₹{2000 * 0.18}</p>
-                        </div>
-                        <div className="flex justify-between">
+                        </div> */}
+                        {/* <div className="flex justify-between">
                             <h4 className="text-lg font-semibold">Shipping Charges</h4>
                             <p>₹200</p>
-                        </div>
+                        </div> */}
                         <div className="flex justify-between">
                             <h4 className="text-lg font-semibold">Total</h4>
-                            <p>₹{2000 + 2000 * 0.18 + 200}</p>
+                            <p>₹{totalCartPrice}</p>
                         </div>
 
                         <Link to="/login" className="block text-center bg-primary text-white py-2 px-4 rounded-lg mt-4">

@@ -25,22 +25,24 @@ const Product = () => {
     }
     console.log(products);
     return (
-        <section className='w-full h-auto flex flex-wrap justify-center items-center gap-4'>
-            {loading && <p>Loading products...</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {products?.map((product, index) => (
-                <ProductCard
-                    key={product.title}
-                    id={product.id}
-                    category={product.category}
-                    itemNum={index + 1}
-                    cakeSrc={product.image}
-                    itemPrice={product.price}
-                    title={product.title}
-                    description={product.description}
-                />
-            ))}
-            <div className="pagination-controls flex justify-between gap-5 mt-4">
+        <>
+            <section className='w-full h-auto flex flex-wrap justify-center items-center gap-4'>
+                {loading && <p>Loading products...</p>}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {products?.map((product, index) => (
+                    <ProductCard
+                        key={product.title}
+                        id={product.id}
+                        category={product.category}
+                        itemNum={index + 1}
+                        cakeSrc={product.image}
+                        itemPrice={product.price}
+                        title={product.title}
+                        description={product.description}
+                    />
+                ))}
+            </section>
+            <div className=" flex justify-center items-center gap-5 mt-4">
                 <button
                     onClick={handlePrev}
                     disabled={offSet === 1}
@@ -55,71 +57,7 @@ const Product = () => {
                     Next
                 </button>
             </div>
-            {/* <ProductCard
-                itemNum={1}
-                cakeSrc={HeroLogo}
-                itemPrice={200}
-                tittle={"Aloo tiki burger"}
-                desc={"There are many variations of \."}
-                delay={0.1}
-            />
-            <ProductCard
-                itemNum={1}
-                cakeSrc={HeroLogo}
-                itemPrice={200}
-                tittle={"Aloo tiki burger"}
-                desc={"There are many variations of passages of Lorem Ipsum available, b"}
-                delay={0.1}
-            />
-            <ProductCard
-                itemNum={1}
-                cakeSrc={HeroLogo}
-                itemPrice={200}
-                tittle={"Aloo tiki burger"}
-                desc={"There are many variations of passages of Lorem Ipsum available, butdon't look even slightly believable."}
-                delay={0.1}
-            />
-            <ProductCard
-                itemNum={1}
-                cakeSrc={HeroLogo}
-                itemPrice={200}
-                tittle={"Aloo tiki burger"}
-                desc={"There are many variations of passages of Lorem Ipsum available, butdon't look even slightly believable."}
-                delay={0.1}
-            />
-            <ProductCard
-                itemNum={1}
-                cakeSrc={HeroLogo}
-                itemPrice={200}
-                tittle={"Aloo tiki burger"}
-                desc={"There are many variations of passages of Lorem Ipsum available, butdon't look even slightly believable."}
-                delay={0.1}
-            />
-            <ProductCard
-                itemNum={1}
-                cakeSrc={HeroLogo}
-                itemPrice={200}
-                tittle={"Aloo tiki burger"}
-                desc={"There are many variations of passages of Lorem Ipsum available, butdon't look even slightly believable."}
-                delay={0.1}
-            />
-            <ProductCard
-                itemNum={1}
-                cakeSrc={HeroLogo}
-                itemPrice={200}
-                tittle={"Aloo tiki burger"}
-                desc={"There are many variations of passages of Lorem Ipsum available, butdon't look even slightly believable."}
-                delay={0.1}
-            />
-            <ProductCard
-                itemNum={1}
-                cakeSrc={HeroLogo}
-                itemPrice={200}
-                tittle={"Aloo tiki burger"}
-                desc={"There are many variations of passages of Lorem Ipsum available, butdon't look even slightly believable."}
-                delay={0.1}
-            /> */}
-        </section>
+        </>
     )
 }
 
