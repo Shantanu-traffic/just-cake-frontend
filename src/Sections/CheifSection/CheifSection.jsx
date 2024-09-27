@@ -14,7 +14,7 @@ const CheifSection = () => {
                     <h1 className="font-bold ss:text-[1.5rem] text-[2rem] text-center">About Our Chef</h1>
                     <div>
                         {chefData.map((item) => {
-                            return <h1 className='ss:text-[1.5rem] text-[1.8rem] font-courgette' key={item.id}>
+                            return <h1 className='text-[1rem] font-courgette' key={item.id}>
                                 {item.detail}
                             </h1>
                         })}
