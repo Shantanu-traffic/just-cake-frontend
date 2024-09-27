@@ -2,22 +2,12 @@ import React, { useState } from 'react'
 import { MobNavLinks, navLinks } from '../../Constants/Data'
 import { close, menu, logo, cakeLogo } from '../../assets'
 import './Navbar.scss'
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from '@mui/material';
 
-const Navbar = () => {
+const Navbar = ({user}) => {
     const [toggle, settoggle] = useState(false);
-    const { user } = useSelector((state) => state.auth);
     const navigate = useNavigate();
-    // const user = {
-    //     id: '8766781b-6d44-41c1-8368-f89e34589e60',
-    //     google_id: '104489160412937725357',
-    //     email: 'faisal@traffic.net.nz',
-    //     display_name: 'Md Faisal',
-    //     profile_picture: 'https://lh3.googleusercontent.com/a/ACg8ocKkZKMn9Wv-zXwELId8rynNJgb0PSLLRrJXPPhZrSbbAUQUW_U=s96-c',
-    //     is_admin: true
-    // }
     // Updated navLinks based on whether the user is logged in or an admin
     const dynamicNavLinks = [
         ...navLinks.filter(item => user || item.id !== 'login'), // Show login link only if user is null

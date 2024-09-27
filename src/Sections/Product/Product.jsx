@@ -3,16 +3,17 @@ import { HeroLogo } from '../../assets'
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from './ProductCard/ProductCard'
 import { getProducts } from '../../Store/actions/getAllProductsAction';
-import { products } from '../../Constants/Data';
+// import { getProducts } from '../../Store/actions/getAllProductsAction';
+// import { products } from '../../Constants/Data';
 
-const Product = () => {
+const Product = ({ user }) => {
     const [offSet, setOffSet] = useState(1)
     const dispatch = useDispatch();
     useEffect(() => {
-        // dispatch(getProducts(offSet));
+        dispatch(getProducts(offSet));
     }, [dispatch]);
 
-    const { loading, /* products,  */error } = useSelector((state) => state?.product);
+    const { loading, products, error } = useSelector((state) => state?.product);
     const handleNext = () => {
         setOffSet((prev) => prev + 1); // Increment offSet for next page
     };
@@ -22,7 +23,7 @@ const Product = () => {
             setOffSet((prev) => prev - 1); // Decrement offSet for previous page
         }
     }
-    console.log(products);
+    console.log(offSet);
     return (
         <>
             <section className='w-full h-auto flex flex-wrap justify-center items-center gap-4'>

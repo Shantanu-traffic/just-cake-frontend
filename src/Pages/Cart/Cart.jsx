@@ -11,23 +11,24 @@ import { deleteFromCart } from '../../Store/actions/deleteCartActions';
 import { getAllCartItems } from '../../Store/actions/getAllCartActions';
 import { updateCartQuantity } from '../../Store/actions/CartIncDecAction';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
 
-const cartData = [{
-    id: "05edc841-2c14-4f83-ace2-5a16eb5a4a54",
-    user_id: "031f8241-46ee-421e-a999-86c723f3789d",
-    product_id: "05edc841-2c14-4f83-ace2-5a16eb5a4a54",
-    quantity: 2,
-    total_price: "1500.00",
-    created_at: "2024-09-24T11:19:42.404Z",
-    updated_at: "2024-09-24T11:19:42.404Z",
-    title: "first time update product",
-    description: "Testing Products",
-    price: "1200.00",
-    image: "https://handletheheat.com/wp-content/uploads/2015/03/Best-Birthday-Cake-with-milk-chocolate-buttercream-SQUARE.jpg",
-    created_by: "031f8241-46ee-421e-a999-86c723f3789d",
-    stock: 6,
-    category: "New Launch"
-}]
+// const cartData = [{
+//     id: "05edc841-2c14-4f83-ace2-5a16eb5a4a54",
+//     user_id: "031f8241-46ee-421e-a999-86c723f3789d",
+//     product_id: "05edc841-2c14-4f83-ace2-5a16eb5a4a54",
+//     quantity: 2,
+//     total_price: "1500.00",
+//     created_at: "2024-09-24T11:19:42.404Z",
+//     updated_at: "2024-09-24T11:19:42.404Z",
+//     title: "first time update product",
+//     description: "Testing Products",
+//     price: "1200.00",
+//     image: "https://handletheheat.com/wp-content/uploads/2015/03/Best-Birthday-Cake-with-milk-chocolate-buttercream-SQUARE.jpg",
+//     created_by: "031f8241-46ee-421e-a999-86c723f3789d",
+//     stock: 6,
+//     category: "New Launch"
+// }]
 
 
 const CartItem = ({ value, title, img, quantity, product_id }) => {
@@ -72,21 +73,37 @@ const CartItem = ({ value, title, img, quantity, product_id }) => {
 }
 
 const Cart = () => {
+    const [user, setUser] = useState(null)
     const dispatch = useDispatch();
+    useEffect(() => {
+        const userCookie = Cookies.get('user');  // Get the cookie value
+
+        if (userCookie) {
+            // If the cookie exists, parse it
+            const userData = JSON.parse(userCookie);
+            setUser(userData);
+        } else {
+            // If the cookie doesn't exist, set user to null
+            setUser(null);
+        }
+    }, [])
+
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
-    // const user = useSelector((state) => state.auth);
-    const user = { id: '031f8241-46ee-421e-a999-86c723f3789d' };
 
     useEffect(() => {
-        dispatch(getAllCartItems(user.id)); // Dispatch the action to fetch all cart items
+        if (user?.id) {
+            dispatch(getAllCartItems(user?.id));
+        }
     }, [dispatch, user]);
 
     const { cartItems, loading, error } = useSelector((state) => state.cart);
 
     // Calculate the total price by summing up price * quantity for each item
-    const totalCartPrice = cartData.reduce((total, item) => {
+    const totalCartPrice = cartItems.reduce((total, item) => {
         return total + (parseFloat(item.price) * item.quantity);
     }, 0);
+
+    console.log(user?.id)
 
     return (
         <>
@@ -95,7 +112,7 @@ const Cart = () => {
                     <Navbar />
                 </div>
                 <main className="bg-secondary ss:w-[800px] w-full p-4 rounded-xl space-y-6">
-                    {cartData.map((item) => {
+                    {cartItems.map((item) => {
                         return (
                             <CartItem key={item.id} title={item.title} value={item.price} img={item.image} quantity={item.quantity} product_id={item.product_id} />
                         )

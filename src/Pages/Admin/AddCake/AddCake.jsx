@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -8,9 +8,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../../Store/actions/modalActions';
 import { addProduct } from '../../../Store/actions/productActions';
+import Cookies from 'js-cookie';
 
 const AddCake = () => {
-    const user = useSelector((state) => state.auth);
+    const [user, setUser] = useState(null)
     const [cakeDetails, setCakeDetails] = useState({
         title: '',
         description: '',
@@ -18,9 +19,13 @@ const AddCake = () => {
         price: 0,
         stock: 0,
         category: '',
-        created_by: user.id
+        created_by: user?.id
     });
     const [error, setError] = useState('');
+    useEffect(() => {
+        const userData = JSON.parse(Cookies.get('user'));
+        setUser(userData)
+    }, [])
     const dispatch = useDispatch();
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
     const { loading, success, message } = useSelector(state => state.product);
@@ -29,10 +34,18 @@ const AddCake = () => {
     }
     // Handle input changes
     const handleChange = (e) => {
-        setCakeDetails({
-            ...cakeDetails,
-            [e.target.name]: e.target.value
-        });
+        if (e.target.name === 'image') {
+            const file = e.target.files[0]; // Get the first file selected
+            setCakeDetails({
+                ...cakeDetails,
+                image: file
+            });
+        } else {
+            setCakeDetails({
+                ...cakeDetails,
+                [e.target.name]: e.target.value
+            });
+        }
     };
     // Handle form submit
     const handleSubmit = (e) => {
@@ -52,11 +65,13 @@ const AddCake = () => {
             price: cakeDetails.price,
             stock: 0,
             category: cakeDetails.category,
-            created_by: user.id
+            created_by: user?.id
         };
         console.log('New Cake Object:', newCake);
         if (newCake && user.id) {
             dispatch(addProduct(newCake));
+        }else{
+            alert("you must be login")
         }
     }
 
@@ -95,12 +110,12 @@ const AddCake = () => {
                         />
                         <TextField
                             margin="dense"
-                            label="Upload Image"
                             name="image"
-                            type="text"
                             fullWidth
+                            accept="image/*"
+                            type="file"
+                            style={{ marginTop: '16px', marginBottom: '16px' }}
                             variant="outlined"
-                            value={cakeDetails.image}
                             onChange={handleChange}
                         />
                         <TextField
