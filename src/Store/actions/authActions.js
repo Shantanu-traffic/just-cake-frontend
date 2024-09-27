@@ -28,14 +28,16 @@ export const login = () => {
         dispatch(loginRequest());
 
         try {
-            const response = await axios.get('http://localhost:5000/auth/google', {
+            const response = await axios.get('http://localhost:5000/auth/google',{
                 headers: {
-                    "Access-Control-Allow-Origin": "*"
+                    "Access-Control-Allow-Origin": "*",
+                    withCredentials: true,
                 }
             });
             console.log("response data",response)
             dispatch(loginSuccess(response.data));
         } catch (error) {
+            console.log(error,"error found")
             dispatch(loginFailure(error.response ? error.response.data : 'Login failed'));
         }
     };

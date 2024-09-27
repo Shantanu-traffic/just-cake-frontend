@@ -22,8 +22,15 @@ const Login = () => {
   //   profile_picture: 'https://lh3.googleusercontent.com/a/ACg8ocKkZKMn9Wv-zXwELId8rynNJgb0PSLLRrJXPPhZrSbbAUQUW_U=s96-c',
   //   is_admin: false
   // }
-  const handleAuthClick = () => {
-    dispatch(login());
+  const handleAuthClick = (err,res) => {
+    // dispatch(login());
+    window.open(
+			`http://localhost:5000/auth/google/callback`,
+			"_self"
+		);
+    console.log(res);
+    
+    
   };
 
   return (
