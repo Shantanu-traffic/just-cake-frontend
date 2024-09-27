@@ -23,7 +23,11 @@ const Login = () => {
       // If the cookie doesn't exist, set user to null
       setUser(null);
     }
-  }, [])
+  }, [user])
+
+  const handleLogout = () => {
+    Cookies.remove('user');
+  }
 
   const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
   const handleAuthClick = (err, res) => {
@@ -55,7 +59,7 @@ const Login = () => {
                 Order History
               </button>
               <button
-                type="button"
+                type="button" onClick={handleLogout}
                 className="flex items-center transition delay-150 duration-300 ease-in-out mx-2 py-2 px-32 bg-white font-poppins font-medium text-black outline-none rounded-lg"
               >Logout</button>
             </>
