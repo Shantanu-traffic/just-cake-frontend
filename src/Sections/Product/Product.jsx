@@ -3,8 +3,7 @@ import { HeroLogo } from '../../assets'
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from './ProductCard/ProductCard'
 import { getProducts } from '../../Store/actions/getAllProductsAction';
-// import { getProducts } from '../../Store/actions/getAllProductsAction';
-import { products } from '../../Constants/Data';
+// import { products } from '../../Constants/Data';
 
 const Product = ({ user }) => {
     const [offSet, setOffSet] = useState(1)
@@ -13,7 +12,7 @@ const Product = ({ user }) => {
         dispatch(getProducts(offSet));
     }, [dispatch]);
 
-    const { loading, /* products,  */error } = useSelector((state) => state?.product);
+    const { loading, products, error } = useSelector((state) => state?.product);
     const handleNext = () => {
         setOffSet((prev) => prev + 1); // Increment offSet for next page
     };
