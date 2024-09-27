@@ -9,11 +9,10 @@ const Product = () => {
     const [offSet, setOffSet] = useState(1)
     const dispatch = useDispatch();
     useEffect(() => {
-        // Fetch products with an offSet value (for pagination)
-        dispatch(getProducts());
         // dispatch(getProducts(offSet));
     }, [dispatch]);
-    const { loading, /* products, */ error } = useSelector((state) => state?.product);
+
+    const { loading, /* products,  */error } = useSelector((state) => state?.product);
     const handleNext = () => {
         setOffSet((prev) => prev + 1); // Increment offSet for next page
     };

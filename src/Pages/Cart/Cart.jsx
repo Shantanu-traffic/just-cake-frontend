@@ -9,6 +9,8 @@ import { ShippingDetail } from './ShippingDetail/ShippingDetail';
 import { Button } from '@mui/material';
 import { deleteFromCart } from '../../Store/actions/deleteCartActions';
 import { getAllCartItems } from '../../Store/actions/getAllCartActions';
+import { updateCartQuantity } from '../../Store/actions/CartIncDecAction';
+import { useState } from 'react';
 
 const cartData = [{
     id: "05edc841-2c14-4f83-ace2-5a16eb5a4a54",
@@ -28,13 +30,30 @@ const cartData = [{
 }]
 
 
-const CartItem = ({ value, title, img, increment, decrement, product_id }) => {
+const CartItem = ({ value, title, img, quantity, product_id }) => {
+    const [cartQuantity, setCartQuantity] = useState(quantity);
     const dispatch = useDispatch();
+    const { loading, success, error } = useSelector((state) => state.updateCartQuantity);
+
+    // Handle increment/decrement quantity
+    const handleQuantityChange = (isIncreaseQty) => {
+        const updatedCartData = {
+            cart_id: product_id,
+            quantity: isIncreaseQty ? cartQuantity + 1 : cartQuantity - 1,
+            total_price: (isIncreaseQty ? (cartQuantity + 1) : (cartQuantity - 1)) * value,
+            isIncreaseQty: isIncreaseQty,
+        };
+
+        // Dispatch the action
+        dispatch(updateCartQuantity(updatedCartData));
+        setCartQuantity(updatedCartData.quantity);
+    };
 
     const handleDeleteFromCart = (product_id) => {
         const productId = product_id;
         dispatch(deleteFromCart(productId));
     };
+
 
     return (
         <div className="flex ss:flex-row flex-col justify-between items-center border-b p-4 gap-4 bg-white rounded-xl">
@@ -43,9 +62,9 @@ const CartItem = ({ value, title, img, increment, decrement, product_id }) => {
                 <h4 className="text-lg font-semibold">{title}</h4>
             </div>
             <div className="flex items-center space-x-3">
-                <button onClick={decrement} className="bg-black text-white px-2 py-1 rounded-lg">-</button>
+                <button disabled={loading || quantity <= 1} onClick={() => handleQuantityChange(false)} className="bg-black text-white px-2 py-1 rounded-lg">-</button>
                 <input type="number" readOnly value={value} className="w-12 text-center border border-gray-300 rounded-lg" />
-                <button onClick={increment} className="bg-black text-white px-2 py-1 rounded-lg">+</button>
+                <button disabled={loading} onClick={() => handleQuantityChange(true)} className="bg-black text-white px-2 py-1 rounded-lg">+</button>
             </div>
             <Button variant='outlined' onClick={() => handleDeleteFromCart(product_id)}>Remove</Button>
         </div>
@@ -62,25 +81,23 @@ const Cart = () => {
         dispatch(getAllCartItems(user.id)); // Dispatch the action to fetch all cart items
     }, [dispatch, user]);
 
+    const { cartItems, loading, error } = useSelector((state) => state.cart);
+
     // Calculate the total price by summing up price * quantity for each item
     const totalCartPrice = cartData.reduce((total, item) => {
         return total + (parseFloat(item.price) * item.quantity);
     }, 0);
 
-    const { cartItems, loading, error } = useSelector((state) => state.cart);
-    const increment = (item) => { /* Handle increment */ };
-    const decrement = (item) => { /* Handle decrement */ };
-
     return (
         <>
-            <section className="min-h-[100vh] bg-primary py-2 flex flex-col justify-center items-center gap-4">
+            <section className="min-h-[100vh] bg-primary py-2 flex flex-col justify-start items-center gap-4">
                 <div className='w-full flex justify-between items-center ss:px-10 px-5'>
                     <Navbar />
                 </div>
                 <main className="bg-secondary ss:w-[800px] w-full p-4 rounded-xl space-y-6">
                     {cartData.map((item) => {
                         return (
-                            <CartItem key={item.id} value={item.price} title={item.title} img={item.image} increment={increment} decrement={decrement} product_id={item.product_id} />
+                            <CartItem key={item.id} title={item.title} value={item.price} img={item.image} quantity={item.quantity} product_id={item.product_id} />
                         )
                     })}
                     <article className="space-y-3 mt-5 border-t pt-4">
@@ -109,10 +126,10 @@ const Cart = () => {
                         </Link>
                     </article>
                 </main>
-                <div className='w-full'>
-                    <Footer />
-                </div>
             </section>
+            <div className='w-full'>
+                <Footer />
+            </div>
             {/* modal to add address modal */}
             {isModalOpen && <ShippingDetail />}
         </>

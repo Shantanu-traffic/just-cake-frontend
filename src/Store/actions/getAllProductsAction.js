@@ -8,9 +8,8 @@ export const getProducts = (offSet) => async (dispatch) => {
     try {
         dispatch({ type: GET_PRODUCTS_REQUEST });
 
-        const { data } = await axios.get(
-            'http://localhost:5000/health',
-            // 'http://localhost:5000/api/v1/admin/get-products', { offSet }
+        const { data } = await axios.post(
+            'http://localhost:5000/api/v1/admin/get-products', { offSet }
         );
 
         dispatch({

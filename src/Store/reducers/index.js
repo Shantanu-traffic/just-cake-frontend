@@ -7,6 +7,7 @@ import { cartReducer } from "./cartReducer";
 import { getAllProductReducer } from "./getAllProductsReducer";
 import { getAllCartReducer } from "./getAllCartReducer";
 import { orderHistoryReducer } from "./orderHistoryReducer";
+import { updateCartQuantityReducer } from "./cartIncDecReducer";
 
 export const rootReducer = combineReducers({
     isModalOpen: modalReducer,
@@ -17,4 +18,5 @@ export const rootReducer = combineReducers({
     cart: cartReducer,
     cartItems: getAllCartReducer,
     orderHistory: orderHistoryReducer,
+    updateCartQuantity: updateCartQuantityReducer,
 })

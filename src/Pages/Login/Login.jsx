@@ -12,16 +12,16 @@ const Login = () => {
   const dispatch = useDispatch();
   const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
   console.log("isModalOpen", isModalOpen)
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, user, error } = useSelector((state) => state.auth);
 
-  const user = {
-    id: '8766781b-6d44-41c1-8368-f89e34589e60',
-    google_id: '104489160412937725357',
-    email: 'faisal@traffic.net.nz',
-    display_name: 'Md Faisal',
-    profile_picture: 'https://lh3.googleusercontent.com/a/ACg8ocKkZKMn9Wv-zXwELId8rynNJgb0PSLLRrJXPPhZrSbbAUQUW_U=s96-c',
-    is_admin: false
-  }
+  // const user = {
+  //   id: '8766781b-6d44-41c1-8368-f89e34589e60',
+  //   google_id: '104489160412937725357',
+  //   email: 'faisal@traffic.net.nz',
+  //   display_name: 'Md Faisal',
+  //   profile_picture: 'https://lh3.googleusercontent.com/a/ACg8ocKkZKMn9Wv-zXwELId8rynNJgb0PSLLRrJXPPhZrSbbAUQUW_U=s96-c',
+  //   is_admin: false
+  // }
   const handleAuthClick = () => {
     dispatch(login());
   };
