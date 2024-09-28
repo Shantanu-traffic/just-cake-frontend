@@ -3,9 +3,9 @@ import './Payment.scss'
 
 const Payment = () => {
   return (
-    <div>
+    <section>
       Payment
-    </div>
+    </section>
   )
 }
 

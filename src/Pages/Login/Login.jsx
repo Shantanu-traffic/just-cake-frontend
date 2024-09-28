@@ -14,21 +14,21 @@ const Login = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const userCookie = Cookies.get('user');  // Get the cookie value
+    const userCookie = Cookies.get('user');
 
     if (userCookie) {
       // If the cookie exists, parse it
       const userData = JSON.parse(userCookie);
       setUser(userData);
     } else {
-      // If the cookie doesn't exist, set user to null
       setUser(null);
     }
-  }, [user])
+  }, []);
 
   const handleLogout = () => {
     Cookies.remove('user');
     dispatch(showAlert("Logout successfull", "success"))
+    window.location.reload();
   }
 
   const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);

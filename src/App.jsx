@@ -5,17 +5,19 @@ import Cookies from 'js-cookie';
 
 function App() {
   let isAdmin = false;
+  let user = null
   const userCookie = Cookies.get('user');
   // Safely parse userCookie if it exists
   if (userCookie) {
     try {
       const parsedUserCookie = JSON.parse(userCookie);
+      user = parsedUserCookie;
       isAdmin = parsedUserCookie.is_admin;
     } catch (error) {
       console.error("Failed to parse user cookie:", error);
     }
   }
-
+  console.log(user, isAdmin)
   return (
     <>
       <BrowserRouter>
@@ -23,7 +25,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/order' element={<Cart />} />
-          <Route path='/payment' element={<Payment />} />
+          {user && <Route path='/payment' element={<Payment />} />}
           {isAdmin && <Route path='/admin' element={<Admin />} />}
         </Routes>
       </BrowserRouter>

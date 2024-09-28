@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { cakeLogo, logo } from '../../assets'
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../Store/actions/modalActions';
@@ -12,8 +12,9 @@ import { getAllCartItems } from '../../Store/actions/getAllCartActions';
 import { updateCartQuantity } from '../../Store/actions/CartIncDecAction';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
+import { showAlert } from '../../Store/actions/alertActionTypes';
 
-const CartItem = ({ value, title, img, quantity, cart_id }) => {
+const CartItem = ({ value, title, img, quantity, cart_id, user_id }) => {
     const [cartQuantity, setCartQuantity] = useState(quantity);
     const dispatch = useDispatch();
     const { loading, success, error } = useSelector((state) => state.updateCartQuantity);
@@ -30,11 +31,15 @@ const CartItem = ({ value, title, img, quantity, cart_id }) => {
         // Dispatch the action
         dispatch(updateCartQuantity(updatedCartData));
         setCartQuantity(updatedCartData.quantity);
+        // dispatch(getAllCartItems(user_id));
+        window.location.reload();
     };
 
     const handleDeleteFromCart = (cart_id) => {
         const cartId = cart_id;
-        dispatch(deleteFromCart(cartId));
+        dispatch(deleteFromCart(cartId))
+        dispatch(showAlert("product delete from cart", "success"))
+        window.location.reload();
     };
 
 
@@ -48,6 +53,7 @@ const CartItem = ({ value, title, img, quantity, cart_id }) => {
                 <button disabled={loading || quantity <= 1} onClick={() => handleQuantityChange(false)} className="bg-black text-white px-2 py-1 rounded-lg">-</button>
                 <input type="number" readOnly value={value} className="w-16 text-center border border-gray-300 rounded-lg" />
                 <button disabled={loading} onClick={() => handleQuantityChange(true)} className="bg-black text-white px-2 py-1 rounded-lg">+</button>
+                <button variant="contained">{quantity}</button>
             </div>
             <Button variant='outlined' onClick={() => handleDeleteFromCart(cart_id)}>Remove</Button>
         </div>
@@ -57,6 +63,8 @@ const CartItem = ({ value, title, img, quantity, cart_id }) => {
 const Cart = () => {
     const [user, setUser] = useState(null)
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     useEffect(() => {
         const userCookie = Cookies.get('user');  // Get the cookie value
 
@@ -79,6 +87,7 @@ const Cart = () => {
     }, [dispatch, user]);
 
     const { cartItems, loading, error } = useSelector((state) => state.cartItems);
+    const { address } = useSelector((state) => state.shippingAddress);
 
     // Remove duplicate cart items based on product_id or any other unique property
     const uniqueCartItems = cartItems.reduce((acc, current) => {
@@ -95,7 +104,13 @@ const Cart = () => {
         return total + (parseFloat(item.price) * item.quantity);
     }, 0);
 
-    console.log(user?.id)
+    const handleCheckoutClick = () => {
+        if (address?.result) {
+            navigate('/payment')
+        } else {
+            dispatch(showAlert("please fill shipping address", 'error'))
+        }
+    };
 
     return (
         <>
@@ -106,33 +121,21 @@ const Cart = () => {
                 <main className="bg-secondary ss:w-[800px] w-full p-4 rounded-xl space-y-6">
                     {uniqueCartItems.map((item) => {
                         return (
-                            <CartItem key={item.id} title={item.title} value={item.price} img={item.image} quantity={item.quantity} cart_id={item.cart_id} />
+                            <CartItem key={item.id} title={item.title} value={item.price} img={item.image} quantity={item.quantity} cart_id={item.cart_id} user_id={user?.id} />
                         )
                     })}
                     <article className="space-y-3 mt-5 border-t pt-4">
                         <button onClick={() => dispatch(openModal())} className='px-4 py-2 bg-white text-black font-semibold rounded-md shadow hover:#fb8263 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75'>
                             Add shipping Address
                         </button>
-                        {/* <div className="flex justify-between">
-                            <h4 className="text-lg font-semibold">Sub Total</h4>
-                            <p>₹2000</p>
-                        </div> */}
-                        {/* <div className="flex justify-between">
-                            <h4 className="text-lg font-semibold">Tax</h4>
-                            <p>₹{2000 * 0.18}</p>
-                        </div> */}
-                        {/* <div className="flex justify-between">
-                            <h4 className="text-lg font-semibold">Shipping Charges</h4>
-                            <p>₹200</p>
-                        </div> */}
                         <div className="flex justify-between">
                             <h4 className="text-lg font-semibold">Total</h4>
                             <p>₹{totalCartPrice}</p>
                         </div>
 
-                        <Link to="/login" className="block text-center bg-primary text-white py-2 px-4 rounded-lg mt-4">
+                        <button onClick={handleCheckoutClick} className=" w-full block text-center bg-primary text-white py-2 px-4 rounded-lg mt-4">
                             Checkout
-                        </Link>
+                        </button>
                     </article>
                 </main>
             </section>
@@ -146,3 +149,17 @@ const Cart = () => {
 };
 
 export default Cart;
+
+
+{/* <div className="flex justify-between">
+                            <h4 className="text-lg font-semibold">Sub Total</h4>
+                            <p>₹2000</p>
+                        </div> */}
+{/* <div className="flex justify-between">
+                            <h4 className="text-lg font-semibold">Tax</h4>
+                            <p>₹{2000 * 0.18}</p>
+                        </div> */}
+{/* <div className="flex justify-between">
+                            <h4 className="text-lg font-semibold">Shipping Charges</h4>
+                            <p>₹200</p>
+                        </div> */}

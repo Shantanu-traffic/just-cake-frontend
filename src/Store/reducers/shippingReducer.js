@@ -9,6 +9,7 @@ const initialState = {
     success: false,
     error: null,
     address: null,
+    shippingData:null
 }
 
 export const shippingAddressReducer = (state = initialState, action) => {
@@ -16,7 +17,7 @@ export const shippingAddressReducer = (state = initialState, action) => {
         case SAVE_SHIPPING_ADDRESS_REQUEST:
             return { loading: true };
         case SAVE_SHIPPING_ADDRESS_SUCCESS:
-            return { loading: false, success: true, address: action.payload };
+            return { loading: false, success: true, address: action.payload, shippingData: action.shippingData };
         case SAVE_SHIPPING_ADDRESS_FAIL:
             return { loading: false, error: action.payload };
         default:

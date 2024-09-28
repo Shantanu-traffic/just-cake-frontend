@@ -24,6 +24,7 @@ export const saveShippingAddress = (shippingData) => async (dispatch) => {
         dispatch({
             type: SAVE_SHIPPING_ADDRESS_SUCCESS,
             payload: data,
+            shippingData:shippingData,
         });
     } catch (error) {
         dispatch({

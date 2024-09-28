@@ -9,6 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { closeModal } from '../../../Store/actions/modalActions';
 import { saveShippingAddress } from '../../../Store/actions/shippingActions';
 import Cookies from 'js-cookie';
+import { showAlert } from '../../../Store/actions/alertActionTypes';
 
 export const ShippingDetail = () => {
   // State for form fields
@@ -83,6 +84,8 @@ export const ShippingDetail = () => {
       };
 
       dispatch(saveShippingAddress(shippingDetailsObject));
+      dispatch(closeModal())
+      dispatch(showAlert("Address added", "success"))
     }
   };
 

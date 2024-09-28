@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../../Store/actions/modalActions';
 import { addProduct } from '../../../Store/actions/productActions';
 import Cookies from 'js-cookie';
+import { showAlert } from '../../../Store/actions/alertActionTypes';
 
 const AddCake = () => {
     const [user, setUser] = useState(null)
@@ -87,7 +88,17 @@ const AddCake = () => {
         console.log('FormData:', formData);
 
         if (user_Id) {
-            dispatch(addProduct(formData)); // Dispatch the formData object to the action
+            dispatch(addProduct(formData));
+            setCakeDetails({
+                title: '',
+                description: '',
+                image: '',
+                price: 0,
+                stock: 0,
+                category: '',
+            })
+            dispatch(closeModal())
+            dispatch(showAlert("Product addedd successfuly", "success"))
         } else {
             alert("You must be logged in");
         }
