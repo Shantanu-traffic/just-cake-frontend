@@ -2,18 +2,34 @@ import React from 'react'
 import './ProductCard.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../../Store/actions/cartActions';
+import Cookies from 'js-cookie';
+import { showAlert } from '../../../Store/actions/alertActionTypes';
 
 const ProductCard = ({ itemNum, cakeSrc, itemPrice, tittle, description, category, id }) => {
     const dispatch = useDispatch();
-    // const user = useSelector(state => state.auth.user);
-    const user = {id:"1234"}
-    const handleAddToCart = (id) => {
-        const productId = id;
-        const userId = user.id;
-        const quantity = 1;
-        const totalPrice = itemPrice * quantity;
+    const { cartItems, loading, error } = useSelector((state) => state.cart)
+    let user_Id = null;
+    const userCookie = Cookies.get('user');
+    // Safely parse userCookie if it exists
+    if (userCookie) {
+        try {
+            const parsedUserCookie = JSON.parse(userCookie);
+            user_Id = parsedUserCookie.id; // assuming `id` is a field in the parsed object
+        } catch (error) {
+            console.error("Failed to parse user cookie:", error);
+        }
+    }
 
-        dispatch(addToCart(productId, userId, quantity, totalPrice));
+    const handleAddToCart = (id) => {
+        if (user_Id) {
+            const productId = id;
+            const userId = user_Id;
+            const quantity = 1;
+            const Total_price = itemPrice * quantity;
+            dispatch(addToCart(productId, userId, quantity, Total_price));
+        } else {
+            dispatch(showAlert("You must be login", "success"))
+        }
     };
 
     return (

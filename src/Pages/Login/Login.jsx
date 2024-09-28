@@ -7,6 +7,7 @@ import { Spinner } from '../../Components/index.js';
 import { openModal } from '../../Store/actions/modalActions.js';
 import ViewOrderHistory from './ViewOrderHistory/ViewOrderHistory.jsx';
 import Cookies from 'js-cookie';
+import { showAlert } from '../../Store/actions/alertActionTypes.js';
 
 const Login = () => {
   const [user, setUser] = useState(null)
@@ -27,6 +28,7 @@ const Login = () => {
 
   const handleLogout = () => {
     Cookies.remove('user');
+    dispatch(showAlert("Logout successfull", "success"))
   }
 
   const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);

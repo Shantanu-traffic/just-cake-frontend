@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import './Contact.scss'
+import { useDispatch } from 'react-redux';
+import { showAlert } from '../../Store/actions/alertActionTypes';
 
 const Contact = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,7 +26,12 @@ const Contact = () => {
       alert("All fields are required");
       return;
     }
-    console.log("Form Data:", formData);
+    dispatch(showAlert("Form submited successfuly, Thank you!"))
+    setFormData({
+      name: '',
+      email: '',
+      message: '',
+    })
   }
   return (
     <section className={`h-[80vh] bg-white p-4 flex justify-center items-center rounded-xl`} id='contactus'>

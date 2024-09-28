@@ -8,6 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { closeModal } from '../../../Store/actions/modalActions';
 import { saveShippingAddress } from '../../../Store/actions/shippingActions';
+import Cookies from 'js-cookie';
 
 export const ShippingDetail = () => {
   // State for form fields
@@ -55,10 +56,11 @@ export const ShippingDetail = () => {
     if (!shippingDetails.country.trim()) errors.country = 'Country is required';
     return errors;
   };
+  const userCookie = Cookies.get('user');
+  const userId = JSON.parse(userCookie);
+  const user_id = userId.id;
 
   // Handle form submit
-  const user_id = '031f8241-46ee-421e-a999-86c723f3789d';
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
