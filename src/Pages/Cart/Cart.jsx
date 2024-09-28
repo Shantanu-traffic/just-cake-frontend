@@ -13,7 +13,7 @@ import { updateCartQuantity } from '../../Store/actions/CartIncDecAction';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 
-const CartItem = ({ value, title, img, quantity, product_id }) => {
+const CartItem = ({ value, title, img, quantity, cart_id }) => {
     const [cartQuantity, setCartQuantity] = useState(quantity);
     const dispatch = useDispatch();
     const { loading, success, error } = useSelector((state) => state.updateCartQuantity);
@@ -21,7 +21,7 @@ const CartItem = ({ value, title, img, quantity, product_id }) => {
     // Handle increment/decrement quantity
     const handleQuantityChange = (isIncreaseQty) => {
         const updatedCartData = {
-            cart_id: product_id,
+            cart_id: cart_id,
             quantity: isIncreaseQty ? cartQuantity + 1 : cartQuantity - 1,
             total_price: (isIncreaseQty ? (cartQuantity + 1) : (cartQuantity - 1)) * value,
             isIncreaseQty: isIncreaseQty,
@@ -32,9 +32,9 @@ const CartItem = ({ value, title, img, quantity, product_id }) => {
         setCartQuantity(updatedCartData.quantity);
     };
 
-    const handleDeleteFromCart = (product_id) => {
-        const productId = product_id;
-        dispatch(deleteFromCart(productId));
+    const handleDeleteFromCart = (cart_id) => {
+        const cartId = cart_id;
+        dispatch(deleteFromCart(cartId));
     };
 
 
@@ -49,7 +49,7 @@ const CartItem = ({ value, title, img, quantity, product_id }) => {
                 <input type="number" readOnly value={value} className="w-16 text-center border border-gray-300 rounded-lg" />
                 <button disabled={loading} onClick={() => handleQuantityChange(true)} className="bg-black text-white px-2 py-1 rounded-lg">+</button>
             </div>
-            <Button variant='outlined' onClick={() => handleDeleteFromCart(product_id)}>Remove</Button>
+            <Button variant='outlined' onClick={() => handleDeleteFromCart(cart_id)}>Remove</Button>
         </div>
     );
 }
@@ -106,7 +106,7 @@ const Cart = () => {
                 <main className="bg-secondary ss:w-[800px] w-full p-4 rounded-xl space-y-6">
                     {uniqueCartItems.map((item) => {
                         return (
-                            <CartItem key={item.id} title={item.title} value={item.price} img={item.image} quantity={item.quantity} product_id={item.product_id} />
+                            <CartItem key={item.id} title={item.title} value={item.price} img={item.image} quantity={item.quantity} cart_id={item.cart_id} />
                         )
                     })}
                     <article className="space-y-3 mt-5 border-t pt-4">
