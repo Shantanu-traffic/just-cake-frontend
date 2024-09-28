@@ -10,7 +10,7 @@ export const deleteProduct = (productId) => async (dispatch) => {
     try {
         dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-        const { data } = await axios.delete(`http://localhost:5000/api/v1/admin/delete-product/${productId}`);
+        const { data } = await axios.delete(`http://localhost:5000/api/v1/product/delete-product/${productId}`);
 
         dispatch({
             type: DELETE_PRODUCT_SUCCESS,

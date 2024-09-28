@@ -16,7 +16,7 @@ export const addProduct = (productData) => async (dispatch) => {
             },
         };
 
-        const response = await axios.post('http://localhost:5000/api/v1/admin/add-product', productData, config);
+        const response = await axios.post('http://localhost:5000/api/v1/product/add-product', productData, config);
 
         dispatch({
             type: ADD_PRODUCT_SUCCESS,

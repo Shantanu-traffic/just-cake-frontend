@@ -25,8 +25,9 @@ const ProductCard = ({ itemNum, cakeSrc, itemPrice, tittle, description, categor
             const productId = id;
             const userId = user_Id;
             const quantity = 1;
-            const Total_price = itemPrice * quantity;
-            dispatch(addToCart(productId, userId, quantity, Total_price));
+            const total_price = itemPrice * quantity;
+            dispatch(addToCart(productId, userId, quantity, total_price));
+            dispatch(showAlert("Item added into cart successfully", "success"))
         } else {
             dispatch(showAlert("You must be login", "success"))
         }

@@ -4,9 +4,20 @@ import { close, menu, logo, cakeLogo } from '../../assets'
 import './Navbar.scss'
 import { useNavigate } from 'react-router-dom';
 import { Avatar } from '@mui/material';
+import Cookies from 'js-cookie';
 
-const Navbar = ({user}) => {
+const Navbar = () => {
     const [toggle, settoggle] = useState(false);
+    let user = null;
+    const userCookie = Cookies.get('user');
+    if (userCookie) {
+        try {
+            const parsedUserCookie = JSON.parse(userCookie);
+            user = parsedUserCookie; // assuming `id` is a field in the parsed object
+        } catch (error) {
+            console.error("Failed to parse user cookie:", error);
+        }
+    }
     const navigate = useNavigate();
     // Updated navLinks based on whether the user is logged in or an admin
     const dynamicNavLinks = [
@@ -26,13 +37,16 @@ const Navbar = ({user}) => {
 
                 {/* Main navigation links */}
                 <ul className='py-0 font-semibold ms:flex hidden list-none justify-end items-center flex-1 gap-10 ss:text-[1.3rem] text-[1.1rem] ss:leading-[100px]'>
-                    {navLinks.map((item, index) => (
+                    {dynamicNavLinks.map((item, index) => (
                         <li key={item.id} className={`font-satisfy font-normal cursor-pointer text-white ${index === dynamicNavLinks.length - 1 ? "mr-0" : "mr-10"}`}>
                             <a href={item.id === 'contactus' ? `#${item.id}` : `${item.id}`}>
                                 {item.title}
                             </a>
                         </li>
                     ))}
+                    {user == null && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/login"}>
+                        Login
+                    </a>}
                     {/* Show Avatar if user exists */}
                     {user && (
                         <li >
@@ -54,7 +68,7 @@ const Navbar = ({user}) => {
                 {/* Mobile navigation links */}
                 <div className={`ms:hidden block sidebar ${toggle ? "flex" : "hidden"} p-6 bg-white rounded-xl absolute top-20 right-0 min-w-[8rem] mx-4 my-2`}>
                     <ul className='flex flex-1 flex-col list-none justify-start items-center'>
-                        {MobNavLinks.map((item, index) => (
+                        {dynamicNavLinks.map((item, index) => (
                             <li key={item.id} className={`font-poppins font-normal cursor-pointer text-black text-[1rem] ${index === dynamicNavLinks.length - 1 ? "mr-0" : "mb-4"}`}>
                                 <a href={item.id === 'contactus' ? `#${item.id}` : `${item.id}`}>
                                     {item.title}

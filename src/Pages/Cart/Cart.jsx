@@ -13,24 +13,6 @@ import { updateCartQuantity } from '../../Store/actions/CartIncDecAction';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 
-// const cartData = [{
-//     id: "05edc841-2c14-4f83-ace2-5a16eb5a4a54",
-//     user_id: "031f8241-46ee-421e-a999-86c723f3789d",
-//     product_id: "05edc841-2c14-4f83-ace2-5a16eb5a4a54",
-//     quantity: 2,
-//     total_price: "1500.00",
-//     created_at: "2024-09-24T11:19:42.404Z",
-//     updated_at: "2024-09-24T11:19:42.404Z",
-//     title: "first time update product",
-//     description: "Testing Products",
-//     price: "1200.00",
-//     image: "https://handletheheat.com/wp-content/uploads/2015/03/Best-Birthday-Cake-with-milk-chocolate-buttercream-SQUARE.jpg",
-//     created_by: "031f8241-46ee-421e-a999-86c723f3789d",
-//     stock: 6,
-//     category: "New Launch"
-// }]
-
-
 const CartItem = ({ value, title, img, quantity, product_id }) => {
     const [cartQuantity, setCartQuantity] = useState(quantity);
     const dispatch = useDispatch();
@@ -64,7 +46,7 @@ const CartItem = ({ value, title, img, quantity, product_id }) => {
             </div>
             <div className="flex items-center space-x-3">
                 <button disabled={loading || quantity <= 1} onClick={() => handleQuantityChange(false)} className="bg-black text-white px-2 py-1 rounded-lg">-</button>
-                <input type="number" readOnly value={value} className="w-12 text-center border border-gray-300 rounded-lg" />
+                <input type="number" readOnly value={value} className="w-16 text-center border border-gray-300 rounded-lg" />
                 <button disabled={loading} onClick={() => handleQuantityChange(true)} className="bg-black text-white px-2 py-1 rounded-lg">+</button>
             </div>
             <Button variant='outlined' onClick={() => handleDeleteFromCart(product_id)}>Remove</Button>
@@ -96,10 +78,20 @@ const Cart = () => {
         }
     }, [dispatch, user]);
 
-    const { cartItems, loading, error } = useSelector((state) => state.cart);
+    const { cartItems, loading, error } = useSelector((state) => state.cartItems);
+
+    // Remove duplicate cart items based on product_id or any other unique property
+    const uniqueCartItems = cartItems.reduce((acc, current) => {
+        const x = acc.find(item => item.product_id === current.product_id);
+        if (!x) {
+            return acc.concat([current]);
+        } else {
+            return acc;
+        }
+    }, []);
 
     // Calculate the total price by summing up price * quantity for each item
-    const totalCartPrice = cartItems.reduce((total, item) => {
+    const totalCartPrice = uniqueCartItems.reduce((total, item) => {
         return total + (parseFloat(item.price) * item.quantity);
     }, 0);
 
@@ -112,7 +104,7 @@ const Cart = () => {
                     <Navbar />
                 </div>
                 <main className="bg-secondary ss:w-[800px] w-full p-4 rounded-xl space-y-6">
-                    {cartItems.map((item) => {
+                    {uniqueCartItems.map((item) => {
                         return (
                             <CartItem key={item.id} title={item.title} value={item.price} img={item.image} quantity={item.quantity} product_id={item.product_id} />
                         )

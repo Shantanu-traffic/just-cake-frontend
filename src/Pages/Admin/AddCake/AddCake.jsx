@@ -22,10 +22,23 @@ const AddCake = () => {
         created_by: user?.id
     });
     const [error, setError] = useState('');
+    let user_Id = null;
+    const userCookie = Cookies.get('user');
+    // Safely parse userCookie if it exists
+    if (userCookie) {
+        try {
+            const parsedUserCookie = JSON.parse(userCookie);
+            user_Id = parsedUserCookie.id; // assuming `id` is a field in the parsed object
+        } catch (error) {
+            console.error("Failed to parse user cookie:", error);
+        }
+    }
+
     useEffect(() => {
         const userData = JSON.parse(Cookies.get('user'));
         setUser(userData)
     }, [])
+
     const dispatch = useDispatch();
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
     const { loading, success, message } = useSelector(state => state.product);
@@ -40,6 +53,7 @@ const AddCake = () => {
                 ...cakeDetails,
                 image: file
             });
+            console.log(file); // Log the file object to confirm it's being captured
         } else {
             setCakeDetails({
                 ...cakeDetails,
@@ -47,9 +61,11 @@ const AddCake = () => {
             });
         }
     };
+
     // Handle form submit
     const handleSubmit = (e) => {
         e.preventDefault();
+
         // Validate form fields
         if (!cakeDetails.title || !cakeDetails.description || !cakeDetails.image || !cakeDetails.price || !cakeDetails.category) {
             setError('All fields are mandatory');
@@ -57,21 +73,23 @@ const AddCake = () => {
         } else {
             setError(''); // Clear error message if validation passes
         }
-        // Create object from form data
-        const newCake = {
-            title: cakeDetails.title,
-            description: cakeDetails.description,
-            image: cakeDetails.image,
-            price: cakeDetails.price,
-            stock: 0,
-            category: cakeDetails.category,
-            created_by: user?.id
-        };
-        console.log('New Cake Object:', newCake);
-        if (newCake && user.id) {
-            dispatch(addProduct(newCake));
-        }else{
-            alert("you must be login")
+
+        // Create FormData object
+        const formData = new FormData();
+        formData.append('title', cakeDetails.title);
+        formData.append('description', cakeDetails.description);
+        formData.append('image', cakeDetails.image);  // Append the image file object, not a string
+        formData.append('price', cakeDetails.price);
+        formData.append('stock', cakeDetails.stock);
+        formData.append('category', cakeDetails.category);
+        formData.append('created_by', user?.id);
+
+        console.log('FormData:', formData);
+
+        if (user_Id) {
+            dispatch(addProduct(formData)); // Dispatch the formData object to the action
+        } else {
+            alert("You must be logged in");
         }
     }
 

@@ -39,7 +39,7 @@ const Home = () => {
                 <div className='hero_area w-full overflow-hidden flex flex-col gap-[3rem] '>
                     <div className={`${Styles.paddingX}  ${Styles.flexCenter} `} >
                         <div className={`${Styles.boxWidth}`} >
-                            <Navbar user={user} />
+                            <Navbar/>
                         </div>
                     </div>
                     <div className={`${Styles.paddingX}  ${Styles.flexCenter} `} >
