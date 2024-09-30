@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { cakeLogo, logo } from '../../assets'
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../Store/actions/modalActions';
 import Navbar from '../../Sections/Navbar/Navbar'
 import Footer from '../../Sections/Footer/Footer'
 import { ShippingDetail } from './ShippingDetail/ShippingDetail';
-import { Button } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import { deleteFromCart } from '../../Store/actions/deleteCartActions';
 import { getAllCartItems } from '../../Store/actions/getAllCartActions';
 import { updateCartQuantity } from '../../Store/actions/CartIncDecAction';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { showAlert } from '../../Store/actions/alertActionTypes';
+import { Spinner } from '../../Components';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const CartItem = ({ value, title, img, quantity, cart_id, user_id }) => {
     const [cartQuantity, setCartQuantity] = useState(quantity);
@@ -44,7 +47,7 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id }) => {
 
 
     return (
-        <div className="flex ss:flex-row flex-col justify-between items-center border-b p-4 gap-4 bg-white rounded-xl">
+        <div className="flex ss:flex-row flex-col justify-between items-center border-b p-4 gap-5 bg-white rounded-xl">
             <div className="flex items-center ">
                 <img src={img} alt={title} className="w-16 h-16 object-cover rounded-lg" />
                 <h4 className="text-lg font-semibold">{title}</h4>
@@ -53,9 +56,15 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id }) => {
                 <button disabled={loading || quantity <= 1} onClick={() => handleQuantityChange(false)} className="bg-black text-white px-2 py-1 rounded-lg">-</button>
                 <input type="number" readOnly value={value} className="w-16 text-center border border-gray-300 rounded-lg" />
                 <button disabled={loading} onClick={() => handleQuantityChange(true)} className="bg-black text-white px-2 py-1 rounded-lg">+</button>
-                {/* <button variant="contained">{quantity}</button> */}
             </div>
-            <Button variant='outlined' onClick={() => handleDeleteFromCart(cart_id)}>Remove</Button>
+            <div>
+                <button variant="contained">{quantity}</button>
+            </div>
+            <IconButton
+                onClick={() => handleDeleteFromCart(cart_id)}
+            >
+                <DeleteIcon sx={{ color: "#fb8263" }} />
+            </IconButton>
         </div>
     );
 }
@@ -104,8 +113,14 @@ const Cart = () => {
         return total + (parseFloat(item.price) * item.quantity);
     }, 0);
 
+    // Round totalCartPrice to two decimal places
+    const roundedTotalCartPrice = parseFloat(totalCartPrice.toFixed(2));
+
     // Add 18% tax/fee to the total price
-    const totalPriceWithTax = totalCartPrice + (totalCartPrice * 0.18);
+    const totalPriceWithTax = roundedTotalCartPrice + (roundedTotalCartPrice * 0.18);
+
+    // Round totalPriceWithTax to two decimal places
+    const finalTotalPriceWithTax = parseFloat(totalPriceWithTax.toFixed(2));
 
     const handleCheckoutClick = () => {
         if (address?.result && cartItems.length > 0) {
@@ -117,6 +132,7 @@ const Cart = () => {
 
     return (
         <>
+            {loading && <Spinner />}
             <section className="min-h-[100vh] bg-primary py-2 flex flex-col justify-start items-center gap-4">
                 <div className='w-full flex justify-between items-center ss:px-10 px-5'>
                     <Navbar />
@@ -133,7 +149,7 @@ const Cart = () => {
                         </button>
                         <div className="flex justify-between">
                             <h4 className="text-lg font-semibold">Total</h4>
-                            <p>${totalPriceWithTax}</p>
+                            <p>${finalTotalPriceWithTax}</p>
                         </div>
                         <span>18% GST included</span>
                         <button onClick={handleCheckoutClick} className=" w-full block text-center bg-primary text-white py-2 px-4 rounded-lg mt-4">

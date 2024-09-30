@@ -5,7 +5,7 @@ import { CircularProgress, Backdrop } from '@mui/material';
 export const Spinner = () => {
     return (
         <Backdrop open={true} style={{ zIndex: 9999 }}>
-            <CircularProgress color="primary" />
+            <CircularProgress sx={{color:"white"}} />
         </Backdrop>
     );
 };

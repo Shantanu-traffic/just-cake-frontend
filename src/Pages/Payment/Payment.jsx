@@ -72,11 +72,18 @@ const Payment = () => {
   }, []);
 
   // Calculate the total price by summing up price * quantity for each item
-  const totalCartPrice = uniqueCartItems?.reduce((total, item) => {
+  const totalCartPrice = uniqueCartItems.reduce((total, item) => {
     return total + (parseFloat(item.price) * item.quantity);
   }, 0);
+
+  // Round totalCartPrice to two decimal places
+  const roundedTotalCartPrice = parseFloat(totalCartPrice.toFixed(2));
+
   // Add 18% tax/fee to the total price
-  const totalPriceWithTax = totalCartPrice + (totalCartPrice * 0.18);
+  const totalPriceWithTax = roundedTotalCartPrice + (roundedTotalCartPrice * 0.18);
+
+  // Round totalPriceWithTax to two decimal places
+  const finalTotalPriceWithTax = parseFloat(totalPriceWithTax.toFixed(2));
 
   return (
     <section className='w-full bg-primary min-h-[100vh] flex flex-col justify-start items-center gap-4 p-6'>
@@ -98,7 +105,7 @@ const Payment = () => {
           <p>Address: {`${shippingAddress?.street || shippingDetails?.street} ${shippingAddress?.city || shippingDetails?.city}`}</p>
           <p>{`${shippingAddress?.postal_code || shippingDetails?.postal_code}`}</p>
           <p>{`${shippingAddress?.state || shippingDetails?.state} ${shippingAddress?.country || shippingDetails?.country}`}</p>
-          <p><strong>Total Price:</strong> ${totalPriceWithTax}</p>
+          <p><strong>Total Price:</strong> ${finalTotalPriceWithTax}</p>
           <button className='w-full bg-primary m-1 p-1 rounded-sm'>Proceed to Payment</button>
         </div>
       </Card>

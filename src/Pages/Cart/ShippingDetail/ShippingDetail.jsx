@@ -10,6 +10,7 @@ import { closeModal } from '../../../Store/actions/modalActions';
 import { saveShippingAddress } from '../../../Store/actions/shippingActions';
 import Cookies from 'js-cookie';
 import { showAlert } from '../../../Store/actions/alertActionTypes';
+import { Spinner } from '../../../Components';
 
 export const ShippingDetail = () => {
   // State for form fields
@@ -182,7 +183,7 @@ export const ShippingDetail = () => {
             <Button variant="contained" type="submit">Submit</Button>
           </DialogActions>
         </form>
-        {loading && <p>Loading...</p>}
+        {loading && <Spinner />}
         {error && <p>{error}</p>}
         {success && <p>Address saved successfully!</p>}
       </Dialog>

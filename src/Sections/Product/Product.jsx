@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from './ProductCard/ProductCard'
 import { getProducts } from '../../Store/actions/getAllProductsAction';
+import { Spinner } from '../../Components';
 
-const Product = ({ user }) => {
+const Product = () => {
     const [offSet, setOffSet] = useState(1)
     const dispatch = useDispatch();
     useEffect(() => {
@@ -26,7 +27,7 @@ const Product = ({ user }) => {
     return (
         <>
             <section className='w-full h-auto flex flex-wrap justify-center items-center gap-4'>
-                {loading && <p>Loading products...</p>}
+                {loading && <Spinner />}
                 {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
                 {products?.map((product, index) => (
                     <ProductCard
