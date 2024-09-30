@@ -1,21 +1,23 @@
-// utils/localStorage.js
-export const loadState = () => {
+// utils/storeLocalStorage.js
+export const saveState = (state) => {
     try {
-        const serializedState = localStorage.getItem('state');
-        if (serializedState === null) {
-            return undefined; // Let the reducers initialize the app
-        }
-        return JSON.parse(serializedState);
-    } catch (err) {
-        return undefined;
+        const { shippingAddress } = state; // Destructure the slices you want to persist
+        const stateToPersist = { shippingAddress }; // Create an object with only those slices
+        localStorage.setItem('reduxState', JSON.stringify(stateToPersist)); // Save to localStorage
+    } catch (error) {
+        console.error('Error saving state to localStorage:', error);
     }
 };
 
-export const saveState = (state) => {
+
+// utils/storeLocalStorage.js
+export const loadState = () => {
     try {
-        const serializedState = JSON.stringify(state);
-        localStorage.setItem('state', serializedState);
-    } catch (err) {
-        // Ignore write errors
+        const serializedState = localStorage.getItem('reduxState'); // Load the stored state
+        if (serializedState === null) return undefined; // If no state, return undefined
+        return JSON.parse(serializedState); // Parse and return the state
+    } catch (error) {
+        console.error('Error loading state from localStorage:', error);
+        return undefined; // Return undefined in case of error
     }
 };

@@ -1,9 +1,7 @@
 import axios from 'axios';
-import {
-    DELETE_PRODUCT_REQUEST,
-    DELETE_PRODUCT_SUCCESS,
-    DELETE_PRODUCT_FAILURE,
-} from '../constants/productConstants';
+export const DELETE_PRODUCT_REQUEST = "DELETE_PRODUCT_REQUEST"
+export const DELETE_PRODUCT_SUCCESS = "DELETE_PRODUCT_SUCCESS"
+export const DELETE_PRODUCT_FAILURE = "DELETE_PRODUCT_FAILURE"
 
 // Action to delete a product
 export const deleteProduct = (productId) => async (dispatch) => {

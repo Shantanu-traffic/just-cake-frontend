@@ -105,10 +105,10 @@ const Cart = () => {
     }, 0);
 
     const handleCheckoutClick = () => {
-        if (address?.result) {
+        if (address?.result && cartItems.length > 0) {
             navigate('/payment')
         } else {
-            dispatch(showAlert("please fill shipping address", 'error'))
+            dispatch(showAlert("please fill shipping address and add product", 'error'))
         }
     };
 

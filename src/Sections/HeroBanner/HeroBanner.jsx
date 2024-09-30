@@ -29,6 +29,7 @@ const HeroBanner = ({ scrollToCheifSection, scrollToCakes }) => {
             </div>
             <h1 className=' p-0 text-white font-semibold ss:text-[3rem] text-[3.5rem] font-satisfy text-4xl'>Just Cakes</h1>
             <p className=' p-0 text-white font-semibold ss:text-[1.5rem] text-[1.8rem] text-xl font-satisfy'>Just Cakes, Crafted with Love, Baked with Passion</p>
+            <p className=' p-0 text-white font-semibold ss:text-[1.5rem] text-[1.8rem] text-xl font-satisfy'>We specialize in high protien cake"</p>
             <div className='flex justify-center items-center gap-4'>
                 <button className='button-34' onClick={scrollToCakes}>
                     View Cakes

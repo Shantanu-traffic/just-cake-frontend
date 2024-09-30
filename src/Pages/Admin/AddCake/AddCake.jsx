@@ -11,7 +11,7 @@ import { addProduct } from '../../../Store/actions/productActions';
 import Cookies from 'js-cookie';
 import { showAlert } from '../../../Store/actions/alertActionTypes';
 
-const AddCake = () => {
+const AddCake = ({handleClose}) => {
     const [user, setUser] = useState(null)
     const [cakeDetails, setCakeDetails] = useState({
         title: '',
@@ -43,9 +43,6 @@ const AddCake = () => {
     const dispatch = useDispatch();
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
     const { loading, success, message } = useSelector(state => state.product);
-    const handleClose = () => {
-        dispatch(closeModal())
-    }
     // Handle input changes
     const handleChange = (e) => {
         if (e.target.name === 'image') {

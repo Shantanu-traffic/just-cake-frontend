@@ -8,10 +8,12 @@ import { openModal } from '../../Store/actions/modalActions.js';
 import ViewOrderHistory from './ViewOrderHistory/ViewOrderHistory.jsx';
 import Cookies from 'js-cookie';
 import { showAlert } from '../../Store/actions/alertActionTypes.js';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [user, setUser] = useState(null)
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const userCookie = Cookies.get('user');
@@ -46,10 +48,10 @@ const Login = () => {
   return (
     <>
       <section className="min-h-[100vh] p-4 bg-primary flex flex-col justify-center items-center">
-        <div className="h-auto w-96 bg-secondary rounded-xl py-5 flex flex-col justify-center items-center gap-4">
+        <div className="h-auto w-98 bg-secondary rounded-xl py-5 flex flex-col justify-center items-center gap-4">
           {user ? (
             <>
-              <img className="w-[30%] h-[30%]" src={CakeHeroLogo} alt="logo" />
+              <img className="w-[30%] h-[30%] cursor-pointer" onClick={() => navigate('/')} src={CakeHeroLogo} alt="logo" />
               <img
                 className="w-[30%] h-[30%] rounded-full"
                 src={user.profile_picture}

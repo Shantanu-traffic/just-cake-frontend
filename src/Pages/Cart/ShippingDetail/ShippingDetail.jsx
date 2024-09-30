@@ -57,9 +57,18 @@ export const ShippingDetail = () => {
     if (!shippingDetails.country.trim()) errors.country = 'Country is required';
     return errors;
   };
+  let user_Id = null;
   const userCookie = Cookies.get('user');
-  const userId = JSON.parse(userCookie);
-  const user_id = userId.id;
+  // Safely parse userCookie if it exists
+  if (userCookie) {
+    try {
+      const parsedUserCookie = JSON.parse(userCookie);
+      user_Id = parsedUserCookie.id; 
+      
+    } catch (error) {
+      console.error("Failed to parse user cookie:", error);
+    }
+  }
 
   // Handle form submit
   const handleSubmit = (e) => {
@@ -74,7 +83,7 @@ export const ShippingDetail = () => {
     } else {
       // Create object from form data and dispatch action if valid
       const shippingDetailsObject = {
-        user_id: user_id,
+        user_id: user_Id,
         street: shippingDetails.street,
         city: shippingDetails.city,
         postal_code: shippingDetails.postal_code,
