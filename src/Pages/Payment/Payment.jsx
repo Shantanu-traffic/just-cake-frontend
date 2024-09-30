@@ -34,10 +34,12 @@ const Cart = ({ cartItems }) => {
 
 
 const Payment = () => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
+  const [shippingDetails, setShippingDetails] = useState(null);
   const { cartItems } = useSelector((state) => state?.cartItems);
   const { shippingAddress } = useSelector((state) => state?.shippingAddress?.shippingData);
   const navigate = useNavigate();
+
   useEffect(() => {
     const userCookie = Cookies.get('user');  // Get the cookie value
 
@@ -49,11 +51,16 @@ const Payment = () => {
       // If the cookie doesn't exist, set user to null
       setUser(null);
     }
-  }, [])
+
+    // Retrieve shipping details from localStorage
+    const storedShippingDetails = JSON.parse(localStorage.getItem('shippingDetails'));
+    setShippingDetails(storedShippingDetails);
+  }, []);
 
   const handleBack = () => {
     navigate(-1); // Navigates to the previous page
   };
+
   // Remove duplicate cart items based on product_id or any other unique property
   const uniqueCartItems = cartItems?.reduce((acc, current) => {
     const x = acc.find(item => item.product_id === current.product_id);
@@ -64,41 +71,39 @@ const Payment = () => {
     }
   }, []);
 
-  console.log(uniqueCartItems)
-
   // Calculate the total price by summing up price * quantity for each item
   const totalCartPrice = uniqueCartItems?.reduce((total, item) => {
     return total + (parseFloat(item.price) * item.quantity);
   }, 0);
+  // Add 18% tax/fee to the total price
+  const totalPriceWithTax = totalCartPrice + (totalCartPrice * 0.18);
+
   return (
     <section className='w-full bg-primary min-h-[100vh] flex flex-col justify-start items-center gap-4 p-6'>
       <div className='w-full flex justify-start'>
-        <button className='w-20 p-1 rounded-sm bg-white ' onClick={handleBack}>Back</button>
+        <button className='w-20 p-1 rounded-sm bg-white' onClick={handleBack}>Back</button>
       </div>
-      <div className=''>
-        <h1 className='text-white text-lg font-bold '>Your order details</h1>
+      <div>
+        <h1 className='text-white text-lg font-bold'>Your order details</h1>
       </div>
       <Card className='w-100 p-10'>
         <div sx={{ padding: "2rem" }}>
           <Cart cartItems={uniqueCartItems} />
         </div>
         <div>
-          <h1 className='text-black font-bold '>Customer details</h1>
+          <h1 className='text-black font-bold'>Customer details</h1>
           <p>Name: {user?.display_name}</p>
-          <p>email: {user?.email}</p>
-          {/* <p>Phone: {user?.phone}</p> */}
-          {/* <p>Adress: {`${shippingAddress?.street} ${shippingAddress?.city}`}</p>
-          <p>{`${shippingAddress?.postal_code}`}</p>
-          <p>{`${shippingAddress?.state} ${shippingAddress?.country}`}</p> */}
-          <p>Phone: 7001551926</p>
-          <p>Adress: 127, Auckland Auckland</p>
-          <p>{`${11011}`}</p>
-          <p>North State, NZ</p>
-          <button className='w-full bg-primary m-1 p-1 rounded-sm'>Procces to Payment</button>
+          <p>Email: {user?.email}</p>
+          <p>Phone: {shippingAddress?.phone || shippingDetails?.phone}</p>
+          <p>Address: {`${shippingAddress?.street || shippingDetails?.street} ${shippingAddress?.city || shippingDetails?.city}`}</p>
+          <p>{`${shippingAddress?.postal_code || shippingDetails?.postal_code}`}</p>
+          <p>{`${shippingAddress?.state || shippingDetails?.state} ${shippingAddress?.country || shippingDetails?.country}`}</p>
+          <p><strong>Total Price:</strong> ${totalPriceWithTax}</p>
+          <button className='w-full bg-primary m-1 p-1 rounded-sm'>Proceed to Payment</button>
         </div>
       </Card>
     </section>
-  )
-}
+  );
+};
 
 export default Payment

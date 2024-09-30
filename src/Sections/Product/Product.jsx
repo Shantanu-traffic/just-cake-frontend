@@ -14,20 +14,20 @@ const Product = ({ user }) => {
     const { loading, products, error } = useSelector((state) => state?.allProduct);
 
     const handleNext = () => {
-        setOffSet((prev) => prev + 1); // Increment offSet for next page
+        setOffSet((prev) => prev + 10); // Increment offSet for next page
     };
 
     const handlePrev = () => {
-        if (offSet > 1) {
-            setOffSet((prev) => prev - 1); // Decrement offSet for previous page
+        if (offSet > 0) {
+            setOffSet((prev) => Math.max(1, prev - 10)); // Decrement offSet for previous page
         }
     }
-    
+
     return (
         <>
             <section className='w-full h-auto flex flex-wrap justify-center items-center gap-4'>
                 {loading && <p>Loading products...</p>}
-                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
                 {products?.map((product, index) => (
                     <ProductCard
                         key={product.title}

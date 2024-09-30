@@ -5,15 +5,15 @@ import Navbar from '../../Sections/Navbar/Navbar.jsx'
 import { closeModal, openModal } from '../../Store/actions/modalActions.js';
 import AddCake from './AddCake/AddCake.jsx';
 import ManageProduct from './ManageProduct/ManageProduct.jsx';
-import { getProducts } from '../../Store/actions/getAllProductsAction.js';
 import axios from 'axios';
 
 const Admin = () => {
   const [products, setProducts] = useState([]);
   const [offSet, setOffSet] = useState(1);
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.allProduct);
+  // const data = useSelector((state) => state.allProduct);
   const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
+
   const fetchProducts = async () => {
     try {
       const response = await axios.post('http://localhost:5000/api/v1/product/get-products', { offSet });
@@ -24,7 +24,7 @@ const Admin = () => {
   };
 
   useEffect(() => {
-    fetchProducts(); // Call API when component mounts
+    fetchProducts();
   }, [offSet, isModalOpen]);
 
   console.log("resp data", products)
@@ -44,7 +44,6 @@ const Admin = () => {
         <ManageProduct products={products} />
       </section>
 
-      {/* modal to add cake */}
       {isModalOpen && <AddCake handleClose={handleClose} />}
     </>
   )

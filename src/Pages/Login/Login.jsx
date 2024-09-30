@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import './Login.scss'
 import { CakeHeroLogo } from '../../assets'
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../Store/actions/authActions';
 import { Spinner } from '../../Components/index.js';
 import { openModal } from '../../Store/actions/modalActions.js';
 import ViewOrderHistory from './ViewOrderHistory/ViewOrderHistory.jsx';
@@ -29,11 +28,13 @@ const Login = () => {
 
   const handleLogout = () => {
     Cookies.remove('user');
+    localStorage.removeItem('reduxState');
     dispatch(showAlert("Logout successfull", "success"))
     window.location.reload();
   }
 
   const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
+  
   const handleAuthClick = (err, res) => {
     // dispatch(login());
     window.open(

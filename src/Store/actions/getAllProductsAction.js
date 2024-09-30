@@ -5,7 +5,6 @@ export const GET_PRODUCTS_SUCCESS = 'GET_PRODUCTS_SUCCESS';
 export const GET_PRODUCTS_FAILURE = 'GET_PRODUCTS_FAILURE';
 
 export const getProducts = (offSet) => async (dispatch) => {
-    console.log("offeset recviced", offSet)
     try {
         dispatch({ type: GET_PRODUCTS_REQUEST });
 

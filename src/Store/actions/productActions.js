@@ -1,6 +1,5 @@
-// actions/productActions.js
-
 import axios from 'axios';
+import { getProducts } from './getAllProductsAction';
 
 export const ADD_PRODUCT_REQUEST = 'ADD_PRODUCT_REQUEST';
 export const ADD_PRODUCT_SUCCESS = 'ADD_PRODUCT_SUCCESS';
@@ -22,6 +21,10 @@ export const addProduct = (productData) => async (dispatch) => {
             type: ADD_PRODUCT_SUCCESS,
             payload: response.data,
         });
+        if(response){
+            dispatch(getProducts(1))
+        }
+
     } catch (error) {
         dispatch({
             type: ADD_PRODUCT_FAIL,

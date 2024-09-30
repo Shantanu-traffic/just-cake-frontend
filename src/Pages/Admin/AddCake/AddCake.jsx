@@ -11,8 +11,8 @@ import { addProduct } from '../../../Store/actions/productActions';
 import Cookies from 'js-cookie';
 import { showAlert } from '../../../Store/actions/alertActionTypes';
 
-const AddCake = ({handleClose}) => {
-    const [user, setUser] = useState(null)
+const AddCake = ({ handleClose }) => {
+    const [user, setUser] = useState(null);
     const [cakeDetails, setCakeDetails] = useState({
         title: '',
         description: '',
@@ -20,16 +20,16 @@ const AddCake = ({handleClose}) => {
         price: 0,
         stock: 0,
         category: '',
-        created_by: user?.id
+        created_by: user?.id,
     });
     const [error, setError] = useState('');
     let user_Id = null;
+
     const userCookie = Cookies.get('user');
-    // Safely parse userCookie if it exists
     if (userCookie) {
         try {
             const parsedUserCookie = JSON.parse(userCookie);
-            user_Id = parsedUserCookie.id; // assuming `id` is a field in the parsed object
+            user_Id = parsedUserCookie.id;
         } catch (error) {
             console.error("Failed to parse user cookie:", error);
         }
@@ -37,21 +37,24 @@ const AddCake = ({handleClose}) => {
 
     useEffect(() => {
         const userData = JSON.parse(Cookies.get('user'));
-        setUser(userData)
-    }, [])
+        setUser(userData);
+    }, []);
 
     const dispatch = useDispatch();
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
-    const { loading, success, message } = useSelector(state => state.product);
+    const { loading, success, message } = useSelector((state) => state.product);
+
+    // Word count helper function
+    const wordCount = (text) => text.trim().split(/\s+/).length;
+
     // Handle input changes
     const handleChange = (e) => {
         if (e.target.name === 'image') {
-            const file = e.target.files[0]; // Get the first file selected
+            const file = e.target.files[0];
             setCakeDetails({
                 ...cakeDetails,
                 image: file
             });
-            console.log(file); // Log the file object to confirm it's being captured
         } else {
             setCakeDetails({
                 ...cakeDetails,
@@ -64,25 +67,31 @@ const AddCake = ({handleClose}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        const descriptionWordCount = wordCount(cakeDetails.description);
+        const categoryWordCount = wordCount(cakeDetails.category);
+
         // Validate form fields
         if (!cakeDetails.title || !cakeDetails.description || !cakeDetails.image || !cakeDetails.price || !cakeDetails.category) {
             setError('All fields are mandatory');
+            return;
+        } else if (descriptionWordCount > 100) {
+            setError('Description should not exceed 100 words');
+            return;
+        } else if (categoryWordCount > 50) {
+            setError('Category should not exceed 50 words');
             return;
         } else {
             setError(''); // Clear error message if validation passes
         }
 
-        // Create FormData object
         const formData = new FormData();
         formData.append('title', cakeDetails.title);
         formData.append('description', cakeDetails.description);
-        formData.append('image', cakeDetails.image);  // Append the image file object, not a string
+        formData.append('image', cakeDetails.image);
         formData.append('price', cakeDetails.price);
         formData.append('stock', cakeDetails.stock);
         formData.append('category', cakeDetails.category);
         formData.append('created_by', user?.id);
-
-        console.log('FormData:', formData);
 
         if (user_Id) {
             dispatch(addProduct(formData));
@@ -93,14 +102,13 @@ const AddCake = ({handleClose}) => {
                 price: 0,
                 stock: 0,
                 category: '',
-            })
-            dispatch(closeModal())
-            dispatch(showAlert("Product addedd successfuly", "success"))
+            });
+            dispatch(closeModal());
+            dispatch(showAlert("Product added successfully", "success"));
         } else {
             alert("You must be logged in");
         }
-    }
-
+    };
 
     return (
         <section>
@@ -156,6 +164,16 @@ const AddCake = ({handleClose}) => {
                         />
                         <TextField
                             margin="dense"
+                            label="Stock"
+                            name="stock"
+                            type="number"
+                            fullWidth
+                            variant="outlined"
+                            value={cakeDetails.stock}
+                            onChange={handleChange}
+                        />
+                        <TextField
+                            margin="dense"
                             label="Category"
                             name="category"
                             type="text"
@@ -172,7 +190,8 @@ const AddCake = ({handleClose}) => {
                 </form>
             </Dialog>
         </section>
-    )
-}
+    );
+};
+
 
 export default AddCake

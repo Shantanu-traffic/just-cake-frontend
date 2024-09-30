@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getAllCartItems } from './getAllCartActions';
 export const ADD_TO_CART_REQUEST = 'ADD_TO_CART_REQUEST';
 export const ADD_TO_CART_SUCCESS = 'ADD_TO_CART_SUCCESS';
 export const ADD_TO_CART_FAIL = 'ADD_TO_CART_FAIL';
@@ -24,6 +25,7 @@ export const addToCart = (product_id, user_id, quantity, total_price) => async (
             type: ADD_TO_CART_SUCCESS,
             payload: data.data,
         });
+        dispatch(getAllCartItems(user_id));
 
     } catch (error) {
         dispatch({

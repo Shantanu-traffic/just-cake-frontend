@@ -10,12 +10,6 @@ export const saveShippingAddress = (shippingData) => async (dispatch) => {
     try {
         dispatch({ type: SAVE_SHIPPING_ADDRESS_REQUEST });
 
-        // const config = {
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        // };
-
         const { data } = await axios.post(
             'http://localhost:5000/api/v1/order/address',
             shippingData,
@@ -24,8 +18,10 @@ export const saveShippingAddress = (shippingData) => async (dispatch) => {
         dispatch({
             type: SAVE_SHIPPING_ADDRESS_SUCCESS,
             payload: data,
-            shippingData:shippingData,
+            shippingData: shippingData,
         });
+        localStorage.setItem('shippingDetails', JSON.stringify(shippingData));
+
     } catch (error) {
         dispatch({
             type: SAVE_SHIPPING_ADDRESS_FAIL,

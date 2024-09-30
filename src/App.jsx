@@ -17,7 +17,7 @@ function App() {
       console.error("Failed to parse user cookie:", error);
     }
   }
-  console.log(user, isAdmin)
+  
   return (
     <>
       <BrowserRouter>

@@ -32,7 +32,7 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id }) => {
         dispatch(updateCartQuantity(updatedCartData));
         setCartQuantity(updatedCartData.quantity);
         // dispatch(getAllCartItems(user_id));
-        window.location.reload();
+        // window.location.reload();
     };
 
     const handleDeleteFromCart = (cart_id) => {
@@ -45,15 +45,15 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id }) => {
 
     return (
         <div className="flex ss:flex-row flex-col justify-between items-center border-b p-4 gap-4 bg-white rounded-xl">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center ">
                 <img src={img} alt={title} className="w-16 h-16 object-cover rounded-lg" />
                 <h4 className="text-lg font-semibold">{title}</h4>
             </div>
-            <div className="flex items-center space-x-3">
+            <div className="flex w-5 gap-2 justify-evenly items-center">
                 <button disabled={loading || quantity <= 1} onClick={() => handleQuantityChange(false)} className="bg-black text-white px-2 py-1 rounded-lg">-</button>
                 <input type="number" readOnly value={value} className="w-16 text-center border border-gray-300 rounded-lg" />
                 <button disabled={loading} onClick={() => handleQuantityChange(true)} className="bg-black text-white px-2 py-1 rounded-lg">+</button>
-                <button variant="contained">{quantity}</button>
+                {/* <button variant="contained">{quantity}</button> */}
             </div>
             <Button variant='outlined' onClick={() => handleDeleteFromCart(cart_id)}>Remove</Button>
         </div>
@@ -104,6 +104,9 @@ const Cart = () => {
         return total + (parseFloat(item.price) * item.quantity);
     }, 0);
 
+    // Add 18% tax/fee to the total price
+    const totalPriceWithTax = totalCartPrice + (totalCartPrice * 0.18);
+
     const handleCheckoutClick = () => {
         if (address?.result && cartItems.length > 0) {
             navigate('/payment')
@@ -130,9 +133,9 @@ const Cart = () => {
                         </button>
                         <div className="flex justify-between">
                             <h4 className="text-lg font-semibold">Total</h4>
-                            <p>₹{totalCartPrice}</p>
+                            <p>${totalPriceWithTax}</p>
                         </div>
-
+                        <span>18% GST included</span>
                         <button onClick={handleCheckoutClick} className=" w-full block text-center bg-primary text-white py-2 px-4 rounded-lg mt-4">
                             Checkout
                         </button>

@@ -1,11 +1,13 @@
-import React from 'react'
-import './Spinner.scss';
+// Loader.js
+import React from 'react';
+import { CircularProgress, Backdrop } from '@mui/material';
 
 export const Spinner = () => {
     return (
-        <div className='spin'>
-            <span class="loader"></span>
-        </div>
-    )
-}
+        <Backdrop open={true} style={{ zIndex: 9999 }}>
+            <CircularProgress color="primary" />
+        </Backdrop>
+    );
+};
+
 
