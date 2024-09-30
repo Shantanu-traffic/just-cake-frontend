@@ -37,7 +37,8 @@ const Navbar = () => {
         Cookies.remove('user');
         localStorage.removeItem('reduxState');
         dispatch(showAlert("Logout successfull", "success"))
-        window.location.reload();
+        // window.location.reload();
+        navigate('/');
     }
 
     return (
@@ -82,26 +83,30 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile navigation links */}
-                <div className={`ms:hidden block sidebar ${toggle ? "flex" : "hidden"} p-6 bg-white rounded-xl absolute top-20 right-0 min-w-[8rem] mx-4 my-2`}>
-                    <ul className='flex flex-1 flex-col list-none justify-start items-center'>
-                        {/* {dynamicNavLinks.map((item, index) => (
-                            <li key={item.id} className={`font-poppins font-normal cursor-pointer text-black text-[1rem] ${index === dynamicNavLinks.length - 1 ? "mr-0" : "mb-4"}`}>
-                                <a href={item.id === 'contactus' ? `#${item.id}` : `${item.id}`}>
-                                    {item.title}
-                                </a>
-                            </li>
-                        ))} */}
-                        {/* Show Avatar in mobile view */}
+                <div className={`ms:hidden block sidebar ${toggle ? "flex" : "hidden"} p-3 bg-white rounded-xl absolute top-20 right-0 min-w-[6rem] mx-4 my-2`}>
+                    <ul className='flex flex-1 flex-col list-none justify-center items-center'>
+                        <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/"}>Home</a>
+                        {!idAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/order"}>Cart ({cartCount})</a>}
+                        {!idAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/#contactus"}>Contact us</a>}
+                        {idAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/orders"}>Order</a>}
+                        {idAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/admin"}>Product</a>}
+                        {user == null && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/login"}>
+                            Login
+                        </a>}
                         {user && (
-                            <li>
+                            <li >
                                 <Avatar
                                     alt={user.display_name}
                                     src={user.profile_picture}
-                                    onClick={() => navigate('/login')} // Use navigate on click
-                                    style={{ cursor: 'pointer' }} // Change cursor to pointer for better UX
+                                    onClick={() => navigate('/login')}
+                                    style={{ cursor: 'pointer' }}
                                 />
                             </li>
                         )}
+                        {user && <li onClick={handleLogout} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+                            <LogoutIcon style={{ color: 'black' }} />
+                            <span className="font-satisfy font-normal cursor-pointer text-black ml-2"></span>
+                        </li>}
                     </ul>
                 </div>
             </nav>

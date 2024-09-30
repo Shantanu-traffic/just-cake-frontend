@@ -10,10 +10,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import { openModal } from '../../../Store/actions/modalActions';
 import AddCake from '../AddCake/AddCake';
 import { updateProduct } from '../../../Store/actions/updateProductAction';
+import { Spinner } from '../../../Components';
 
 
-const ManageProduct = ({ products }) => {
+const ManageProduct = ({ products, loadingData }) => {
     const dispatch = useDispatch();
+    const [editProduct, setEditProduct] = useState(null);
     // const { loading, success, error } = useSelector((state) => state.deleteProduct);
     // const { products, productsLoading, productsError } = useSelector((state) => state.allProduct);
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
@@ -23,15 +25,17 @@ const ManageProduct = ({ products }) => {
         window.location.reload()
     };
 
-    const handleSubmit = (item) => {
+    const handleEditSubmit = (item) => {
+        setEditProduct(item)
         dispatch(openModal())
-        dispatch(updateProduct(productData)); 
-        window.location.reload();
+        // dispatch(updateProduct(productData));
     };
-
     return (
         <>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} style={{ position: 'relative' }}>
+                {loadingData && (
+                    <Spinner />
+                )}
                 <Table aria-label="product table">
                     <TableHead>
                         <TableRow>
@@ -52,7 +56,7 @@ const ManageProduct = ({ products }) => {
                                 <TableCell><div><img height={50} width={50} src={product.image} /></div></TableCell>
                                 <TableCell>{product.title}</TableCell>
                                 <TableCell>{product.description}</TableCell>
-                                <TableCell>{product.price}</TableCell>
+                                <TableCell>${product.price}</TableCell>
                                 <TableCell>{product.stock}</TableCell>
                                 <TableCell>{product.category}</TableCell>
                                 <TableCell>
@@ -66,7 +70,7 @@ const ManageProduct = ({ products }) => {
 
                                         <IconButton
                                             color="secondary"
-                                            onClick={() => handleSubmit(product)}
+                                            onClick={() => handleEditSubmit(product)}
                                         >
                                             <EditIcon />
                                         </IconButton>
@@ -76,8 +80,8 @@ const ManageProduct = ({ products }) => {
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer >
-            {isModalOpen && <AddCake />}
+            </TableContainer>
+            {isModalOpen && <AddCake editProduct={editProduct} />}
         </>
     )
 }

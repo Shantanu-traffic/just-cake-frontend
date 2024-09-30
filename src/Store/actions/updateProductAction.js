@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getProducts } from './getAllProductsAction';
 
 export const UPDATE_PRODUCT_REQUEST = 'UPDATE_PRODUCT_REQUEST';
 export const UPDATE_PRODUCT_SUCCESS = 'UPDATE_PRODUCT_SUCCESS';
@@ -14,6 +15,9 @@ export const updateProduct = (productData) => async (dispatch) => {
             type: UPDATE_PRODUCT_SUCCESS,
             payload: data.message,
         });
+        if(data){
+            dispatch(getProducts(1))
+        }
     } catch (error) {
         dispatch({
             type: UPDATE_PRODUCT_FAILURE,

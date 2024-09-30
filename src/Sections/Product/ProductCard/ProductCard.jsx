@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../../Store/actions/cartActions';
 import Cookies from 'js-cookie';
 import { showAlert } from '../../../Store/actions/alertActionTypes';
+import { Tooltip } from '@mui/material';
 
 const ProductCard = ({ itemNum, cakeSrc, itemPrice, tittle, description, category, id }) => {
     const [disabledCart, setDisabledCart] = useState(false);
@@ -46,21 +47,34 @@ const ProductCard = ({ itemNum, cakeSrc, itemPrice, tittle, description, categor
         }
     };
 
+    const truncateDescription = (description) => {
+        const words = description.split(' ');
+        return words.length > 20 ? words.slice(0, 20).join(' ') + '...' : description;
+    };
+
     return (
         <div className='menuCard'>
             <main>
-                <img src={cakeSrc} alt={itemNum} />
-                <h5>Price: ${itemPrice}</h5>
-                <p>{tittle}</p>
-                <p>{category}</p>
-                <p>{description}</p>
-                <button
-                    disabled={disabledCart}
-                    onClick={handleAddToCart}
-                    className="flex justify-center items-center gap-2"
-                >
-                    {disabledCart ? 'Added to Cart' : 'Add to Cart'}
-                </button>
+                <div className='w-full h-[40%]'>
+                    <img src={cakeSrc} alt={itemNum} />
+                </div>
+                <p>Price: <strong>${itemPrice}</strong></p>
+                <div className='w-full h-[20%]'>
+                    <p>{tittle}</p>
+                    <p>{category}</p>
+                </div >
+                <Tooltip sx={{ background: "white", color: "black", height:"30%" }} title={description} arrow>
+                    <p>{truncateDescription(description)}</p>
+                </Tooltip>
+                <div className='w-full h-[10%]'>
+                    <button id='addtocartbtn'
+                        disabled={disabledCart}
+                        onClick={handleAddToCart}
+                        className="flex justify-center items-center gap-2"
+                    >
+                        {disabledCart ? 'Added to Cart' : 'Add to Cart'}
+                    </button>
+                </div>
             </main>
         </div>
     );

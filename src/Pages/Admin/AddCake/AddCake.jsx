@@ -10,55 +10,51 @@ import { closeModal } from '../../../Store/actions/modalActions';
 import { addProduct } from '../../../Store/actions/productActions';
 import Cookies from 'js-cookie';
 import { showAlert } from '../../../Store/actions/alertActionTypes';
+import { updateProduct } from '../../../Store/actions/updateProductAction';
 
-const AddCake = ({ handleClose }) => {
+const AddCake = ({ handleClose, editProduct }) => {
+    console.log("editProduct", editProduct)
+    const dispatch = useDispatch();
     const [user, setUser] = useState(null);
     const [cakeDetails, setCakeDetails] = useState({
-        title: '',
-        description: '',
+        title: editProduct?.title || '',
+        description: editProduct?.description || '',
         image: '',
-        price: 0,
-        stock: 0,
-        category: '',
-        created_by: user?.id,
+        price: editProduct?.price || 0,
+        stock: editProduct?.stock || 0,
+        category: editProduct?.category || '',
     });
     const [error, setError] = useState('');
-    let user_Id = null;
-
-    const userCookie = Cookies.get('user');
-    if (userCookie) {
-        try {
-            const parsedUserCookie = JSON.parse(userCookie);
-            user_Id = parsedUserCookie.id;
-        } catch (error) {
-            console.error("Failed to parse user cookie:", error);
-        }
-    }
-
-    useEffect(() => {
-        const userData = JSON.parse(Cookies.get('user'));
-        setUser(userData);
-    }, []);
-
-    const dispatch = useDispatch();
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
-    const { loading, success, message } = useSelector((state) => state.product);
+
+    // Get user from cookies
+    useEffect(() => {
+        const userCookie = Cookies.get('user');
+        if (userCookie) {
+            try {
+                const parsedUser = JSON.parse(userCookie);
+                setUser(parsedUser);
+            } catch (error) {
+                console.error("Failed to parse user cookie:", error);
+            }
+        }
+    }, []);
 
     // Word count helper function
     const wordCount = (text) => text.trim().split(/\s+/).length;
 
     // Handle input changes
     const handleChange = (e) => {
-        if (e.target.name === 'image') {
-            const file = e.target.files[0];
+        const { name, value, files } = e.target;
+        if (name === 'image') {
             setCakeDetails({
                 ...cakeDetails,
-                image: file
+                image: files[0] // Store the file object for uploading
             });
         } else {
             setCakeDetails({
                 ...cakeDetails,
-                [e.target.name]: e.target.value
+                [name]: value
             });
         }
     };
@@ -67,11 +63,11 @@ const AddCake = ({ handleClose }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        // Validate form fields
         const descriptionWordCount = wordCount(cakeDetails.description);
         const categoryWordCount = wordCount(cakeDetails.category);
 
-        // Validate form fields
-        if (!cakeDetails.title || !cakeDetails.description || !cakeDetails.image || !cakeDetails.price || !cakeDetails.category) {
+        if (!cakeDetails.title || !cakeDetails.description || !cakeDetails.price || !cakeDetails.category) {
             setError('All fields are mandatory');
             return;
         } else if (descriptionWordCount > 100) {
@@ -87,24 +83,23 @@ const AddCake = ({ handleClose }) => {
         const formData = new FormData();
         formData.append('title', cakeDetails.title);
         formData.append('description', cakeDetails.description);
-        formData.append('image', cakeDetails.image);
+        if (cakeDetails.image) {
+            formData.append('image', cakeDetails.image);
+        }
         formData.append('price', cakeDetails.price);
         formData.append('stock', cakeDetails.stock);
         formData.append('category', cakeDetails.category);
         formData.append('created_by', user?.id);
 
-        if (user_Id) {
-            dispatch(addProduct(formData));
-            setCakeDetails({
-                title: '',
-                description: '',
-                image: '',
-                price: 0,
-                stock: 0,
-                category: '',
-            });
+        if (user?.id) {
+            if (editProduct) {
+                formData.append('id', editProduct.id); // Include the product ID for updating
+                dispatch(updateProduct(formData)); // Dispatch the update action
+            } else {
+                dispatch(addProduct(formData)); // Dispatch the add action
+            }
             dispatch(closeModal());
-            dispatch(showAlert("Product added successfully", "success"));
+            dispatch(showAlert("Product added/updated successfully", "success"));
         } else {
             alert("You must be logged in");
         }
@@ -116,7 +111,7 @@ const AddCake = ({ handleClose }) => {
                 open={isModalOpen}
                 onClose={handleClose}
             >
-                <DialogTitle>Add Cake</DialogTitle>
+                <DialogTitle>{editProduct ? 'Edit Cake' : 'Add Cake'}</DialogTitle>
                 <form onSubmit={handleSubmit}>
                     <DialogContent>
                         {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -148,7 +143,6 @@ const AddCake = ({ handleClose }) => {
                             fullWidth
                             accept="image/*"
                             type="file"
-                            style={{ marginTop: '16px', marginBottom: '16px' }}
                             variant="outlined"
                             onChange={handleChange}
                         />
@@ -185,13 +179,14 @@ const AddCake = ({ handleClose }) => {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit">Add Cake</Button>
+                        <Button type="submit">{editProduct ? "Update" : "Add"}</Button>
                     </DialogActions>
                 </form>
             </Dialog>
         </section>
     );
 };
+
 
 
 export default AddCake

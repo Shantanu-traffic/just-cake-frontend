@@ -42,21 +42,17 @@
             font-size: 1rem;
             margin: 0;
             padding-top: 0.5rem;
-            height: 30px;
-            /* Fixed height for title */
         }
 
         /* Description Section (with truncation for overflowed text) */
         >p:nth-child(4) {
             font-size: 0.9rem;
             text-align: center;
-            height: 40px;
-            /* Fixed height for description */
             margin-bottom: 1rem;
         }
 
         /* Button Section */
-        >button {
+        #addtocartbtn {
             background-color: #fdc5b1;
             color: white;
             border: none;
@@ -65,12 +61,10 @@
             border-radius: 0.5rem;
             cursor: pointer;
             height: 50px;
-            /* Fixed height for button */
             margin-top: auto;
-            /* Push button to the bottom */
         }
 
-        >button:hover {
+        #addtocartbtn:hover {
             background-color: #fb8263;
         }
     }

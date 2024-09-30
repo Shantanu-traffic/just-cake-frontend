@@ -28,7 +28,6 @@ const Product = () => {
         <>
             <section className='w-full h-auto flex flex-wrap justify-center items-center gap-4'>
                 {loading && <Spinner />}
-                {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
                 {products?.map((product, index) => (
                     <ProductCard
                         key={product.title}

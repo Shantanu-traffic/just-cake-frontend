@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { cakeLogo, logo } from '../../assets'
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../Store/actions/modalActions';
 import Navbar from '../../Sections/Navbar/Navbar'
-import Footer from '../../Sections/Footer/Footer'
+import Footer from '../../Components/Footer/Footer'
 import { ShippingDetail } from './ShippingDetail/ShippingDetail';
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { deleteFromCart } from '../../Store/actions/deleteCartActions';
 import { getAllCartItems } from '../../Store/actions/getAllCartActions';
 import { updateCartQuantity } from '../../Store/actions/CartIncDecAction';
@@ -48,19 +47,19 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id }) => {
 
     return (
         <div className="flex ss:flex-row flex-col justify-between items-center border-b p-4 gap-5 bg-white rounded-xl">
-            <div className="flex items-center ">
+            <div className="flex items-center gap-1 w-[60%]">
                 <img src={img} alt={title} className="w-16 h-16 object-cover rounded-lg" />
                 <h4 className="text-lg font-semibold">{title}</h4>
             </div>
-            <div className="flex w-5 gap-2 justify-evenly items-center">
+            <div className="flex gap-2 justify-center items-center w-[30%]">
                 <button disabled={loading || quantity <= 1} onClick={() => handleQuantityChange(false)} className="bg-black text-white px-2 py-1 rounded-lg">-</button>
                 <input type="number" readOnly value={value} className="w-16 text-center border border-gray-300 rounded-lg" />
                 <button disabled={loading} onClick={() => handleQuantityChange(true)} className="bg-black text-white px-2 py-1 rounded-lg">+</button>
             </div>
-            <div>
-                <button variant="contained">{quantity}</button>
+            <div className='w-[5%]'>
+                <button className='bg-primary px-2 rounded-xl' variant="contained">{quantity}</button>
             </div>
-            <IconButton
+            <IconButton className='w-[5%]'
                 onClick={() => handleDeleteFromCart(cart_id)}
             >
                 <DeleteIcon sx={{ color: "#fb8263" }} />
@@ -137,7 +136,7 @@ const Cart = () => {
                 <div className='w-full flex justify-between items-center ss:px-10 px-5'>
                     <Navbar />
                 </div>
-                <main className="bg-secondary ss:w-[800px] w-full p-4 rounded-xl space-y-6">
+                <main className="bg-secondary ss:w-[800px] w-full p-6 rounded-xl space-y-6">
                     {uniqueCartItems.map((item) => {
                         return (
                             <CartItem key={item.id} title={item.title} value={item.price} img={item.image} quantity={item.quantity} cart_id={item.cart_id} user_id={user?.id} />

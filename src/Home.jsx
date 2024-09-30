@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Styles } from './Styles'
 import './App.css'
-import { Navbar, HeroBanner, CheifSection, Footer, Info, Product } from './Sections'
-import Contact from './Pages/Contact/Contact'
+import { Navbar, HeroBanner, CheifSection, Info, Product } from './Sections'
 import Cookies from 'js-cookie';
+import Footer from './Components/Footer/Footer.jsx';
 
 const Home = () => {
     const [user, setUser] = useState(null)
@@ -39,7 +39,7 @@ const Home = () => {
                 <div className='hero_area w-full overflow-hidden flex flex-col gap-[3rem] '>
                     <div className={`${Styles.paddingX}  ${Styles.flexCenter} `} >
                         <div className={`${Styles.boxWidth}`} >
-                            <Navbar/>
+                            <Navbar />
                         </div>
                     </div>
                     <div className={`${Styles.paddingX}  ${Styles.flexCenter} `} >
@@ -59,16 +59,9 @@ const Home = () => {
                     </div>
                 </div >
 
-                <div className={`${Styles.paddingX} ${Styles.flexCenter} `}>
-                    <div className={`${Styles.boxWidth}`} >
-                        <Contact user={user} />
-                    </div>
-                </div >
-
                 <div className={`${Styles.flexCenter} `} >
                     <div className={`${Styles.boxWidth}`} >
-                        <Info />
-                        <Footer />
+                       <Footer />
                     </div>
                 </div >
             </div >

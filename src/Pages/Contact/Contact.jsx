@@ -34,8 +34,8 @@ const Contact = () => {
     })
   }
   return (
-    <section className={`h-[80vh] bg-white p-4 flex justify-center items-center rounded-xl`} id='contactus'>
-      <form onSubmit={handleSubmit} className='h-[400px] w-[500px] bg-secondary rounded-xl flex flex-col justify-center items-center px-5 gap-5'>
+    <section className={`h-[80vh] bg-white flex justify-center items-center`} id='contactus'>
+      <form onSubmit={handleSubmit} className='h-[400px] w-[300px] bg-secondary rounded-xl flex flex-col justify-center items-center px-5 gap-5'>
         <h1 className='text-center ss:text-[1.5rem] text-[1.1rem]'>Contact Us</h1>
 
         <input
