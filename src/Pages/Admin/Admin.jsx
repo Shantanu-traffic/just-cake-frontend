@@ -12,6 +12,7 @@ const Admin = () => {
   const [products, setProducts] = useState([]);
   const [offSet, setOffSet] = useState(1);
   const [loadingData, setLoadingData] = useState(false)
+  const [editProduct, setEditProduct] = useState(null);
   const dispatch = useDispatch();
   // const data = useSelector((state) => state.allProduct);
   const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
@@ -47,7 +48,12 @@ const Admin = () => {
   const handleClose = () => {
     dispatch(closeModal())
   }
+   
 
+  const handleHelper = (value)=>{
+    setEditProduct(value)
+    dispatch(openModal())
+  }
   return (
     <>
       <section className='w-full min-h-[100vh] bg-primary flex flex-col justify-start items-start gap-4'>
@@ -58,7 +64,7 @@ const Admin = () => {
           >
             Add Cake
           </button>
-          <ManageProduct products={products} loadingData={loadingData} />
+          <ManageProduct products={products} loadingData={loadingData} handleHelper = {handleHelper} />
           <div className="w-full flex justify-center items-center gap-5 mt-4">
             <button
               onClick={handlePrev}
@@ -80,7 +86,7 @@ const Admin = () => {
         </div>
       </section>
 
-      {isModalOpen && <AddCake handleClose={handleClose} />}
+      {isModalOpen && <AddCake handleClose={handleClose} editProduct={editProduct} />}
     </>
   )
 }

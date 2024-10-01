@@ -13,9 +13,8 @@ import { updateProduct } from '../../../Store/actions/updateProductAction';
 import { Spinner } from '../../../Components';
 
 
-const ManageProduct = ({ products, loadingData }) => {
+const ManageProduct = ({ products, loadingData,handleHelper }) => {
     const dispatch = useDispatch();
-    const [editProduct, setEditProduct] = useState(null);
     // const { loading, success, error } = useSelector((state) => state.deleteProduct);
     // const { products, productsLoading, productsError } = useSelector((state) => state.allProduct);
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
@@ -26,9 +25,10 @@ const ManageProduct = ({ products, loadingData }) => {
     };
 
     const handleEditSubmit = (item) => {
-        setEditProduct(item)
-        dispatch(openModal())
+        // setEditProduct(item)
+        // dispatch(openModal())
         // dispatch(updateProduct(productData));
+        handleHelper(item)
     };
     return (
         <>
@@ -81,7 +81,7 @@ const ManageProduct = ({ products, loadingData }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {isModalOpen && <AddCake editProduct={editProduct} />}
+            {/* {isModalOpen && <AddCake editProduct={editProduct} />} */}
         </>
     )
 }
