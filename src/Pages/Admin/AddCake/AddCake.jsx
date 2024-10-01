@@ -17,19 +17,19 @@ const AddCake = ({ handleClose, editProduct }) => {
     const dispatch = useDispatch();
     const [user, setUser] = useState(null);
     const [cakeDetails, setCakeDetails] = useState({
-        title: editProduct?.title || '',
-        description: editProduct?.description || '',
+        title: '',
+        description: '',
         image: '',
-        price: editProduct?.price || 0,
-        stock: editProduct?.stock || 0,
-        category: editProduct?.category || '',
+        price: 0,
+        stock: 0,
+        category: '',
     });
     const [error, setError] = useState('');
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
 
     // Get user from cookies
     useEffect(() => {
-        const userCookie = Cookies.get('user');
+        const userCookie = Cookies.get('user');  
         if (userCookie) {
             try {
                 const parsedUser = JSON.parse(userCookie);
@@ -38,6 +38,7 @@ const AddCake = ({ handleClose, editProduct }) => {
                 console.error("Failed to parse user cookie:", error);
             }
         }
+        
     }, []);
 
     // Word count helper function

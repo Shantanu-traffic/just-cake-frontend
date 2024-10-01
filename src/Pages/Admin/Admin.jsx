@@ -44,7 +44,6 @@ const Admin = () => {
     }
   }
 
-  console.log("resp data", products)
   const handleClose = () => {
     dispatch(closeModal())
   }

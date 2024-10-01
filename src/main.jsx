@@ -8,11 +8,11 @@ import AlertComponent from './Components/AlertComponent/AlertComponent.jsx';
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <StrictMode>
+    {/* <StrictMode> */}
       <>
         <App />
         <AlertComponent />
       </>
-    </StrictMode>
+    {/* </StrictMode> */}
   </Provider>
 );

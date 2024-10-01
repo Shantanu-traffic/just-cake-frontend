@@ -5,7 +5,7 @@ import { openModal } from '../../Store/actions/modalActions';
 import Navbar from '../../Sections/Navbar/Navbar'
 import Footer from '../../Components/Footer/Footer'
 import { ShippingDetail } from './ShippingDetail/ShippingDetail';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import { deleteFromCart } from '../../Store/actions/deleteCartActions';
 import { getAllCartItems } from '../../Store/actions/getAllCartActions';
 import { updateCartQuantity } from '../../Store/actions/CartIncDecAction';
@@ -14,9 +14,13 @@ import Cookies from 'js-cookie';
 import { showAlert } from '../../Store/actions/alertActionTypes';
 import { Spinner } from '../../Components';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import AddNote from './AddNote/AddNote';
 
 
-const CartItem = ({ value, title, img, quantity, cart_id, user_id }) => {
+const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, addNote, setAddNote }) => {
     const [cartQuantity, setCartQuantity] = useState(quantity);
     const dispatch = useDispatch();
     const { loading, success, error } = useSelector((state) => state.updateCartQuantity);
@@ -44,32 +48,63 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id }) => {
         window.location.reload();
     };
 
+    const handleOpenNoteModel = () => {
+        dispatch(openModal())
+        setAddNote(true)
+    }
 
     return (
-        <div className="flex ss:flex-row flex-col justify-between items-center border-b p-4 gap-5 bg-white rounded-xl">
-            <div className="flex items-center gap-1 w-[60%]">
-                <img src={img} alt={title} className="w-16 h-16 object-cover rounded-lg" />
-                <h4 className="text-lg font-semibold">{title}</h4>
+        <>
+            <div className="flex flex-col sm:flex-row justify-between items-center border border-gray-200 p-4 gap-5 bg-white rounded-lg shadow-md">
+                <div className="flex items-center gap-4 w-full sm:w-3/5">
+                    <img src={img} alt={title} className="w-16 h-16 object-cover rounded-md shadow-sm" />
+                    <h4 className="text-lg font-semibold text-gray-600">{title}</h4>
+                </div>
+
+                <div className="flex gap-2 items-center justify-center w-full sm:w-1/4">
+                    <IconButton onClick={() => handleQuantityChange(false)} disabled={loading || quantity <= 1} aria-label="delete" color="error">
+                        <RemoveIcon />
+                    </IconButton>
+                    <input
+                        type="number"
+                        readOnly
+                        value={value}
+                        className="w-11 text-center border border-gray-300 rounded-md focus:ring focus:ring-primary-light"
+                    />
+                    <IconButton disabled={loading}
+                        onClick={() => handleQuantityChange(true)} color="success" aria-label="add to shopping cart">
+                        <AddIcon />
+                    </IconButton>
+                </div>
+
+                <div className="w-full sm:w-1/6 flex items-center justify-center">
+                    <button className="bg-primary text-white px-3 py-1 rounded-md shadow-md">
+                        {quantity}
+                    </button>
+                </div>
+
+                <div className="w-full sm:w-1/12 flex justify-center">
+                    <IconButton
+                        onClick={() => handleDeleteFromCart(cart_id)}
+                        className="text-primary-light hover:text-primary-dark"
+                    >
+                        <DeleteIcon sx={{ color: "#fb8263" }} />
+                    </IconButton>
+                </div>
+                <Tooltip title="Add note">
+                    <IconButton onClick={handleOpenNoteModel}>
+                        <NoteAddIcon sx={{ color: "black" }} />
+                    </IconButton>
+                </Tooltip>
             </div>
-            <div className="flex gap-2 justify-center items-center w-[30%]">
-                <button disabled={loading || quantity <= 1} onClick={() => handleQuantityChange(false)} className="bg-black text-white px-2 py-1 rounded-lg">-</button>
-                <input type="number" readOnly value={value} className="w-16 text-center border border-gray-300 rounded-lg" />
-                <button disabled={loading} onClick={() => handleQuantityChange(true)} className="bg-black text-white px-2 py-1 rounded-lg">+</button>
-            </div>
-            <div className='w-[5%]'>
-                <button className='bg-primary px-2 rounded-xl' variant="contained">{quantity}</button>
-            </div>
-            <IconButton className='w-[5%]'
-                onClick={() => handleDeleteFromCart(cart_id)}
-            >
-                <DeleteIcon sx={{ color: "#fb8263" }} />
-            </IconButton>
-        </div>
+            {openModal && addNote && <AddNote isModalOpen={isModalOpen} setAddNote={setAddNote} />}
+        </>
     );
 }
 
 const Cart = () => {
     const [user, setUser] = useState(null)
+    const [addNote, setAddNote] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -115,8 +150,10 @@ const Cart = () => {
     // Round totalCartPrice to two decimal places
     const roundedTotalCartPrice = parseFloat(totalCartPrice.toFixed(2));
 
+    // gst amount
+    const gstAmount = (roundedTotalCartPrice * 0.18)
     // Add 18% tax/fee to the total price
-    const totalPriceWithTax = roundedTotalCartPrice + (roundedTotalCartPrice * 0.18);
+    const totalPriceWithTax = roundedTotalCartPrice + gstAmount;
 
     // Round totalPriceWithTax to two decimal places
     const finalTotalPriceWithTax = parseFloat(totalPriceWithTax.toFixed(2));
@@ -136,48 +173,65 @@ const Cart = () => {
                 <div className='w-full flex justify-between items-center ss:px-10 px-5'>
                     <Navbar />
                 </div>
-                <main className="bg-secondary ss:w-[800px] w-full p-6 rounded-xl space-y-6">
+
+                <main className="bg-secondary ss:w-[800px] w-full p-6 rounded-xl space-y-6 shadow-lg">
                     {uniqueCartItems.map((item) => {
                         return (
-                            <CartItem key={item.id} title={item.title} value={item.price} img={item.image} quantity={item.quantity} cart_id={item.cart_id} user_id={user?.id} />
+                            <CartItem
+                                key={item.id}
+                                title={item.title}
+                                value={item.price}
+                                img={item.image}
+                                quantity={item.quantity}
+                                cart_id={item.cart_id}
+                                user_id={user?.id}
+                                isModalOpen={isModalOpen}
+                                addNote={addNote} setAddNote={setAddNote}
+                            />
                         )
                     })}
+
                     <article className="space-y-3 mt-5 border-t pt-4">
-                        <button onClick={() => dispatch(openModal())} className='px-4 py-2 bg-white text-black font-semibold rounded-md shadow hover:#fb8263 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75'>
-                            Add shipping Address
+                        <button
+                            onClick={() => dispatch(openModal())}
+                            className='px-4 py-2 bg-white text-black font-semibold rounded-md shadow hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition duration-300'>
+                            Add Shipping Address
                         </button>
-                        <div className="flex justify-between">
-                            <h4 className="text-lg font-semibold">Total</h4>
-                            <p>${finalTotalPriceWithTax}</p>
+
+                        <div className="flex justify-between items-center">
+                            <h4 className="text-lg font-semibold">Sub Total</h4>
+                            <p className="text-lg font-bold">${roundedTotalCartPrice}</p>
                         </div>
-                        <span>18% GST included</span>
-                        <button onClick={handleCheckoutClick} className=" w-full block text-center bg-primary text-white py-2 px-4 rounded-lg mt-4">
+
+                        <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-600">18% GST included</span>
+                            <span className="text-sm text-gray-600">${gstAmount}</span>
+                        </div>
+
+                        <div className='border-t'></div>
+
+                        <div className="flex justify-between items-center">
+                            <h4 className="text-lg font-semibold">Total</h4>
+                            <p className="text-lg font-bold">${finalTotalPriceWithTax}</p>
+                        </div>
+                        <button
+                            onClick={handleCheckoutClick}
+                            className="w-full block text-center bg-primary text-white py-2 px-4 rounded-lg mt-4 hover:bg-opacity-90 transition duration-300">
                             Checkout
                         </button>
                     </article>
                 </main>
             </section>
+
             <div className='w-full'>
                 <Footer />
             </div>
+
             {/* modal to add address modal */}
-            {isModalOpen && <ShippingDetail />}
+            {isModalOpen && !addNote && <ShippingDetail />}
+
         </>
     );
 };
 
 export default Cart;
-
-
-{/* <div className="flex justify-between">
-                            <h4 className="text-lg font-semibold">Sub Total</h4>
-                            <p>₹2000</p>
-                        </div> */}
-{/* <div className="flex justify-between">
-                            <h4 className="text-lg font-semibold">Tax</h4>
-                            <p>₹{2000 * 0.18}</p>
-                        </div> */}
-{/* <div className="flex justify-between">
-                            <h4 className="text-lg font-semibold">Shipping Charges</h4>
-                            <p>₹200</p>
-                        </div> */}
