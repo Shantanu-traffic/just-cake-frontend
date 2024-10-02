@@ -98,7 +98,8 @@ const AddCake = ({ handleClose, editProduct }) => {
     formData.append("price", cakeDetails.price);
     formData.append("stock", cakeDetails.stock);
     formData.append("category", cakeDetails.category);
-    formData.append("created_by", user?.id);
+    formData.append("created_by", user?.id || editProduct?.created_by);
+    formData.append("product_id", user?.id || editProduct?.id);
 
     if (user?.id) {
       if (editProduct) {

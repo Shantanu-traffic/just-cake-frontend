@@ -16,7 +16,7 @@ const AddNote = ({ isModalOpen, setAddNote }) => {
 
     return (
         <>
-            <Dialog className="relative z-50 w-full"
+            <Dialog className=""
                 open={isModalOpen}
                 onClose={handleClose}
             >

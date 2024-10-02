@@ -5,11 +5,11 @@ import { Info } from '../../Sections'
 const Footer = () => {
     return (
         <>
-            <div className='w-full flex justify-center items-center'>
-                <div className='w-1/2'>
+            <div className='w-full flex ss:flex-row flex-col justify-center items-center'>
+                <div className='ss:w-1/2 w-full'>
                     <Contact />
                 </div>
-                <div className='w-1/2'>
+                <div className='ss:w-1/2 w-full'>
                     <Info />
                 </div>
             </div>

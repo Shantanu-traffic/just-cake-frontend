@@ -10,7 +10,7 @@ const Product = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getProducts(offSet));
-    }, [dispatch]);
+    }, [dispatch, offSet]);
 
     const { loading, products, error } = useSelector((state) => state?.allProduct);
 

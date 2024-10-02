@@ -91,11 +91,11 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
                         <DeleteIcon sx={{ color: "#fb8263" }} />
                     </IconButton>
                 </div>
-                <Tooltip title="Add note">
+                {/* <Tooltip title="Add note">
                     <IconButton onClick={handleOpenNoteModel}>
                         <NoteAddIcon sx={{ color: "black" }} />
                     </IconButton>
-                </Tooltip>
+                </Tooltip> */}
             </div>
             {openModal && addNote && <AddNote isModalOpen={isModalOpen} setAddNote={setAddNote} />}
         </>
@@ -151,7 +151,7 @@ const Cart = () => {
     const roundedTotalCartPrice = parseFloat(totalCartPrice.toFixed(2));
 
     // gst amount
-    const gstAmount = (roundedTotalCartPrice * 0.18)
+    const gstAmount = parseFloat((roundedTotalCartPrice * 0.18).toFixed(2));
     // Add 18% tax/fee to the total price
     const totalPriceWithTax = roundedTotalCartPrice + gstAmount;
 
@@ -159,7 +159,7 @@ const Cart = () => {
     const finalTotalPriceWithTax = parseFloat(totalPriceWithTax.toFixed(2));
 
     const handleCheckoutClick = () => {
-        if (address?.result && cartItems.length > 0) {
+        if (address?.result && cartItems.length > 0) {  
             navigate('/payment')
         } else {
             dispatch(showAlert("please fill shipping address and add product", 'error'))

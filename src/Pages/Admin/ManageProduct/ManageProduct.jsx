@@ -11,17 +11,26 @@ import { openModal } from '../../../Store/actions/modalActions';
 import AddCake from '../AddCake/AddCake';
 import { updateProduct } from '../../../Store/actions/updateProductAction';
 import { Spinner } from '../../../Components';
+import { showAlert } from '../../../Store/actions/alertActionTypes';
 
 
-const ManageProduct = ({ products, loadingData,handleHelper }) => {
+const ManageProduct = ({ products, loadingData, handleHelper }) => {
     const dispatch = useDispatch();
     // const { loading, success, error } = useSelector((state) => state.deleteProduct);
     // const { products, productsLoading, productsError } = useSelector((state) => state.allProduct);
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
 
     const handleDelete = (productId) => {
-        dispatch(deleteProduct(productId));
-        window.location.reload()
+        dispatch(deleteProduct(productId))
+            .then((res) => {
+                dispatch(showAlert("product Deleted successfully", "success"))
+                setTimeout(() => {
+                    window.location.reload();
+                }, [1000])
+            })
+            .catch((error) => {
+                dispatch(showAlert("something went wrong", "error"))
+            });
     };
 
     const handleEditSubmit = (item) => {
@@ -30,6 +39,7 @@ const ManageProduct = ({ products, loadingData,handleHelper }) => {
         // dispatch(updateProduct(productData));
         handleHelper(item)
     };
+    
     return (
         <>
             <TableContainer component={Paper} style={{ position: 'relative' }}>
