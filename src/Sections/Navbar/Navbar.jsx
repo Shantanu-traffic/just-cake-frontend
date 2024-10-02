@@ -17,13 +17,13 @@ const Navbar = () => {
     const cartItems = useSelector((state) => state?.cartItems.cartItems)
     const cartCount = cartItems?.length;
     let user = null;
-    let idAdmin = false;
+    let isAdmin = false;
     const userCookie = Cookies.get('user');
     if (userCookie) {
         try {
             const parsedUserCookie = JSON.parse(userCookie);
             user = parsedUserCookie;
-            idAdmin = parsedUserCookie?.is_admin
+            isAdmin = parsedUserCookie?.is_admin
         } catch (error) {
             console.error("Failed to parse user cookie:", error);
         }
@@ -54,10 +54,10 @@ const Navbar = () => {
                 {/* Main navigation links */}
                 <ul className='py-0 font-semibold ms:flex hidden list-none justify-end items-center flex-1 gap-10 ss:text-[1.3rem] text-[1.1rem] ss:leading-[100px]'>
                     <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/"}>Home</a>
-                    {!idAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/order"}>Cart ({cartCount})</a>}
-                    {!idAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/#contactus"}>Contact us</a>}
-                    {idAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/orders"}>Order</a>}
-                    {idAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/admin"}>Product</a>}
+                    {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/order"}>Cart ({cartCount})</a>}
+                    {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/#contactus"}>Contact us</a>}
+                    {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/orders"}>Order</a>}
+                    {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/admin"}>Product</a>}
                     {user == null && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/login"}>
                         Login
                     </a>}
@@ -86,10 +86,10 @@ const Navbar = () => {
                 <div className={`ms:hidden block sidebar ${toggle ? "flex" : "hidden"} p-3 bg-white rounded-xl absolute top-20 right-0 min-w-[6rem] mx-4 my-2`}>
                     <ul className='flex flex-1 flex-col list-none justify-center items-center'>
                         <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/"}>Home</a>
-                        {!idAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/order"}>Cart ({cartCount})</a>}
-                        {!idAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/#contactus"}>Contact us</a>}
-                        {idAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/orders"}>Order</a>}
-                        {idAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/admin"}>Product</a>}
+                        {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/order"}>Cart ({cartCount})</a>}
+                        {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/#contactus"}>Contact us</a>}
+                        {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/orders"}>Order</a>}
+                        {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/admin"}>Product</a>}
                         {user == null && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/login"}>
                             Login
                         </a>}

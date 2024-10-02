@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import './Contact.scss'
-import { useDispatch } from 'react-redux';
-import { showAlert } from '../../Store/actions/alertActionTypes';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Spinner } from "../../Components"
+import { showAlert } from "../../Store/actions/alertActionTypes";
 
 const Contact = () => {
   const dispatch = useDispatch();
@@ -10,6 +10,8 @@ const Contact = () => {
     email: '',
     message: '',
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -18,62 +20,91 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Here you can add validation and process the form data
     if (!formData.name || !formData.email || !formData.message) {
       alert("All fields are required");
       return;
     }
-    dispatch(showAlert("Form submited successfuly, Thank you!"))
-    setFormData({
-      name: '',
-      email: '',
-      message: '',
-    })
-  }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/v1/mail/send-mail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        dispatch(showAlert(data.message, "success"))
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        dispatch(showAlert(data.message, "error"))
+      }
+
+    } catch (err) {
+      dispatch(showAlert(data.message, "error"))
+    }
+
+    setLoading(false);
+  };
+
   return (
-    <section className={`h-[80vh] bg-white flex justify-center items-center`} id='contactus'>
-      <form onSubmit={handleSubmit} className='h-[400px] w-[300px] bg-secondary rounded-xl flex flex-col justify-center items-center px-5 gap-5'>
-        <h1 className='text-center ss:text-[1.5rem] text-[1.1rem]'>Contact Us</h1>
+    <>
+      {loading ? <Spinner /> : <section className={`h-[80vh] bg-white flex justify-center items-center`} id='contactus'>
+        <form onSubmit={handleSubmit} className='h-[400px] w-[300px] bg-secondary rounded-xl flex flex-col justify-center items-center px-5 gap-5'>
+          <h1 className='text-center ss:text-[1.5rem] text-[1.1rem]'>Contact Us</h1>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter your name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        />
+          {error && <p className="text-red-500">{error}</p>}
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your mail"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:#fb8263 focus:border-transparent"
-        />
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter your name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          />
 
-        <textarea
-          name="message"
-          rows="4"
-          placeholder="Your message"
-          value={formData.message}
-          onChange={handleChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:#fb8263 focus:border-transparent"
-        ></textarea>
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your mail"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          />
 
-        <button
-          type="submit"
-          className="w-full px-4 py-2 bg-primary text-black font-semibold rounded-md shadow hover:#fb8263 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-        >
-          Submit
-        </button>
-      </form>
-    </section>
+          <textarea
+            name="message"
+            rows="4"
+            placeholder="Your message"
+            value={formData.message}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          ></textarea>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full px-4 py-2 ${loading ? 'bg-gray-500' : 'bg-primary'} text-black font-semibold rounded-md shadow hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary-light focus:ring-opacity-75`}
+          >
+            {loading ? 'Submitting...' : 'Submit'}
+          </button>
+        </form>
+      </section>}
+    </>
   );
-}
+};
 
-export default Contact
+export default Contact;

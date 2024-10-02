@@ -10,7 +10,7 @@ const Info = () => {
             <img src={call} alt="call" />
           </div>
           <div className="text-gray-700">
-            <p className="m-0">
+            <p className="m-0 font-semibold">
               +02 1234567890
             </p>
           </div>
@@ -23,7 +23,7 @@ const Info = () => {
             <img src={mail} alt="mail" />
           </div>
           <div className="text-gray-700">
-            <p className="m-0">
+            <p className="m-0 font-semibold">
               Cakesjst@gmail.com
             </p>
           </div>
@@ -36,11 +36,10 @@ const Info = () => {
             <img src={location} alt="location" />
           </div>
           <div className="text-gray-700">
-            <p className="m-0">3 Hanover</p>
-            <p className="m-0">Pahurere</p>
-            <p className="m-0">Papakura</p>
-            <p className="m-0">Auckland 2110</p>
-            <p className="m-0"></p>
+            <p className="m-0 text-lg font-semibold">3 Hanover</p>
+            <p className="m-0 text-lg font-semibold">Pahurere</p>
+            <p className="m-0 text-lg font-semibold">Papakura</p>
+            <p className="m-0 text-lg font-semibold">Auckland 2110</p>
           </div>
         </div>
       </a>

@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './Home'
-import { Login, Admin, Payment, Cart } from "./Pages"
+import { Login, Admin, Payment, Cart, OrderHistoryAdmin } from "./Pages"
 import Cookies from 'js-cookie';
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
           <Route path='/order' element={<Cart />} />
           {user && <Route path='/payment' element={<Payment />} />}
           {isAdmin && <Route path='/admin' element={<Admin />} />}
+          {isAdmin && <Route path='/orders' element={<OrderHistoryAdmin />} />}
         </Routes>
       </BrowserRouter>
     </>
