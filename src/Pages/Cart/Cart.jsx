@@ -8,7 +8,7 @@ import { ShippingDetail } from './ShippingDetail/ShippingDetail';
 import { IconButton, Tooltip } from '@mui/material';
 import { deleteFromCart } from '../../Store/actions/deleteCartActions';
 import { getAllCartItems } from '../../Store/actions/getAllCartActions';
-import { updateCartQuantity } from '../../Store/actions/CartIncDecAction';
+import { updateCartQuantity } from '../../Store/actions/cartIncDecAction';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { showAlert } from '../../Store/actions/alertActionTypes';
