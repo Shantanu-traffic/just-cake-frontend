@@ -9,7 +9,7 @@ export const updateProduct = (productData) => async (dispatch) => {
     try {
         dispatch({ type: UPDATE_PRODUCT_REQUEST });
 
-        const { data } = await axios.patch(`http://localhost:5000/api/v1/product/update-product`, productData);
+        const { data } = await axios.patch(`http://62.72.30.216:5000/api/v1/product/update-product`, productData);
 
         dispatch({
             type: UPDATE_PRODUCT_SUCCESS,

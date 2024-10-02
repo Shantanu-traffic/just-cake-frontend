@@ -19,7 +19,7 @@ const Admin = () => {
 
   const fetchProducts = () => {
     setLoadingData(true);
-    axios.post('http://localhost:5000/api/v1/product/get-products', { offSet })
+    axios.post('http://62.72.30.216:5000/api/v1/product/get-products', { offSet })
       .then((response) => {
         setProducts(response?.data?.result);
       })

@@ -28,7 +28,7 @@ export const login = () => {
         dispatch(loginRequest());
 
         try {
-            const response = await axios.get('http://localhost:5000/auth/google',{
+            const response = await axios.get('http://62.72.30.216:5000/auth/google',{
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                     withCredentials: true,

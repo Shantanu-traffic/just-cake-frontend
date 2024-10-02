@@ -31,7 +31,7 @@ const Contact = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/v1/mail/send-mail', {
+      const response = await fetch('http://62.72.30.216:5000/api/v1/mail/send-mail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -38,7 +38,7 @@ const Login = () => {
   const handleAuthClick = (err, res) => {
     // dispatch(login());
     window.open(
-      `http://localhost:5000/auth/google/callback`,
+      `http://62.72.30.216:5000/auth/google/callback`,
       "_self"
     );
     console.log(res);

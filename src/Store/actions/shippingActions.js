@@ -11,7 +11,7 @@ export const saveShippingAddress = (shippingData) => async (dispatch) => {
         dispatch({ type: SAVE_SHIPPING_ADDRESS_REQUEST });
 
         const { data } = await axios.post(
-            'http://localhost:5000/api/v1/order/address',
+            'http://62.72.30.216:5000/api/v1/order/address',
             shippingData,
         );
 

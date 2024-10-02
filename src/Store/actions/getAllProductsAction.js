@@ -9,7 +9,7 @@ export const getProducts = (offSet) => async (dispatch) => {
         dispatch({ type: GET_PRODUCTS_REQUEST });
 
         const { data } = await axios.post(
-            'http://localhost:5000/api/v1/product/get-products', { offSet }
+            'http://62.72.30.216:5000/api/v1/product/get-products', { offSet }
         );
 
         dispatch({
