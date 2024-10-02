@@ -1,91 +1,91 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Card, CardContent, CardActions, Grid } from '@mui/material';
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    CircularProgress,
+} from '@mui/material';
 import { getOrderHistory } from '../../../Store/actions/orderHistoryAction';
 import { closeModal } from '../../../Store/actions/modalActions';
-
-// const orderHistory = [
-//     {
-//         order_id: "238c1383-eda4-4721-8af0-c36c7ac51eba",
-//         total_amount: "150.00",
-//         order_date: "2024-09-25T06:30:00.000Z",
-//         order_status: "pending",
-//         products: [
-//             {
-//                 product_id: "4df4af64-e015-4537-9207-945e1d1a047a",
-//                 quantity: 2,
-//                 price: 25
-//             },
-//             {
-//                 product_id: "05edc841-2c14-4f83-ace2-5a16eb5a4a54",
-//                 quantity: 1,
-//                 price: 100
-//             }
-//         ]
-//     },
-//     {
-//         order_id: "238c1383-eda4-4721-8af0-c36c7ac51eba",
-//         total_amount: "150.00",
-//         order_date: "2024-09-25T06:30:00.000Z",
-//         order_status: "pending",
-//         products: [
-//             {
-//                 product_id: "4df4af64-e015-4537-9207-945e1d1a047a",
-//                 quantity: 2,
-//                 price: 25
-//             },
-//             {
-//                 product_id: "05edc841-2c14-4f83-ace2-5a16eb5a4a54",
-//                 quantity: 1,
-//                 price: 100
-//             }
-//         ]
-//     }
-// ]
-
 
 const ViewOrderHistory = ({ isModalOpen, user }) => {
     const dispatch = useDispatch();
     const orderHistory = useSelector((state) => state.orderHistory?.result);
+    const loading = useSelector((state) => state.orderHistory?.loading);
+    const error = useSelector((state) => state.orderHistory?.error);
 
     // Fetch order history when component mounts
     useEffect(() => {
-        dispatch(getOrderHistory(user?.id));
-    }, [dispatch]);
+        if (user?.id) {
+            dispatch(getOrderHistory(user.id));
+        }
+    }, [dispatch, user]);
 
     const handleClose = () => {
         dispatch(closeModal());
     };
 
     return (
-        <Dialog open={isModalOpen} onClose={handleClose}>
+        <Dialog open={isModalOpen} onClose={handleClose} fullWidth>
             <DialogTitle>Order History</DialogTitle>
             <DialogContent>
-                {orderHistory?.length > 0 ? (
-                    <Grid container spacing={2}>
-                        {orderHistory.map((order) => (
-                            <Grid item xs={12} key={order.order_id}>
-                                <Card>
-                                    <CardContent>
-                                        <Typography variant="h6">Order ID: {order.order_id}</Typography>
-                                        <Typography>Total Amount: ${order.total_amount}</Typography>
-                                        <Typography>Order Date: {new Date(order.order_date).toLocaleDateString()}</Typography>
-                                        <Typography>Status: {order.order_status}</Typography>
-
-                                        <Typography variant="subtitle1" style={{ marginTop: '10px' }}>Products:</Typography>
-                                        {order.products.map((product, index) => (
-                                            <Typography key={index} variant="body2">
-                                                Product ID: {product.product_id} | Quantity: {product.quantity} | Price: ${product.price}
-                                            </Typography>
-                                        ))}
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                ) : (
-                    <Typography>No order history available</Typography>
-                )}
+                <div className='w-full min-h-[90vh] p-5'>
+                    {loading && (
+                        <div className='flex justify-center items-center'>
+                            <CircularProgress />
+                        </div>
+                    )}
+                    {error && (
+                        <Typography color="error" align="center">
+                            {error}
+                        </Typography>
+                    )}
+                    {orderHistory && orderHistory.length > 0 ? (
+                        <TableContainer component={Paper}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Order ID</TableCell>
+                                        <TableCell>Total Amount</TableCell>
+                                        <TableCell>Order Date</TableCell>
+                                        <TableCell>Order Status</TableCell>
+                                        <TableCell>Products</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {orderHistory.map((order) => (
+                                        <TableRow key={order.order_id}>
+                                            <TableCell>{order.order_id}</TableCell>
+                                            <TableCell>${parseFloat(order.total_amount).toFixed(2)}</TableCell>
+                                            <TableCell>{new Date(order.order_date).toLocaleDateString()}</TableCell>
+                                            <TableCell>{order.order_status}</TableCell>
+                                            <TableCell>
+                                                {order.products.map((product) => (
+                                                    <div key={product.product_id}>
+                                                        ID: {product.product_id}, Quantity: {product.quantity}, Price: ${product.price}
+                                                    </div>
+                                                ))}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    ) : (
+                        !loading && <Typography align="center">No orders found.</Typography>
+                    )}
+                </div>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Close</Button>
@@ -95,4 +95,3 @@ const ViewOrderHistory = ({ isModalOpen, user }) => {
 };
 
 export default ViewOrderHistory;
-
