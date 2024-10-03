@@ -21,12 +21,13 @@ import { placeOrder } from '../../Store/actions/orderPlaceActions';
 import { updateCartQuantity } from '../../Store/actions/cartIncDecAction';
 import { BASE_API_URL, generateOrderDate } from '../../utils/commanFunctions';
 import axios from 'axios';
+import { yellow } from '@mui/material/colors';
 
 
-const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, addNote, setAddNote, product_id,helperNotesFunct }) => {
+const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, addNote, setAddNote, product_id, note}) => {
     const [cartQuantity, setCartQuantity] = useState(quantity);
     const [noteCartId, setCartId] = useState(null);
-    const [notes,setNotes] = useState('')
+    const [notes, setNotes] = useState('')
     const dispatch = useDispatch();
     const { loading, success, error } = useSelector((state) => state.updateCartQuantity);
 
@@ -54,34 +55,42 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
     };
 
     const handleOpenNoteModel = (cart_id) => {
-        console.log("id get",cart_id)
+        console.log("id get", cart_id)
         setCartId(cart_id)
         dispatch(openModal())
         setAddNote(true)
     }
 
-    const handleSubmit = async (e)=>{
+    const handleSubmit = async (e) => {
         e.preventDefault()
-       const payload={
-        cart_id,
-        note:notes
-       }
-       try {
-            const result = await axios.patch(`${BASE_API_URL}/api/v1/cart/update-cart`,payload)
+        const payload = {
+            cart_id,
+            note: notes
+        }
+        try {
+            const result = await axios.patch(`${BASE_API_URL}/api/v1/cart/update-cart`, payload)
 
-            console.log("result data",result.data)
-       } catch (error) {
-        console.log("error found in frontend",error)
-       }
-      
+            if(result.data.success){
+                dispatch(showAlert("Notes added succesffully", "success"))
+                dispatch(getAllCartItems(user_id))
+            }
+            console.log("result data", result.data)
+        } catch (error) {
+            console.log("error found in frontend", error)
+        }
+
     }
 
+    useEffect(() => {
+     setNotes(note)
+    }, [])
+
     return (
-        <>
-            <div className="flex flex-col sm:flex-row justify-between items-center border border-gray-200 p-4 gap-5 bg-white rounded-lg shadow-md">
+        <div className='flex flex-col w-full bg-white p-2 rounded-xl'>
+            <div className="flex flex-col sm:flex-row justify-between items-center border border-gray-200 p-4 gap-5 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
                 <div className="flex items-center gap-4 w-full sm:w-3/5">
                     <img src={img} alt={title} className="w-16 h-16 object-cover rounded-md shadow-sm" />
-                    <h4 className="text-lg font-semibold text-gray-600">{title}</h4>
+                    <h4 className="text-lg font-semibold text-gray-700">{title}</h4>
                 </div>
 
                 <div className="flex gap-2 items-center justify-center w-full sm:w-1/4">
@@ -92,38 +101,41 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
                         type="number"
                         readOnly
                         value={quantity}
-                        className="w-11 text-center border border-gray-300 rounded-md focus:ring focus:ring-primary-light"
+                        className="w-12 text-center border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-light"
                     />
-                    <IconButton disabled={loading}
-                        onClick={() => handleQuantityChange(true)} color="success" aria-label="add to shopping cart">
+                    <IconButton disabled={loading} onClick={() => handleQuantityChange(true)} color="success" aria-label="add to shopping cart">
                         <AddIcon />
                     </IconButton>
                 </div>
 
                 <div className="w-full sm:w-1/6 flex items-center justify-center">
-                    <button className="bg-primary text-white px-3 py-1 rounded-md shadow-md">
-                        {value}
+                    <button className="bg-[#fb8263] text-white px-4 py-2 rounded-md shadow-sm hover:bg-opacity-90 transition-all">
+                        ${value}
                     </button>
                 </div>
-                 <form onSubmit={handleSubmit}>
-                    <input type="text" style={{border:"2px solid red"}} onChange={(e)=>setNotes(e.target.value)} />
-                 </form>
+
                 <div className="w-full sm:w-1/12 flex justify-center">
-                    <IconButton
-                        onClick={() => handleDeleteFromCart(cart_id)}
-                        className="text-primary-light hover:text-primary-dark"
-                    >
+                    <IconButton onClick={() => handleDeleteFromCart(cart_id)} className="hover:text-primary-dark">
                         <DeleteIcon sx={{ color: "#fb8263" }} />
                     </IconButton>
                 </div>
-                <Tooltip title="Add note">
-                    <IconButton onClick={() => handleOpenNoteModel(cart_id)}>
-                        <NoteAddIcon sx={{ color: "black" }} />
-                    </IconButton>
-                </Tooltip>
             </div>
+            <form onSubmit={handleSubmit} className="mt-4 flex items-center gap-3">
+                <input
+                    type="text" value={notes}
+                    className="w-full border-2 border-[#fb8263] rounded-md p-2 focus:outline-none focus:border-[#fdc5b1] transition-all"
+                    placeholder="Add your note here..."
+                    onChange={(e) => setNotes(e.target.value)}
+                />
+                <button
+                    type="submit" disabled={!notes && true} style={{background: !notes ? 'grey' : "#fb8263" }}
+                    className="text-white px-4 py-2 rounded-md shadow-sm hover:bg-opacity-90 transition-all"
+                >
+                    Add
+                </button>
+            </form>
             {openModal && addNote && <AddNote isModalOpen={isModalOpen} setAddNote={setAddNote} noteCartId={noteCartId} />}
-        </>
+        </div>
     );
 }
 
@@ -218,7 +230,7 @@ export const Cart = () => {
         }
     }
 
-   
+
     return (
         <>
             {/* {loading && <Spinner />} */}
@@ -239,6 +251,7 @@ export const Cart = () => {
                                 cart_id={item.cart_id}
                                 product_id={item.product_id}
                                 user_id={user?.id}
+                                note={item.note}
                                 isModalOpen={isModalOpen}
                                 addNote={addNote} setAddNote={setAddNote}
                             />
