@@ -10,6 +10,7 @@ import { orderHistoryReducer } from "./orderHistoryReducer";
 import { updateCartQuantityReducer } from "./cartIncDecReducer";
 import alertReducer from "./alertReducer";
 import { deleteProductReducer } from "./deleteProductReducer";
+import { orderReducer } from "./orderPlaceReducer";
 
 export const rootReducer = combineReducers({
     isModalOpen: modalReducer,
@@ -23,4 +24,5 @@ export const rootReducer = combineReducers({
     updateCartQuantity: updateCartQuantityReducer,
     alert: alertReducer,
     deleteProduct: deleteProductReducer,
+    orderPlaces: orderReducer
 })

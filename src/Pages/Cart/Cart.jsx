@@ -8,7 +8,6 @@ import { ShippingDetail } from './ShippingDetail/ShippingDetail';
 import { IconButton, Tooltip } from '@mui/material';
 import { deleteFromCart } from '../../Store/actions/deleteCartActions';
 import { getAllCartItems } from '../../Store/actions/getAllCartActions';
-import { updateCartQuantity } from '../../Store/actions/cartIncDecAction';
 import { useState } from 'react';
 import Cookies from 'js-cookie';
 import { showAlert } from '../../Store/actions/alertActionTypes';
@@ -18,6 +17,8 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import AddNote from './AddNote/AddNote';
+import { placeOrder } from '../../Store/actions/orderPlaceActions';
+import { updateCartQuantity } from '../../Store/actions/cartIncDecAction';
 
 
 const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, addNote, setAddNote }) => {
@@ -102,24 +103,29 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
     );
 }
 
-const Cart = () => {
+export const Cart = () => {
     const [user, setUser] = useState(null)
     const [addNote, setAddNote] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const TAX_RATE = 0.18;
 
     useEffect(() => {
-        const userCookie = Cookies.get('user');  // Get the cookie value
+        const userCookie = Cookies.get('user');
 
         if (userCookie) {
-            // If the cookie exists, parse it
-            const userData = JSON.parse(userCookie);
-            setUser(userData);
+            try {
+                const userData = JSON.parse(userCookie);
+                setUser(userData);
+            } catch (error) {
+                console.error("Error parsing user cookie:", error);
+                setUser(null);
+            }
         } else {
-            // If the cookie doesn't exist, set user to null
             setUser(null);
         }
-    }, [])
+    }, []);
+
 
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
 
@@ -133,14 +139,18 @@ const Cart = () => {
     const { address } = useSelector((state) => state.shippingAddress);
 
     // Remove duplicate cart items based on product_id or any other unique property
-    const uniqueCartItems = cartItems.reduce((acc, current) => {
-        const x = acc.find(item => item.product_id === current.product_id);
-        if (!x) {
-            return acc.concat([current]);
-        } else {
-            return acc;
-        }
-    }, []);
+    const uniqueCartItems = cartItems.filter((item, index, self) =>
+        index === self.findIndex(t => t.product_id === item.product_id)
+    );
+
+    // const uniqueCartItems = cartItems.reduce((acc, current) => {
+    //     const x = acc.find(item => item.product_id === current.product_id);
+    //     if (!x) {
+    //         return acc.concat([current]);
+    //     } else {
+    //         return acc;
+    //     }
+    // }, []);
 
     // Calculate the total price by summing up price * quantity for each item
     const totalCartPrice = uniqueCartItems.reduce((total, item) => {
@@ -151,7 +161,7 @@ const Cart = () => {
     const roundedTotalCartPrice = parseFloat(totalCartPrice.toFixed(2));
 
     // gst amount
-    const gstAmount = parseFloat((roundedTotalCartPrice * 0.18).toFixed(2));
+    const gstAmount = parseFloat((roundedTotalCartPrice * TAX_RATE).toFixed(2));
     // Add 18% tax/fee to the total price
     const totalPriceWithTax = roundedTotalCartPrice + gstAmount;
 
@@ -159,16 +169,29 @@ const Cart = () => {
     const finalTotalPriceWithTax = parseFloat(totalPriceWithTax.toFixed(2));
 
     const handleCheckoutClick = () => {
-        if (address?.result && cartItems.length > 0) {  
-            navigate('/payment')
-        } else {
-            dispatch(showAlert("please fill shipping address and add product", 'error'))
-        }
-    };
-
+        if (address?.result && cartItems.length > 0) {
+            const orderData = {
+                user_id: user?.id,
+                order_date: Date.now(),
+                total_amount: finalTotalPriceWithTax,
+                order_status: "pending",
+                shipping_address_id: address?.result,
+                billing_address_id: address?.result,
+                products: [cartItems]
+            };
+            dispatch(placeOrder(orderData))
+                .then((res) => {
+                    navigate('/payment');
+                })
+                .catch((err) => {
+                    console.error('Order Failed:', err);
+                    dispatch(showAlert("Order failed. Please try again later.", 'error'));
+                });
+        };
+    }
     return (
         <>
-            {loading && <Spinner />}
+            {/* {loading && <Spinner />} */}
             <section className="min-h-[100vh] bg-primary py-2 flex flex-col justify-start items-center gap-4">
                 <div className='w-full flex justify-between items-center ss:px-10 px-5'>
                     <Navbar />
@@ -233,5 +256,3 @@ const Cart = () => {
         </>
     );
 };
-
-export default Cart;

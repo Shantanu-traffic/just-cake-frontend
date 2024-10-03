@@ -5,7 +5,7 @@ const Info = () => {
   return (
     <section className='w-full bg-white ss:h-[80vh] h-[40vh] flex flex-col justify-evenly items-center'>
       <a href="">
-        <div className=" flex items-center text-center">
+        <div className=" flex justify-center items-center ">
           <div className="w-[60px] mr-2">
             <img src={call} alt="call" />
           </div>
