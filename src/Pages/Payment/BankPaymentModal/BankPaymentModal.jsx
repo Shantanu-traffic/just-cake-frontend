@@ -48,7 +48,7 @@ const BankPaymentModal = ({ isModalOpen, finalTotalPriceWithTax }) => {
         const formData = new FormData();
         formData.append('order_id', order?.order_id);
         formData.append('user_id', user?.id);
-        formData.append('payment_mode', "COD");
+        formData.append('payment_mode', "Bank Payment");
         formData.append('image', file);
         formData.append('total_amount', finalTotalPriceWithTax);
         setLoading(true);

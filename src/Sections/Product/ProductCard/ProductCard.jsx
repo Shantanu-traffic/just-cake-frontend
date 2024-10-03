@@ -55,18 +55,20 @@ const ProductCard = ({ itemNum, cakeSrc, itemPrice, tittle, description, categor
     return (
         <div className='menuCard'>
             <main>
-                <div className='w-full h-[40%]'>
+                <div className='w-full'>
                     <img src={cakeSrc} alt={itemNum} />
                 </div>
-                <p>Price: <strong>${itemPrice}</strong></p>
-                <div className='w-full h-[20%]'>
-                    <p>{tittle}</p>
-                    <p>{category}</p>
-                </div >
-                <Tooltip sx={{ background: "white", color: "black", height:"30%" }} title={description} arrow>
-                    <p>{truncateDescription(description)}</p>
-                </Tooltip>
-                <div className='w-full h-[10%]'>
+                <p className='text-left'>Price: <strong>${itemPrice}</strong></p>
+                <div className='prd-texts'>
+                    <div className='w-full px-1'>
+                        <p className=''>{tittle}</p>
+                        <p>{category}</p>
+                    </div >
+                    <Tooltip sx={{ background: "white", color: "black", height: "30%" }} title={description} arrow>
+                        <p>{truncateDescription(description)}</p>
+                    </Tooltip>
+                </div>
+                <div className='w-full'>
                     <button id='addtocartbtn'
                         disabled={disabledCart}
                         onClick={handleAddToCart}
