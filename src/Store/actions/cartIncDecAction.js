@@ -24,7 +24,7 @@ export const updateCartQuantity = (cartData) => async (dispatch) => {
         dispatch({ type: UPDATE_CART_QUANTITY_REQUEST });
 
         // API call to update the cart item quantity
-        const { data } = await axios.patch(`http://62.72.30.216:5000/api/v1/cart/qty`, cartData);
+        const { data } = await axios.patch(`http://justcakes.co.nz:5000/api/v1/cart/qty`, cartData);
 
         // Dispatch success if API call succeeds
         dispatch({

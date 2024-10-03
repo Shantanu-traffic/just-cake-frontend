@@ -9,7 +9,7 @@ export const getAllCartItems = (user_id) => async (dispatch) => {
         dispatch({ type: GET_ALL_CART_ITEMS_REQUEST });
 
         // Make the GET API call with user_id as a query parameter
-        const { data } = await axios.get(`http://62.72.30.216:5000/api/v1/cart/all-cart-item`, {
+        const { data } = await axios.get(`http://justcakes.co.nz:5000/api/v1/cart/all-cart-item`, {
             params: { user_id }
         });
 

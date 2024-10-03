@@ -19,7 +19,7 @@ export const addToCart = (product_id, user_id, quantity, total_price) => async (
         console.log("payload cart", payload)
 
         // Make the API call
-        const data = await axios.post('http://62.72.30.216:5000/api/v1/cart/add-to-cart', payload);
+        const data = await axios.post('http://justcakes.co.nz:5000/api/v1/cart/add-to-cart', payload);
         console.log("cart add", data)
         dispatch({
             type: ADD_TO_CART_SUCCESS,

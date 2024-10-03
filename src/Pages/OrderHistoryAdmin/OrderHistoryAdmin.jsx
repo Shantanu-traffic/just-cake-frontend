@@ -12,7 +12,7 @@ const OrderHistoryAdmin = () => {
     useEffect(() => {
         const fetchOrderHistory = async () => {
             try {
-                const response = await axios.get('http://62.72.30.216:5000/api/v1/order/order-history/031f8241-46ee-421e-a999-86c723f3789d');
+                const response = await axios.get('http://justcakes.co.nz:5000/api/v1/order/order-history/031f8241-46ee-421e-a999-86c723f3789d');
                 setOrderHistory(response.data.result);
                 setLoading(false);
             } catch (err) {
