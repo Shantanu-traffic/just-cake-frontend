@@ -1,5 +1,6 @@
 // src/actions/productActions.js
 import axios from 'axios';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 export const GET_PRODUCTS_REQUEST = 'GET_PRODUCTS_REQUEST';
 export const GET_PRODUCTS_SUCCESS = 'GET_PRODUCTS_SUCCESS';
 export const GET_PRODUCTS_FAILURE = 'GET_PRODUCTS_FAILURE';
@@ -9,7 +10,7 @@ export const getProducts = (offSet) => async (dispatch) => {
         dispatch({ type: GET_PRODUCTS_REQUEST });
 
         const { data } = await axios.post(
-            'http://62.72.30.216:5000/api/v1/product/get-products', { offSet }
+            `${BASE_API_URL}/api/v1/product/get-products`, { offSet }
         );
 
         dispatch({

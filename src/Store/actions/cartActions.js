@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getAllCartItems } from './getAllCartActions';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 export const ADD_TO_CART_REQUEST = 'ADD_TO_CART_REQUEST';
 export const ADD_TO_CART_SUCCESS = 'ADD_TO_CART_SUCCESS';
 export const ADD_TO_CART_FAIL = 'ADD_TO_CART_FAIL';
@@ -19,7 +20,7 @@ export const addToCart = (product_id, user_id, quantity, total_price) => async (
         console.log("payload cart", payload)
 
         // Make the API call
-        const data = await axios.post('http://62.72.30.216:5000/api/v1/cart/add-to-cart', payload);
+        const data = await axios.post(`${BASE_API_URL}/api/v1/cart/add-to-cart`, payload);
         console.log("cart add", data)
         dispatch({
             type: ADD_TO_CART_SUCCESS,

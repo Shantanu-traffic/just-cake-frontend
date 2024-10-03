@@ -7,6 +7,7 @@ import AddCake from './AddCake/AddCake.jsx';
 import ManageProduct from './ManageProduct/ManageProduct.jsx';
 import axios from 'axios';
 import Footer from '../../Components/Footer/Footer.jsx';
+import { BASE_API_URL } from '../../utils/commanFunctions.js';
 
 const Admin = () => {
   const [products, setProducts] = useState([]);
@@ -19,7 +20,7 @@ const Admin = () => {
 
   const fetchProducts = () => {
     setLoadingData(true);
-    axios.post('http://62.72.30.216:5000/api/v1/product/get-products', { offSet })
+    axios.post(`${BASE_API_URL}/api/v1/product/get-products`, { offSet })
       .then((response) => {
         setProducts(response?.data?.result);
       })
@@ -36,12 +37,12 @@ const Admin = () => {
   }, [offSet, isModalOpen]);
 
   const handleNext = () => {
-    setOffSet((prev) => prev + 10); // Increment offSet for next page
+    setOffSet((prev) => prev + 9); // Increment offSet for next page
   };
 
   const handlePrev = () => {
     if (offSet > 0) {
-      setOffSet((prev) => Math.max(1, prev - 10)); // Decrement offSet for previous page
+      setOffSet((prev) => Math.max(1, prev - 9)); // Decrement offSet for previous page
     }
   }
 

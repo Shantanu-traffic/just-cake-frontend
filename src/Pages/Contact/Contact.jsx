@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Spinner } from "../../Components"
 import { showAlert } from "../../Store/actions/alertActionTypes";
+import { BASE_API_URL } from "../../utils/commanFunctions";
 
 const Contact = () => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const Contact = () => {
     setError('');
 
     try {
-      const response = await fetch('http://62.72.30.216:5000/api/v1/mail/send-mail', {
+      const response = await fetch(`${BASE_API_URL}/api/v1/mail/send-mail`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

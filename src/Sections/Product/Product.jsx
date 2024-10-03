@@ -15,12 +15,12 @@ const Product = () => {
     const { loading, products, error } = useSelector((state) => state?.allProduct);
 
     const handleNext = () => {
-        setOffSet((prev) => prev + 10); // Increment offSet for next page
+        setOffSet((prev) => prev + 9);
     };
 
     const handlePrev = () => {
         if (offSet > 0) {
-            setOffSet((prev) => Math.max(1, prev - 10)); // Decrement offSet for previous page
+            setOffSet((prev) => Math.max(1, prev - 9));
         }
     }
 

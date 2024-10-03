@@ -8,6 +8,7 @@ import ViewOrderHistory from './ViewOrderHistory/ViewOrderHistory.jsx';
 import Cookies from 'js-cookie';
 import { showAlert } from '../../Store/actions/alertActionTypes.js';
 import { useNavigate } from 'react-router-dom';
+import { BASE_API_URL } from '../../utils/commanFunctions.js';
 
 const Login = () => {
   const [user, setUser] = useState(null)
@@ -38,7 +39,7 @@ const Login = () => {
   const handleAuthClick = (err, res) => {
     // dispatch(login());
     window.open(
-      `http://62.72.30.216:5000/auth/google/callback`,
+      `${BASE_API_URL}/auth/google/callback`,
       "_self"
     );
     console.log(res);

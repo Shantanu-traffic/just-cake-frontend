@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { getProducts } from './getAllProductsAction';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 
 export const DELETE_PRODUCT_REQUEST = "DELETE_PRODUCT_REQUEST"
 export const DELETE_PRODUCT_SUCCESS = "DELETE_PRODUCT_SUCCESS"
@@ -23,7 +24,7 @@ export const deleteProduct = (productId) => async (dispatch) => {
     try {
         dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-        const { data } = await axios.delete(`http://62.72.30.216:5000/api/v1/product/delete-product/${productId}`);
+        const { data } = await axios.delete(`${BASE_API_URL}/api/v1/product/delete-product/${productId}`);
 
         dispatch({
             type: DELETE_PRODUCT_SUCCESS,

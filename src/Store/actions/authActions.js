@@ -1,5 +1,6 @@
 // src/Store/actions/authActions.js
 import axios from 'axios';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -28,7 +29,7 @@ export const login = () => {
         dispatch(loginRequest());
 
         try {
-            const response = await axios.get('http://62.72.30.216:5000/auth/google',{
+            const response = await axios.get(`${BASE_API_URL}/auth/google`,{
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                     withCredentials: true,

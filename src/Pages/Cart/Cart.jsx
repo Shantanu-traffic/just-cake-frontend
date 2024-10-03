@@ -19,6 +19,7 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import AddNote from './AddNote/AddNote';
 import { placeOrder } from '../../Store/actions/orderPlaceActions';
 import { updateCartQuantity } from '../../Store/actions/cartIncDecAction';
+import { generateOrderDate } from '../../utils/commanFunctions';
 
 
 const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, addNote, setAddNote }) => {
@@ -69,7 +70,7 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
                     <input
                         type="number"
                         readOnly
-                        value={value}
+                        value={quantity}
                         className="w-11 text-center border border-gray-300 rounded-md focus:ring focus:ring-primary-light"
                     />
                     <IconButton disabled={loading}
@@ -80,7 +81,7 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
 
                 <div className="w-full sm:w-1/6 flex items-center justify-center">
                     <button className="bg-primary text-white px-3 py-1 rounded-md shadow-md">
-                        {quantity}
+                        {value}
                     </button>
                 </div>
 
@@ -172,12 +173,12 @@ export const Cart = () => {
         if (address?.result && cartItems.length > 0) {
             const orderData = {
                 user_id: user?.id,
-                order_date: Date.now(),
+                order_date: generateOrderDate(),
                 total_amount: finalTotalPriceWithTax,
                 order_status: "pending",
                 shipping_address_id: address?.result,
                 billing_address_id: address?.result,
-                products: [cartItems]
+                products: cartItems
             };
             dispatch(placeOrder(orderData))
                 .then((res) => {
@@ -187,7 +188,9 @@ export const Cart = () => {
                     console.error('Order Failed:', err);
                     dispatch(showAlert("Order failed. Please try again later.", 'error'));
                 });
-        };
+        }else{
+            dispatch(showAlert("items in cart and shipping address is must", "error"))
+        }
     }
     return (
         <>
@@ -218,7 +221,7 @@ export const Cart = () => {
                         <button
                             onClick={() => dispatch(openModal())}
                             className='px-4 py-2 bg-white text-black font-semibold rounded-md shadow hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition duration-300'>
-                            Add Shipping Address
+                            Add Shipping Address*
                         </button>
 
                         <div className="flex justify-between items-center">

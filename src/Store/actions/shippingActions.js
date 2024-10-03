@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 
 // Action types
 export const SAVE_SHIPPING_ADDRESS_REQUEST = 'SAVE_SHIPPING_ADDRESS_REQUEST';
@@ -11,7 +12,7 @@ export const saveShippingAddress = (shippingData) => async (dispatch) => {
         dispatch({ type: SAVE_SHIPPING_ADDRESS_REQUEST });
 
         const { data } = await axios.post(
-            'http://62.72.30.216:5000/api/v1/order/address',
+            `${BASE_API_URL}/api/v1/order/address`,
             shippingData,
         );
 

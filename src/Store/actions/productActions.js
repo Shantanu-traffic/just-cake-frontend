@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getProducts } from './getAllProductsAction';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 
 export const ADD_PRODUCT_REQUEST = 'ADD_PRODUCT_REQUEST';
 export const ADD_PRODUCT_SUCCESS = 'ADD_PRODUCT_SUCCESS';
@@ -15,7 +16,7 @@ export const addProduct = (productData) => async (dispatch) => {
             },
         };
 
-        const response = await axios.post('http://62.72.30.216:5000/api/v1/product/add-product', productData, config);
+        const response = await axios.post(`${BASE_API_URL}/api/v1/product/add-product`, productData, config);
 
         dispatch({
             type: ADD_PRODUCT_SUCCESS,

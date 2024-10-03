@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 export const GET_ALL_CART_ITEMS_REQUEST = 'GET_ALL_CART_ITEMS_REQUEST';
 export const GET_ALL_CART_ITEMS_SUCCESS = 'GET_ALL_CART_ITEMS_SUCCESS';
 export const GET_ALL_CART_ITEMS_FAIL = 'GET_ALL_CART_ITEMS_FAIL';
@@ -9,7 +10,7 @@ export const getAllCartItems = (user_id) => async (dispatch) => {
         dispatch({ type: GET_ALL_CART_ITEMS_REQUEST });
 
         // Make the GET API call with user_id as a query parameter
-        const { data } = await axios.get(`http://62.72.30.216:5000/api/v1/cart/all-cart-item`, {
+        const { data } = await axios.get(`${BASE_API_URL}/api/v1/cart/all-cart-item`, {
             params: { user_id }
         });
 

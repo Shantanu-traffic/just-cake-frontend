@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getProducts } from './getAllProductsAction';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 
 export const UPDATE_PRODUCT_REQUEST = 'UPDATE_PRODUCT_REQUEST';
 export const UPDATE_PRODUCT_SUCCESS = 'UPDATE_PRODUCT_SUCCESS';
@@ -9,7 +10,7 @@ export const updateProduct = (productData) => async (dispatch) => {
     try {
         dispatch({ type: UPDATE_PRODUCT_REQUEST });
 
-        const { data } = await axios.patch(`http://62.72.30.216:5000/api/v1/product/update-product`, productData);
+        const { data } = await axios.patch(`${BASE_API_URL}/api/v1/product/update-product`, productData);
 
         dispatch({
             type: UPDATE_PRODUCT_SUCCESS,

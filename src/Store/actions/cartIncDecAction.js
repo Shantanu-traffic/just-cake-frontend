@@ -2,6 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 import { getAllCartItems } from './getAllCartActions';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 export const UPDATE_CART_QUANTITY_REQUEST = 'UPDATE_CART_QUANTITY_REQUEST';
 export const UPDATE_CART_QUANTITY_SUCCESS = 'UPDATE_CART_QUANTITY_SUCCESS';
 export const UPDATE_CART_QUANTITY_FAILURE = 'UPDATE_CART_QUANTITY_FAILURE';
@@ -24,7 +25,7 @@ export const updateCartQuantity = (cartData) => async (dispatch) => {
         dispatch({ type: UPDATE_CART_QUANTITY_REQUEST });
 
         // API call to update the cart item quantity
-        const { data } = await axios.patch(`http://62.72.30.216:5000/api/v1/cart/qty`, cartData);
+        const { data } = await axios.patch(`${BASE_API_URL}/api/v1/cart/qty`, cartData);
 
         // Dispatch success if API call succeeds
         dispatch({

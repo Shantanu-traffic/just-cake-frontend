@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 export const PLACE_ORDER_REQUEST = 'PLACE_ORDER_REQUEST';
 export const PLACE_ORDER_SUCCESS = 'PLACE_ORDER_SUCCESS';
 export const PLACE_ORDER_FAILURE = 'PLACE_ORDER_FAILURE';
@@ -7,7 +8,7 @@ export const placeOrder = (orderData) => (dispatch) => {
     dispatch({ type: PLACE_ORDER_REQUEST });
 
     // Return the axios promise to chain .then() and .catch() in the component
-    return axios.post('http://localhost:5000/api/v1/order/placed-order', orderData)
+    return axios.post(`${BASE_API_URL}/api/v1/order/placed-order`, orderData)
         .then((response) => {
             dispatch({
                 type: PLACE_ORDER_SUCCESS,

@@ -1,139 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './Payment.scss'
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Card, CardContent, CardMedia, Typography, Box, Divider, IconButton } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDispatch, useSelector } from 'react-redux';
+import { Divider } from '@mui/material';
 import Cookies from 'js-cookie';
-
-// const Cart = ({ cartItems }) => {
-//   return (
-//     <>
-
-//     </>
-//   );
-// };
-
-
-// const Payment = () => {
-// const [user, setUser] = useState(null);
-// const [shippingDetails, setShippingDetails] = useState(null);
-// const { cartItems } = useSelector((state) => state?.cartItems);
-// const { shippingAddress } = useSelector((state) => state?.shippingAddress?.shippingData);
-// const navigate = useNavigate();
-
-// useEffect(() => {
-//   const userCookie = Cookies.get('user');  // Get the cookie value
-
-//   if (userCookie) {
-//     // If the cookie exists, parse it
-//     const userData = JSON.parse(userCookie);
-//     setUser(userData);
-//   } else {
-//     // If the cookie doesn't exist, set user to null
-//     setUser(null);
-//   }
-
-//   // Retrieve shipping details from localStorage
-//   const storedShippingDetails = JSON.parse(localStorage.getItem('shippingDetails'));
-//   setShippingDetails(storedShippingDetails);
-// }, []);
-
-// const handleBack = () => {
-//   navigate(-1); // Navigates to the previous page
-// };
-
-// // Remove duplicate cart items based on product_id or any other unique property
-// const uniqueCartItems = cartItems?.reduce((acc, current) => {
-//   const x = acc.find(item => item.product_id === current.product_id);
-//   if (!x) {
-//     return acc.concat([current]);
-//   } else {
-//     return acc;
-//   }
-// }, []);
-
-// // Calculate the total price by summing up price * quantity for each item
-// const totalCartPrice = uniqueCartItems.reduce((total, item) => {
-//   return total + (parseFloat(item.price) * item.quantity);
-// }, 0);
-
-// // Round totalCartPrice to two decimal places
-// const roundedTotalCartPrice = parseFloat(totalCartPrice.toFixed(2));
-
-// // Add 18% tax/fee to the total price
-// const totalPriceWithTax = roundedTotalCartPrice + (roundedTotalCartPrice * 0.18);
-
-// // Round totalPriceWithTax to two decimal places
-// const finalTotalPriceWithTax = parseFloat(totalPriceWithTax.toFixed(2));
-
-//   return (
-//     <section className='w-full bg-primary min-h-[100vh] flex flex-col justify-start items-center gap-4 p-6'>
-//       {/* <div className='w-full flex justify-start'>
-//         <button className='w-20 p-1 rounded-sm bg-white' onClick={handleBack}>Back</button>
-//       </div> */}
-//       <div className='w-full flex ss:flex-row flex-col justify-center items-start bg-white rounded-lg min-h-[90vh]'>
-//         <div className='addedCarts w-1/2 p-4'>
-//           <IconButton onClick={handleBack} color="primary">
-//             <ArrowBackIcon sx={{ fontSize: "1.2rem" }} className='text-neutral-500' /><span className=' text-[1rem] text-neutral-500 font-satisfy '>Just Cakes</span>
-//           </IconButton>
-//           <div className=''>
-
-//           </div>
-//         </div>
-//         <Divider orientation="vertical" flexItem />
-//         <div className='cartsToPay w-1/2 p-2'>
-
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Payment
-
-
-
-// //   < Card className = 'w-100 p-10' >
-// // <div sx={{ padding: "2rem" }}>
-// //   <Cart cartItems={uniqueCartItems} />
-// // </div>
-// // <div>
-// //   <h1 className='text-black font-bold'>Customer details</h1>
-// //   <p>Name: {user?.display_name}</p>
-// //   <p>Email: {user?.email}</p>
-// //   <p>Phone: {shippingAddress?.phone || shippingDetails?.phone}</p>
-// //   <p>Address: {`${shippingAddress?.street || shippingDetails?.street} ${shippingAddress?.city || shippingDetails?.city}`}</p>
-// //   <p>{`${shippingAddress?.postal_code || shippingDetails?.postal_code}`}</p>
-// //   <p>{`${shippingAddress?.state || shippingDetails?.state} ${shippingAddress?.country || shippingDetails?.country}`}</p>
-// //   <p><strong>Total Price:</strong> ${finalTotalPriceWithTax}</p>
-// //   <button className='w-full bg-primary m-1 p-1 rounded-sm'>Proceed to Payment</button>
-// // </div>
-// // </Card >
-
-
-// //   < Box container spacing = { 2} className = "flex justify-center items-center" >
-// //     { cartItems?.map((item) => (
-// //       <Box item xs={12} sm={6} md={4} key={item.product_id} className="flex flex-col justify-start items-center w-full">
-// //         <Card sx={{ maxWidth: 150, height: 150 }}>
-// //           <CardMedia
-// //             component="img"
-// //             sx={{ width: "60px" }}
-// //             image={item.image || 'https://via.placeholder.com/140'}
-// //             alt={item.title}
-// //           />
-// //           <CardContent>
-// //             <p gutterBottom variant="h5" component="div">
-// //               {item.title}
-// //             </p>
-// //             <Typography variant="body2" color="text.secondary">
-// //               Quantity: {item.quantity}
-// //             </Typography>
-// //           </CardContent>
-// //         </Card>
-// //       </Box>
-// //     ))}
-// // </Box >
+import axios from 'axios';
+import { showAlert } from '../../Store/actions/alertActionTypes';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 
 const Cart = ({ cartItems }) => {
   return (
@@ -162,9 +35,13 @@ const Cart = ({ cartItems }) => {
 export default function Payment() {
   const [user, setUser] = useState(null);
   const [shippingDetails, setShippingDetails] = useState(null);
+  const [orderPlacedLoading, setOrderPlacedLoading] = useState(false)
   const { cartItems } = useSelector((state) => state?.cartItems);
   const { shippingAddress } = useSelector((state) => state?.shippingAddress?.shippingData);
+  const { order } = useSelector((state) => state?.orderPlaces)
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const TAX_RATE = 0.18;
 
   useEffect(() => {
     const userCookie = Cookies.get('user');  // Get the cookie value
@@ -205,11 +82,41 @@ export default function Payment() {
   // Round totalCartPrice to two decimal places
   const roundedTotalCartPrice = parseFloat(totalCartPrice.toFixed(2));
 
+  // gst amount
+  const gstAmount = parseFloat((roundedTotalCartPrice * TAX_RATE).toFixed(2));
+
   // Add 18% tax/fee to the total price
-  const totalPriceWithTax = roundedTotalCartPrice + (roundedTotalCartPrice * 0.18);
+  const totalPriceWithTax = roundedTotalCartPrice + gstAmount;
 
   // Round totalPriceWithTax to two decimal places
   const finalTotalPriceWithTax = parseFloat(totalPriceWithTax.toFixed(2));
+
+  const handleCheckoutCOD = () => {
+    const OrderPlacedData = {
+      order_id: order?.order_id,
+      user_id: user?.id,
+      payment_mode: "COD",
+      payment_receipt_attachment: null,
+      total_amount: finalTotalPriceWithTax,
+    };
+    if (OrderPlacedData) {
+      BASE_API_URL
+      axios.post(`${BASE_API_URL}/api/v1/payment/confirm-payment`, OrderPlacedData)
+        .then(response => {
+          if (response.data.success) {
+            navigate('/orderPlaced', {
+              state: {
+                orderDetails: response.data.result,
+                payload: OrderPlacedData
+              }
+            });
+          }
+        })
+        .catch((error) => { dispatch(showAlert("Something went wrong, please try again", 'error')), console.log(error) });
+    } else {
+      dispatch(showAlert("something went wrong! please try again"))
+    }
+  };
 
   return (
     <div className="bg-primary min-h-screen flex justify-center items-center p-4">
@@ -250,8 +157,8 @@ export default function Payment() {
             </div>
             <div className='py-2'><Divider /></div>
             <div className="flex justify-between mt-2">
-              <p>GST</p>
-              <p>18%</p>
+              <p>GST(18%)</p>
+              <p>${gstAmount}</p>
             </div>
             <div className='py-2'><Divider /></div>
             <div className="flex justify-between mt-2 font-bold">
@@ -295,7 +202,7 @@ export default function Payment() {
               </p>
             </div>
 
-            <button className="w-full bg-primary text-white p-3 rounded-md shadow-sm hover:bg-primary-dark">
+            <button onClick={handleCheckoutCOD} className="w-full bg-primary text-white p-3 rounded-md shadow-sm hover:bg-primary-dark">
               Cash on Delivery
             </button>
             <p className="text-center my-1 text-gray-500">or proceed with</p>

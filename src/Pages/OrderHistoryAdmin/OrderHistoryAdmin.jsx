@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import { Navbar } from '../../Sections';
 import Footer from '../../Components/Footer/Footer';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 
 const OrderHistoryAdmin = () => {
     const [orderHistory, setOrderHistory] = useState([]);
@@ -12,7 +13,7 @@ const OrderHistoryAdmin = () => {
     useEffect(() => {
         const fetchOrderHistory = async () => {
             try {
-                const response = await axios.get('http://62.72.30.216:5000/api/v1/order/order-history/031f8241-46ee-421e-a999-86c723f3789d');
+                const response = await axios.get(`${BASE_API_URL}/api/v1/order/order-history/031f8241-46ee-421e-a999-86c723f3789d`);
                 setOrderHistory(response.data.result);
                 setLoading(false);
             } catch (err) {

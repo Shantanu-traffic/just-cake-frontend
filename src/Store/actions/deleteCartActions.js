@@ -2,6 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 import { getAllCartItems } from './getAllCartActions';
+import { BASE_API_URL } from '../../utils/commanFunctions';
 export const DELETE_FROM_CART_REQUEST = 'DELETE_FROM_CART_REQUEST';
 export const DELETE_FROM_CART_SUCCESS = 'DELETE_FROM_CART_SUCCESS';
 export const DELETE_FROM_CART_FAIL = 'DELETE_FROM_CART_FAIL';
@@ -24,7 +25,7 @@ export const deleteFromCart = (cart_id) => async (dispatch) => {
     try {
         dispatch({ type: DELETE_FROM_CART_REQUEST });
 
-        const { data } = await axios.delete(`http://62.72.30.216:5000/api/v1/cart/delete-cart-item/${cart_id}`);
+        const { data } = await axios.delete(`${BASE_API_URL}/api/v1/cart/delete-cart-item/${cart_id}`);
 
         dispatch({
             type: DELETE_FROM_CART_SUCCESS,
