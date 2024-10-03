@@ -13,7 +13,7 @@ import { showAlert } from "../../../Store/actions/alertActionTypes";
 import { updateProduct } from "../../../Store/actions/updateProductAction";
 
 const AddCake = ({ handleClose, editProduct }) => {
-  console.log("editProduct", editProduct);
+  console.log("editProduct", editProduct)
   const dispatch = useDispatch();
   const [user, setUser] = useState(null);
   const [cakeDetails, setCakeDetails] = useState({
@@ -27,7 +27,6 @@ const AddCake = ({ handleClose, editProduct }) => {
   const [error, setError] = useState("");
   const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
 
-  // Get user from cookies
   useEffect(() => {
     const userCookie = Cookies.get("user");
     if (userCookie) {
@@ -44,16 +43,14 @@ const AddCake = ({ handleClose, editProduct }) => {
     }
   }, [editProduct]);
 
-  // Word count helper function
   const wordCount = (text) => text.trim().split(/\s+/).length;
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "image") {
       setCakeDetails({
         ...cakeDetails,
-        image: files[0], // Store the file object for uploading
+        image: files[0],
       });
     } else {
       setCakeDetails({
@@ -62,12 +59,10 @@ const AddCake = ({ handleClose, editProduct }) => {
       });
     }
   };
-  //   console.log(cakeDetails.image.name,"cake details.......")
-  // Handle form submit
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate form fields
     const descriptionWordCount = wordCount(cakeDetails.description);
     const categoryWordCount = wordCount(cakeDetails.category);
 
@@ -86,7 +81,7 @@ const AddCake = ({ handleClose, editProduct }) => {
       setError("Category should not exceed 50 words");
       return;
     } else {
-      setError(""); // Clear error message if validation passes
+      setError("");
     }
 
     const formData = new FormData();
@@ -99,14 +94,14 @@ const AddCake = ({ handleClose, editProduct }) => {
     formData.append("stock", cakeDetails.stock);
     formData.append("category", cakeDetails.category);
     formData.append("created_by", user?.id || editProduct?.created_by);
-    formData.append("product_id", user?.id || editProduct?.id);
+    formData.append("product_id", editProduct?.id);
 
     if (user?.id) {
       if (editProduct) {
         formData.append("id", editProduct.id); // Include the product ID for updating
-        dispatch(updateProduct(formData)); // Dispatch the update action
+        dispatch(updateProduct(formData));
       } else {
-        dispatch(addProduct(formData)); // Dispatch the add action
+        dispatch(addProduct(formData));
       }
       dispatch(closeModal());
       dispatch(showAlert("Product added/updated successfully", "success"));
