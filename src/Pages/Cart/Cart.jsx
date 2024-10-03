@@ -93,11 +93,11 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
                         <DeleteIcon sx={{ color: "#fb8263" }} />
                     </IconButton>
                 </div>
-                {/* <Tooltip title="Add note">
+                <Tooltip title="Add note">
                     <IconButton onClick={handleOpenNoteModel}>
                         <NoteAddIcon sx={{ color: "black" }} />
                     </IconButton>
-                </Tooltip> */}
+                </Tooltip>
             </div>
             {openModal && addNote && <AddNote isModalOpen={isModalOpen} setAddNote={setAddNote} />}
         </>

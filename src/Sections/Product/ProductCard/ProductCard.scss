@@ -2,7 +2,7 @@
     background-color: white;
     width: 22rem;
     /* Fixed width */
-    height: 32rem;
+    height: 34rem;
     /* Fixed height */
     border-radius: 1.2rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.495);
@@ -14,19 +14,20 @@
         padding: 1.5rem;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: left;
         height: 100%;
         /* Fill the entire card */
 
         /* Image Section */
         >img {
-            height: 9.375rem;
+            height: 6.375rem;
             /* Fixed height for image */
             width: 100%;
             object-fit: contain;
             margin-bottom: 1rem;
         }
-        .prd-texts{
+
+        .prd-texts {
             height: 6.25rem;
         }
 
@@ -47,21 +48,22 @@
         // }
 
         /* Button Section */
-        #addtocartbtn {
-            background-color: #fdc5b1;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            width: 100%;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            height: 50px;
-            margin-top: auto;
-        }
+    }
 
-        #addtocartbtn:hover {
-            background-color: #fb8263;
-        }
+    #addtocartbtn {
+        background-color: #fdc5b1;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        width: 100%;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        height: 50px;
+        margin-top: auto;
+    }
+
+    #addtocartbtn:hover {
+        background-color: #fb8263;
     }
 }
 
@@ -72,5 +74,6 @@
         height: auto;
         /* Let height adjust */
         margin: 1rem 0;
+        padding: auto;
     }
 }

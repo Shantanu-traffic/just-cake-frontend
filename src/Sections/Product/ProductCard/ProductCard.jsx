@@ -6,7 +6,8 @@ import Cookies from 'js-cookie';
 import { showAlert } from '../../../Store/actions/alertActionTypes';
 import { Tooltip } from '@mui/material';
 
-const ProductCard = ({ itemNum, cakeSrc, itemPrice, tittle, description, category, id }) => {
+const ProductCard = ({ itemNum, cakeSrc, itemPrice, title, description, category, id }) => {
+    console.log(title, "title")
     const [disabledCart, setDisabledCart] = useState(false);
     const dispatch = useDispatch();
     const { cartItems } = useSelector((state) => state.cartItems);
@@ -58,27 +59,34 @@ const ProductCard = ({ itemNum, cakeSrc, itemPrice, tittle, description, categor
                 <div className='w-full'>
                     <img src={cakeSrc} alt={itemNum} />
                 </div>
-                <p className='text-left'>Price: <strong>${itemPrice}</strong></p>
-                <div className='prd-texts'>
-                    <div className='w-full px-1'>
-                        <p className=''>{tittle}</p>
-                        <p>{category}</p>
-                    </div >
+                <div className='prd-texts w-full space-y-2'>
+                    <p className='text-gray-600'>
+                        Cake: <span className='font-semibold text-black'>{title}</span>
+                    </p>
                     <Tooltip sx={{ background: "white", color: "black", height: "30%" }} title={description} arrow>
-                        <p>{truncateDescription(description)}</p>
+                        <p className='text-gray-600'>
+                            Description: <span className='font-medium text-black'>{truncateDescription(description)}</span>
+                        </p>
                     </Tooltip>
+                    <p className='font-thin'>
+                        Category: <strong>{category}</strong>
+                    </p>
+                    <p className='text-left text-gray-600'>
+                        Price: <strong className='text-black'>${itemPrice}</strong>
+                    </p>
                 </div>
-                <div className='w-full'>
-                    <button id='addtocartbtn'
-                        disabled={disabledCart}
-                        onClick={handleAddToCart}
-                        className="flex justify-center items-center gap-2"
-                    >
-                        {disabledCart ? 'Added to Cart' : 'Add to Cart'}
-                    </button>
-                </div>
-            </main>
-        </div>
+
+            </main >
+            <div className='w-full p-4'>
+                <button id='addtocartbtn'
+                    disabled={disabledCart}
+                    onClick={handleAddToCart}
+                    className="flex justify-center items-center gap-2"
+                >
+                    {disabledCart ? 'Added to Cart' : 'Add to Cart'}
+                </button>
+            </div>
+        </div >
     );
 };
 
