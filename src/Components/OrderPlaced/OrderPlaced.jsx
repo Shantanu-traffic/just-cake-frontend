@@ -3,12 +3,15 @@ import { Navbar } from '../../Sections'
 import Footer from '../Footer/Footer'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Spinner } from '../Spinner/Spinner';
+import { useDispatch } from 'react-redux';
+import { getAllCartItems } from '../../Store/actions/getAllCartActions';
 
 const OrderPlaced = () => {
     const [loading, setLoading] = useState(true);
     const location = useLocation();
     const { orderDetails, payload } = location.state || {};
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
+    const dispatch = useDispatch(); 
 
     useEffect(() => {
         if (orderDetails) {

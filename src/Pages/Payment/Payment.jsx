@@ -7,6 +7,10 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { showAlert } from '../../Store/actions/alertActionTypes';
 import { BASE_API_URL } from '../../utils/commanFunctions';
+import { openModal } from '../../Store/actions/modalActions';
+import BankPaymentModal from './BankPaymentModal/BankPaymentModal';
+import { getAllCartItems } from '../../Store/actions/getAllCartActions';
+import { Spinner } from '../../Components';
 
 const Cart = ({ cartItems }) => {
   return (
@@ -39,19 +43,17 @@ export default function Payment() {
   const { cartItems } = useSelector((state) => state?.cartItems);
   const { shippingAddress } = useSelector((state) => state?.shippingAddress?.shippingData);
   const { order } = useSelector((state) => state?.orderPlaces)
+  const isModalOpen = useSelector((state) => state?.isModalOpen?.isOpen)
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const TAX_RATE = 0.18;
 
   useEffect(() => {
-    const userCookie = Cookies.get('user');  // Get the cookie value
-
+    const userCookie = Cookies.get('user');
     if (userCookie) {
-      // If the cookie exists, parse it
       const userData = JSON.parse(userCookie);
       setUser(userData);
     } else {
-      // If the cookie doesn't exist, set user to null
       setUser(null);
     }
 
@@ -92,126 +94,141 @@ export default function Payment() {
   const finalTotalPriceWithTax = parseFloat(totalPriceWithTax.toFixed(2));
 
   const handleCheckoutCOD = () => {
+    setOrderPlacedLoading(true)
     const OrderPlacedData = {
       order_id: order?.order_id,
       user_id: user?.id,
       payment_mode: "COD",
-      payment_receipt_attachment: null,
+      image: null,
       total_amount: finalTotalPriceWithTax,
     };
     if (OrderPlacedData) {
       BASE_API_URL
       axios.post(`${BASE_API_URL}/api/v1/payment/confirm-payment`, OrderPlacedData)
-        .then(response => {
+        .then((response) => {
           if (response.data.success) {
+            setOrderPlacedLoading(false)
+            dispatch(getAllCartItems(user.id))
             navigate('/orderPlaced', {
               state: {
                 orderDetails: response.data.result,
                 payload: OrderPlacedData
               }
-            });
+            })
           }
         })
-        .catch((error) => { dispatch(showAlert("Something went wrong, please try again", 'error')), console.log(error) });
+        .catch((error) => {
+          dispatch(showAlert("Something went wrong, please try again", 'error'))
+          setOrderPlacedLoading(false)
+        });
     } else {
       dispatch(showAlert("something went wrong! please try again"))
+      setOrderPlacedLoading(false)
     }
   };
 
+  const handleBankPaymentClick = () => {
+    dispatch(openModal())
+  }
+
   return (
-    <div className="bg-primary min-h-screen flex justify-center items-center p-4">
-      <div className="container min-h-[90vh] max-w-6xl bg-white shadow-lg rounded-lg flex flex-col lg:flex-row">
-        {/* Left Side: Order Summary */}
-        <div className="lg:w-1/2 w-full border-b lg:border-b-0 lg:border-r border-gray-200 p-6">
-          <div className="flex items-center space-x-2 mb-6">
-            <button onClick={handleBack} className="text-gray-600">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <h2 className="text-lg font-normal font-satisfy">Just Cakes</h2>
-          </div>
-          <h1 className="text-2xl font-bold mb-4">Amount to pay ${finalTotalPriceWithTax}</h1>
+    <>
+      <div className="bg-primary min-h-screen flex justify-center items-center p-4">
+        <div className="container min-h-[90vh] max-w-6xl bg-white shadow-lg rounded-lg flex flex-col lg:flex-row">
+          {/* Left Side: Order Summary */}
+          <div className="lg:w-1/2 w-full border-b lg:border-b-0 lg:border-r border-gray-200 p-6">
+            <div className="flex items-center space-x-2 mb-6">
+              <button onClick={handleBack} className="text-gray-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+              <h2 className="text-lg font-normal font-satisfy">Just Cakes</h2>
+            </div>
+            <h1 className="text-2xl font-bold mb-4">Amount to pay ${finalTotalPriceWithTax}</h1>
 
-          {/* Order Items */}
-          <div className="space-y-4">
-            <Cart cartItems={uniqueCartItems} />
-          </div>
-          <div className='py-2'><Divider /></div>
-          {/* Subtotal and Shipping */}
-          <div className="mt-6">
-            <div className="flex justify-between">
-              <p>Subtotal</p>
-              <p>${roundedTotalCartPrice}</p>
+            {/* Order Items */}
+            <div className="space-y-4">
+              <Cart cartItems={uniqueCartItems} />
             </div>
             <div className='py-2'><Divider /></div>
-            <div className="flex justify-between mt-2">
-              <p>GST(18%)</p>
-              <p>${gstAmount}</p>
-            </div>
-            <div className='py-2'><Divider /></div>
-            <div className="flex justify-between mt-2 font-bold">
-              <p>Total due</p>
-              <p>${finalTotalPriceWithTax}</p>
+            {/* Subtotal and Shipping */}
+            <div className="mt-6">
+              <div className="flex justify-between">
+                <p>Subtotal</p>
+                <p>${roundedTotalCartPrice}</p>
+              </div>
+              <div className='py-2'><Divider /></div>
+              <div className="flex justify-between mt-2">
+                <p>GST(18%)</p>
+                <p>${gstAmount}</p>
+              </div>
+              <div className='py-2'><Divider /></div>
+              <div className="flex justify-between mt-2 font-bold">
+                <p>Total due</p>
+                <p>${finalTotalPriceWithTax}</p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Right Side: Payment Form */}
-        <div className="lg:w-1/2 w-full p-6">
-          <p className="font-semibold">Shipping Information</p>
-          <div className='py-1'><Divider /></div>
-          {/* Shipping Information */}
-          <div className="p-4 rounded-md">
-            <div className="mb-4">
-              <p className="text-gray-700 font-medium">Name</p>
-              <p className="text-gray-800">{user?.display_name}</p>
+          {/* Right Side: Payment Form */}
+          <div className="lg:w-1/2 w-full p-6">
+            <p className="font-semibold">Shipping Information</p>
+            <div className='py-1'><Divider /></div>
+            {/* Shipping Information */}
+            <div className="p-4 rounded-md">
+              <div className="mb-4">
+                <p className="text-gray-700 font-medium">Name</p>
+                <p className="text-gray-800">{user?.display_name}</p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-gray-700 font-medium">Email</p>
+                <p className="text-gray-800">{user?.email}</p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-gray-700 font-medium">Phone</p>
+                <p className="text-gray-800">{shippingAddress?.phone || shippingDetails?.phone}</p>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-gray-700 font-medium">Address</p>
+                <p className="text-gray-800">
+                  {`${shippingAddress?.street || shippingDetails?.street}, ${shippingAddress?.city || shippingDetails?.city}, ${shippingAddress?.postal_code || shippingDetails?.postal_code} ${shippingAddress?.state || shippingDetails?.state}, ${shippingAddress?.country || shippingDetails?.country} `}
+                </p>
+              </div>
+
+              <div className="mb-6">
+                <p className="font-semibold text-gray-800">
+                  <strong>Total Price:</strong> ${finalTotalPriceWithTax}
+                </p>
+              </div>
+
+              <button onClick={handleCheckoutCOD} className="w-full bg-primary text-white p-3 rounded-md shadow-sm hover:bg-primary-dark">
+                Cash on Delivery
+              </button>
+              <p className="text-center my-1 text-gray-500">or proceed with</p>
+              <button onClick={handleBankPaymentClick} className="w-full bg-primary text-white p-3 rounded-md shadow-sm hover:bg-primary-dark">
+                Bank Payment
+              </button>
             </div>
-
-            <div className="mb-4">
-              <p className="text-gray-700 font-medium">Email</p>
-              <p className="text-gray-800">{user?.email}</p>
-            </div>
-
-            <div className="mb-4">
-              <p className="text-gray-700 font-medium">Phone</p>
-              <p className="text-gray-800">{shippingAddress?.phone || shippingDetails?.phone}</p>
-            </div>
-
-            <div className="mb-4">
-              <p className="text-gray-700 font-medium">Address</p>
-              <p className="text-gray-800">
-                {`${shippingAddress?.street || shippingDetails?.street}, ${shippingAddress?.city || shippingDetails?.city}, ${shippingAddress?.postal_code || shippingDetails?.postal_code} ${shippingAddress?.state || shippingDetails?.state}, ${shippingAddress?.country || shippingDetails?.country} `}
-              </p>
-            </div>
-
-            <div className="mb-6">
-              <p className="font-semibold text-gray-800">
-                <strong>Total Price:</strong> ${finalTotalPriceWithTax}
-              </p>
-            </div>
-
-            <button onClick={handleCheckoutCOD} className="w-full bg-primary text-white p-3 rounded-md shadow-sm hover:bg-primary-dark">
-              Cash on Delivery
-            </button>
-            <p className="text-center my-1 text-gray-500">or proceed with</p>
-            <button className="w-full bg-primary text-white p-3 rounded-md shadow-sm hover:bg-primary-dark">
-              Bank Payment
-            </button>
           </div>
         </div>
       </div>
-    </div>
+      {orderPlacedLoading && <Spinner />}
+      {isModalOpen && <BankPaymentModal isModalOpen={isModalOpen} finalTotalPriceWithTax={finalTotalPriceWithTax} />}
+    </>
   );
 }
