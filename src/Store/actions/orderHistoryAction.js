@@ -13,7 +13,7 @@ export const getOrderHistory = (user_id) => async (dispatch) => {
 
         dispatch({
             type: GET_ORDER_HISTORY_SUCCESS,
-            payload: data.result,
+            payload: data,
         });
 
     } catch (error) {

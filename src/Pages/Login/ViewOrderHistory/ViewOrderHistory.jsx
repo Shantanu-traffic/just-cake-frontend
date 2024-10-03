@@ -21,9 +21,11 @@ import { closeModal } from '../../../Store/actions/modalActions';
 
 const ViewOrderHistory = ({ isModalOpen, user }) => {
     const dispatch = useDispatch();
-    const orderHistory = useSelector((state) => state.orderHistory?.result);
+    const orderHistory = useSelector((state) => state.orderHistory?.orders?.result);
     const loading = useSelector((state) => state.orderHistory?.loading);
     const error = useSelector((state) => state.orderHistory?.error);
+
+    console.log("orderHistory", orderHistory)
 
     // Fetch order history when component mounts
     useEffect(() => {
@@ -39,8 +41,8 @@ const ViewOrderHistory = ({ isModalOpen, user }) => {
     return (
         <Dialog open={isModalOpen} onClose={handleClose} fullWidth>
             <DialogTitle>Order History</DialogTitle>
-            <DialogContent>
-                <div className='w-full min-h-[90vh] p-5'>
+            <DialogContent className='min-w-[80vw]'>
+                <div className='min-h-[90vh] p-5'>
                     {loading && (
                         <div className='flex justify-center items-center'>
                             <CircularProgress />
