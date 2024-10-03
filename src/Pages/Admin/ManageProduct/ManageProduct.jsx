@@ -7,30 +7,28 @@ import {
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { openModal } from '../../../Store/actions/modalActions';
-import AddCake from '../AddCake/AddCake';
-import { updateProduct } from '../../../Store/actions/updateProductAction';
 import { Spinner } from '../../../Components';
 import { showAlert } from '../../../Store/actions/alertActionTypes';
+import ConfirmPopUp from '../../../Components/ConfirmPopUp/ConfirmPopUp';
 
 
 const ManageProduct = ({ products, loadingData, handleHelper }) => {
+    const [isDialogOpen, setDialogOpen] = useState(false);
+    const [productId, setProductId] = useState(null)
+    const handleOpenDialog = () => {
+        setDialogOpen(true);
+    };
+    const handleCloseDialog = () => {
+        setDialogOpen(false);
+    };
     const dispatch = useDispatch();
     // const { loading, success, error } = useSelector((state) => state.deleteProduct);
     // const { products, productsLoading, productsError } = useSelector((state) => state.allProduct);
     const isModalOpen = useSelector((state) => state.isModalOpen.isOpen);
 
     const handleDelete = (productId) => {
-        dispatch(deleteProduct(productId))
-            .then((res) => {
-                dispatch(showAlert("product Deleted successfully", "success"))
-                setTimeout(() => {
-                    window.location.reload();
-                }, [1000])
-            })
-            .catch((error) => {
-                dispatch(showAlert("something went wrong", "error"))
-            });
+        setProductId(productId)
+        setDialogOpen(true);
     };
 
     const handleEditSubmit = (item) => {
@@ -39,7 +37,7 @@ const ManageProduct = ({ products, loadingData, handleHelper }) => {
         // dispatch(updateProduct(productData));
         handleHelper(item)
     };
-    
+    console.log("popup mkodal", isDialogOpen)
     return (
         <>
             <TableContainer component={Paper} style={{ position: 'relative' }}>
@@ -92,6 +90,11 @@ const ManageProduct = ({ products, loadingData, handleHelper }) => {
                 </Table>
             </TableContainer>
             {/* {isModalOpen && <AddCake editProduct={editProduct} />} */}
+            <ConfirmPopUp
+                productId={productId}
+                isOpen={isDialogOpen}
+                handleClose={handleCloseDialog}
+            />
         </>
     )
 }

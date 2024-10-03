@@ -15,12 +15,12 @@ const Product = () => {
     const { loading, products, error } = useSelector((state) => state?.allProduct);
 
     const handleNext = () => {
-        setOffSet((prev) => prev + 9);
+        setOffSet((prev) => prev + 10);
     };
 
     const handlePrev = () => {
         if (offSet > 0) {
-            setOffSet((prev) => Math.max(1, prev - 9));
+            setOffSet((prev) => Math.max(1, prev - 10));
         }
     }
 
