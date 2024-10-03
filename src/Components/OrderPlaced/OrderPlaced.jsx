@@ -10,6 +10,7 @@ const OrderPlaced = () => {
     const [loading, setLoading] = useState(true);
     const location = useLocation();
     const { orderDetails, payload } = location.state || {};
+    console.log("payload", payload)
     const navigate = useNavigate(); 
     const dispatch = useDispatch(); 
 

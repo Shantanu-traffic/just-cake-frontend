@@ -64,7 +64,7 @@ const BankPaymentModal = ({ isModalOpen, finalTotalPriceWithTax }) => {
                             payload: {
                                 order_id: order?.order_id,
                                 user_id: user?.id,
-                                payment_mode: "COD",
+                                payment_mode: "Bank Payment",
                                 total_amount: finalTotalPriceWithTax
                             }
                         }

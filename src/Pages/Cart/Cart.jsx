@@ -22,8 +22,9 @@ import { updateCartQuantity } from '../../Store/actions/cartIncDecAction';
 import { generateOrderDate } from '../../utils/commanFunctions';
 
 
-const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, addNote, setAddNote }) => {
+const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, addNote, setAddNote, product_id }) => {
     const [cartQuantity, setCartQuantity] = useState(quantity);
+    const [noteCartId, setCartId] = useState(null);
     const dispatch = useDispatch();
     const { loading, success, error } = useSelector((state) => state.updateCartQuantity);
 
@@ -50,7 +51,8 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
         window.location.reload();
     };
 
-    const handleOpenNoteModel = () => {
+    const handleOpenNoteModel = (cart_id) => {
+        setCartId(cart_id)
         dispatch(openModal())
         setAddNote(true)
     }
@@ -94,12 +96,12 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
                     </IconButton>
                 </div>
                 <Tooltip title="Add note">
-                    <IconButton onClick={handleOpenNoteModel}>
+                    <IconButton onClick={() => handleOpenNoteModel(cart_id)}>
                         <NoteAddIcon sx={{ color: "black" }} />
                     </IconButton>
                 </Tooltip>
             </div>
-            {openModal && addNote && <AddNote isModalOpen={isModalOpen} setAddNote={setAddNote} />}
+            {openModal && addNote && <AddNote isModalOpen={isModalOpen} setAddNote={setAddNote} noteCartId={noteCartId} />}
         </>
     );
 }
@@ -188,7 +190,7 @@ export const Cart = () => {
                     console.error('Order Failed:', err);
                     dispatch(showAlert("Order failed. Please try again later.", 'error'));
                 });
-        }else{
+        } else {
             dispatch(showAlert("items in cart and shipping address is must", "error"))
         }
     }
@@ -210,6 +212,7 @@ export const Cart = () => {
                                 img={item.image}
                                 quantity={item.quantity}
                                 cart_id={item.cart_id}
+                                product_id={item.product_id}
                                 user_id={user?.id}
                                 isModalOpen={isModalOpen}
                                 addNote={addNote} setAddNote={setAddNote}

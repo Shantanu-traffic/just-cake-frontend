@@ -13,7 +13,7 @@ const OrderHistoryAdmin = () => {
     useEffect(() => {
         const fetchOrderHistory = async () => {
             try {
-                const response = await axios.get(`${BASE_API_URL}/api/v1/order/order-history/031f8241-46ee-421e-a999-86c723f3789d`);
+                const response = await axios.get(`${BASE_API_URL}/api/v1/order/admin-order-history`);
                 setOrderHistory(response.data.result);
                 setLoading(false);
             } catch (err) {
@@ -32,6 +32,8 @@ const OrderHistoryAdmin = () => {
         return <Typography variant="h6" color="error" align="center">{error}</Typography>;
     }
 
+    console.log("orderHistory", orderHistory)
+
     return (
         <section className='w-full min-h-screen bg-primary flex flex-col justify-center items-center'>
             <Navbar />
@@ -46,7 +48,7 @@ const OrderHistoryAdmin = () => {
                                 <TableCell><strong>Order ID</strong></TableCell>
                                 <TableCell><strong>Total Amount</strong></TableCell>
                                 <TableCell><strong>Order Date</strong></TableCell>
-                                <TableCell><strong>Order Status</strong></TableCell>
+                                <TableCell><strong>Payment Mode</strong></TableCell>
                                 <TableCell><strong>Products</strong></TableCell>
                             </TableRow>
                         </TableHead>
@@ -56,7 +58,7 @@ const OrderHistoryAdmin = () => {
                                     <TableCell>{order.order_id}</TableCell>
                                     <TableCell>${order.total_amount}</TableCell>
                                     <TableCell>{new Date(order.order_date).toLocaleDateString()}</TableCell>
-                                    <TableCell>{order.order_status}</TableCell>
+                                    <TableCell>{order.payment_mode}</TableCell>
                                     <TableCell>
                                         {order.products.map((product) => (
                                             <div key={product.product_id}>

@@ -62,7 +62,7 @@ const ViewOrderHistory = ({ isModalOpen, user }) => {
                     {orderHistory && orderHistory.length > 0 ? (
                         <TableContainer component={Paper}>
                             <Table>
-                                <TableHead>
+                                <TableHead sx={{background:"#F1F1F1"}}>
                                     <TableRow>
                                         <TableCell>Order ID</TableCell>
                                         <TableCell>Total Amount</TableCell>
@@ -83,7 +83,7 @@ const ViewOrderHistory = ({ isModalOpen, user }) => {
                                             <TableCell>{order.payment_mode}</TableCell>
                                             <TableCell>
                                                 {order.payment_receipt_attachement
-                                                    ? <a href={order.payment_receipt_attachement} target="_blank" rel="noopener noreferrer">View Receipt</a>
+                                                    ? <a className='font-bold ' href={order.payment_receipt_attachement} target="_blank" rel="noopener noreferrer">View Receipt</a>
                                                     : "No Receipt"
                                                 }
                                             </TableCell>
