@@ -7,7 +7,7 @@ const AddNote = ({ isModalOpen, setAddNote, noteCartId }) => {
     console.log( noteCartId, "noteCartId")
     const dispatch = useDispatch()
     const { cartItems, loading, error } = useSelector((state) => state.cartItems);
-    const filteredCartItems = cartItems.filter(item => item.cart_id !== noteCartId);
+    const filteredCartItems = cartItems.filter(item => item.cart_id == noteCartId);
     console.log("filteredCartItems", filteredCartItems)
     console.log("cartItems", cartItems)
     const handleClose = () => {

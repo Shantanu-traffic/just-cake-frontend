@@ -19,12 +19,14 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import AddNote from './AddNote/AddNote';
 import { placeOrder } from '../../Store/actions/orderPlaceActions';
 import { updateCartQuantity } from '../../Store/actions/cartIncDecAction';
-import { generateOrderDate } from '../../utils/commanFunctions';
+import { BASE_API_URL, generateOrderDate } from '../../utils/commanFunctions';
+import axios from 'axios';
 
 
-const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, addNote, setAddNote, product_id }) => {
+const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, addNote, setAddNote, product_id,helperNotesFunct }) => {
     const [cartQuantity, setCartQuantity] = useState(quantity);
     const [noteCartId, setCartId] = useState(null);
+    const [notes,setNotes] = useState('')
     const dispatch = useDispatch();
     const { loading, success, error } = useSelector((state) => state.updateCartQuantity);
 
@@ -52,9 +54,26 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
     };
 
     const handleOpenNoteModel = (cart_id) => {
+        console.log("id get",cart_id)
         setCartId(cart_id)
         dispatch(openModal())
         setAddNote(true)
+    }
+
+    const handleSubmit = async (e)=>{
+        e.preventDefault()
+       const payload={
+        cart_id,
+        note:notes
+       }
+       try {
+            const result = await axios.patch(`${BASE_API_URL}/api/v1/cart/update-cart`,payload)
+
+            console.log("result data",result.data)
+       } catch (error) {
+        console.log("error found in frontend",error)
+       }
+      
     }
 
     return (
@@ -86,7 +105,9 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
                         {value}
                     </button>
                 </div>
-
+                 <form onSubmit={handleSubmit}>
+                    <input type="text" style={{border:"2px solid red"}} onChange={(e)=>setNotes(e.target.value)} />
+                 </form>
                 <div className="w-full sm:w-1/12 flex justify-center">
                     <IconButton
                         onClick={() => handleDeleteFromCart(cart_id)}
@@ -138,7 +159,9 @@ export const Cart = () => {
         }
     }, [dispatch, user]);
 
-    const { cartItems, loading, error } = useSelector((state) => state.cartItems);
+    let { cartItems, loading, error } = useSelector((state) => state.cartItems);
+
+
     const { address } = useSelector((state) => state.shippingAddress);
 
     // Remove duplicate cart items based on product_id or any other unique property
@@ -194,6 +217,8 @@ export const Cart = () => {
             dispatch(showAlert("items in cart and shipping address is must", "error"))
         }
     }
+
+   
     return (
         <>
             {/* {loading && <Spinner />} */}
