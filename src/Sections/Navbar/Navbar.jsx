@@ -84,7 +84,7 @@ const Navbar = () => {
 
                 {/* Mobile navigation links */}
                 <div className={`ms:hidden block sidebar ${toggle ? "flex" : "hidden"} p-3 bg-white rounded-xl absolute top-20 right-0 min-w-[6rem] mx-4 my-2`}>
-                    <ul className='flex flex-1 flex-col list-none justify-center items-center'>
+                    <ul className='flex flex-1 flex-col list-none justify-center items-start'>
                         <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/"}>Home</a>
                         {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/order"}>Cart ({cartCount})</a>}
                         {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/#contactus"}>Contact us</a>}
