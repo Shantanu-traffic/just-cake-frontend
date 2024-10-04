@@ -54,7 +54,11 @@ const Navbar = () => {
                 {/* Main navigation links */}
                 <ul className='py-0 font-semibold ms:flex hidden list-none justify-end items-center flex-1 gap-10 ss:text-[1.3rem] text-[1.1rem] ss:leading-[100px]'>
                     <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/"}>Home</a>
-                    {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/order"}>Cart ({cartCount})</a>}
+                    {!isAdmin && cartItems.length > 0 && (
+                        <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/order"}>
+                            Cart ({cartCount})
+                        </a>
+                    )}
                     {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/#contactus"}>Contact us</a>}
                     {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/orders"}>Order</a>}
                     {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/admin"}>Product</a>}
@@ -86,7 +90,7 @@ const Navbar = () => {
                 <div className={`ms:hidden block sidebar ${toggle ? "flex" : "hidden"} p-3 bg-white rounded-xl absolute top-20 right-0 min-w-[6rem] mx-4 my-2`}>
                     <ul className='flex flex-1 flex-col list-none justify-center items-start'>
                         <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/"}>Home</a>
-                        {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/order"}>Cart ({cartCount})</a>}
+                        {!isAdmin && cartItems.length > 0 && (<a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/order"}>Cart ({cartCount})</a>)}
                         {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/#contactus"}>Contact us</a>}
                         {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/orders"}>Order</a>}
                         {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/admin"}>Product</a>}
