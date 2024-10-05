@@ -36,10 +36,10 @@ const Info = () => {
             <img src={location} alt="location" />
           </div>
           <div className="text-gray-700">
-            <p className="m-0 text-lg font-semibold">3 Hanover</p>
+            {/* <p className="m-0 text-lg font-semibold">3 Hanover</p>
             <p className="m-0 text-lg font-semibold">Pahurere</p>
-            <p className="m-0 text-lg font-semibold">Papakura</p>
-            <p className="m-0 text-lg font-semibold">Auckland 2110</p>
+            <p className="m-0 text-lg font-semibold">Papakura</p> */}
+            <p className="m-0 text-lg font-semibold">Auckland</p>
           </div>
         </div>
       </a>
