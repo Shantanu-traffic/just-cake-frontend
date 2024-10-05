@@ -11,6 +11,7 @@ import { addProduct } from "../../../Store/actions/productActions";
 import Cookies from "js-cookie";
 import { showAlert } from "../../../Store/actions/alertActionTypes";
 import { updateProduct } from "../../../Store/actions/updateProductAction";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const AddCake = ({ handleClose, editProduct }) => {
   console.log("editProduct", editProduct)
@@ -181,16 +182,26 @@ const AddCake = ({ handleClose, editProduct }) => {
               value={cakeDetails.stock}
               onChange={handleChange}
             />
-            <TextField
-              margin="dense"
-              label="Category"
-              name="category"
-              type="text"
-              fullWidth
-              variant="outlined"
-              value={cakeDetails.category}
-              onChange={handleChange}
-            />
+            {/* Category Dropdown */}
+            <FormControl fullWidth variant="outlined" margin="dense">
+              <InputLabel>Category</InputLabel>
+              <Select
+                label="Category"
+                name="category"
+                value={cakeDetails.category}
+                onChange={handleChange}
+              >
+                <MenuItem value="All time Favourite">All time Favourite</MenuItem>
+                <MenuItem value="Corporate cakes">Corporate cakes</MenuItem>
+                <MenuItem value="Exotic birthday cakes">Exotic birthday cakes</MenuItem>
+                <MenuItem value="Fancy birthday cakes">Fancy birthday cakes</MenuItem>
+                <MenuItem value="Festive cakes">Festive cakes</MenuItem>
+                <MenuItem value="Number cakes">Number cakes</MenuItem>
+                <MenuItem value="Wedding and anniversary Cakes">Wedding and anniversary Cakes</MenuItem>
+                <MenuItem value="Pastries">Pastries</MenuItem>
+                <MenuItem value="Cup cakes">Cup cakes</MenuItem>
+              </Select>
+            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
