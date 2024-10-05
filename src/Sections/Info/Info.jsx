@@ -11,7 +11,7 @@ const Info = () => {
           </div>
           <div className="text-gray-700">
             <p className="m-0 font-semibold">
-              +64 21 344 365
+              +64 21 153 5957
             </p>
           </div>
         </div>
@@ -24,7 +24,7 @@ const Info = () => {
           </div>
           <div className="text-gray-700">
             <p className="m-0 font-semibold">
-              Cakesjst@gmail.com
+              Justcakes777@gmail.com
             </p>
           </div>
         </div>
