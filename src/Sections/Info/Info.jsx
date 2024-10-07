@@ -2,6 +2,10 @@ import React from 'react'
 import { mail, call, location } from "../../assets"
 
 const Info = () => {
+
+  const openWhatsapp = () => {
+    window.open('https://wa.me/+6421344365?text=Welcome %20 to %20 JustCakes!', '_blank')
+  }
   return (
     <section className='w-full bg-white ss:h-[80vh] h-[40vh] flex flex-col justify-evenly items-center'>
       <a href="">
@@ -10,8 +14,8 @@ const Info = () => {
             <img src={call} alt="call" />
           </div>
           <div className="text-gray-700">
-            <p className="m-0 font-semibold">
-              +64 21 153 5957
+            <p className="m-0 font-semibold" onClick={openWhatsapp}>
+              +64 21 344 365
             </p>
           </div>
         </div>
@@ -24,7 +28,7 @@ const Info = () => {
           </div>
           <div className="text-gray-700">
             <p className="m-0 font-semibold">
-              Justcakes777@gmail.com
+              Cakesjst@gmail.com
             </p>
           </div>
         </div>
