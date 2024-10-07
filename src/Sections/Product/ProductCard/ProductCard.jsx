@@ -61,7 +61,7 @@ const ProductCard = ({ itemNum, cakeSrc, itemPrice, title, description, category
                 </div>
                 <div className='h-[3rem] w-[90%]'>
                     <p className='text-gray-600'>
-                        Cake: <span className='font-semibold text-black'>{" title remove add substract addmission laptop software"}</span>
+                        Cake: <span className='font-semibold text-black'>{title}</span>
                     </p>
                 </div>
                 <div className='h-[4rem] w-[90%]'>
