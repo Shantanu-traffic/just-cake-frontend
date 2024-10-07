@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { MobNavLinks, navLinks } from '../../Constants/Data'
 import { close, menu, logo, cakeLogo } from '../../assets'
 import './Navbar.scss'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Avatar } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Cookies from 'js-cookie';
@@ -13,11 +13,13 @@ import { getAllCartItems } from '../../Store/actions/getAllCartActions';
 const Navbar = () => {
     const [toggle, settoggle] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch()
     const cartItems = useSelector((state) => state?.cartItems.cartItems)
     const cartCount = cartItems?.length;
     let user = null;
     let isAdmin = false;
+
     const userCookie = Cookies.get('user');
     if (userCookie) {
         try {
@@ -59,7 +61,7 @@ const Navbar = () => {
                             Cart ({cartCount})
                         </a>
                     )}
-                    {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/#contactus"}>Contact us</a>}
+                    {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={location.pathname === '/' ? "/#contactus" : "/requestOrder"}>Contact Us</a>}
                     {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/orders"}>Order</a>}
                     {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/admin"}>Product</a>}
                     {user == null && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/login"}>
@@ -91,7 +93,7 @@ const Navbar = () => {
                     <ul className='flex flex-1 flex-col list-none justify-center items-start'>
                         <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/"}>Home</a>
                         {!isAdmin && cartItems.length > 0 && (<a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/order"}>Cart ({cartCount})</a>)}
-                        {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/#contactus"}>Contact us</a>}
+                        {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={location.pathname === '/' ? "/#contactus" : "/requestOrder"}>Contact Us</a>}
                         {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/orders"}>Order</a>}
                         {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/admin"}>Product</a>}
                         {user == null && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/login"}>

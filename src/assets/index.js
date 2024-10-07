@@ -8,6 +8,7 @@ import mail from "./icons/mail.png"
 import call from "./icons/call.png"
 import location from "./icons/location.png"
 import CakeHeroLogo from './icons/image.png'
+import whatsappLogo from './icons/whatsappLogo.png'
 // dummy images
 import img1 from './Dummy/img1.png'
 import img2 from './Dummy/img2.png'
@@ -28,6 +29,7 @@ export {
     call,
     location,
     CakeHeroLogo,
+    whatsappLogo,
     /// dummy
     img1,
     img2,

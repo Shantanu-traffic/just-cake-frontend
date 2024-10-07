@@ -4,6 +4,7 @@ import './App.css'
 import { Navbar, HeroBanner, CheifSection, Info, Product } from './Sections'
 import Cookies from 'js-cookie';
 import Footer from './Components/Footer/Footer.jsx';
+import Contact from './Pages/Contact/Contact.jsx';
 
 const Home = () => {
     const [user, setUser] = useState(null)
@@ -61,7 +62,13 @@ const Home = () => {
 
                 <div className={`${Styles.flexCenter} `} >
                     <div className={`${Styles.boxWidth}`} >
-                       <Footer />
+                        <Contact />
+                    </div>
+                </div >
+
+                <div className={`${Styles.flexCenter} `} >
+                    <div className={`${Styles.boxWidth}`} >
+                        <Footer />
                     </div>
                 </div >
             </div >

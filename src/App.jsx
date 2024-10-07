@@ -3,6 +3,7 @@ import Home from './Home'
 import { Login, Admin, Payment, Cart, OrderHistoryAdmin } from "./Pages"
 import Cookies from 'js-cookie';
 import { OrderPlaced } from './Components';
+import RequestOrder from './Pages/RequestOrder/RequestOrder';
 
 function App() {
   let isAdmin = false;
@@ -18,7 +19,7 @@ function App() {
       console.error("Failed to parse user cookie:", error);
     }
   }
-  
+
   return (
     <>
       <BrowserRouter>
@@ -26,6 +27,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/order' element={<Cart />} />
+          <Route path='/requestOrder' element={<RequestOrder />} />
           {user && <Route path='/payment' element={<Payment />} />}
           {user && <Route path='/orderplaced' element={<OrderPlaced />} />}
           {isAdmin && <Route path='/admin' element={<Admin />} />}
