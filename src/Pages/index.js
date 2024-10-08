@@ -4,6 +4,7 @@ import Contact from "./Contact/Contact"
 import Admin from "./Admin/Admin"
 import {Cart} from "./Cart/Cart"
 import OrderHistoryAdmin from "./OrderHistoryAdmin/OrderHistoryAdmin"
+import SignUp from "./SignUp/SignUp"
 
 export {
     Login,
@@ -11,5 +12,6 @@ export {
     Contact,
     Admin,
     Cart,
-    OrderHistoryAdmin
+    OrderHistoryAdmin,
+    SignUp
 }

@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './Home'
-import { Login, Admin, Payment, Cart, OrderHistoryAdmin } from "./Pages"
+import { Login, Admin, Payment, Cart, OrderHistoryAdmin, SignUp } from "./Pages"
 import Cookies from 'js-cookie';
 import { OrderPlaced } from './Components';
 import RequestOrder from './Pages/RequestOrder/RequestOrder';
@@ -26,6 +26,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
           <Route path='/order' element={<Cart />} />
           <Route path='/requestOrder' element={<RequestOrder />} />
           {user && <Route path='/payment' element={<Payment />} />}
