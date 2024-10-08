@@ -16,7 +16,7 @@ import img3 from './Dummy/img3.png'
 import img4 from './Dummy/img4.png'
 import img5 from './Dummy/img5.png'
 import img6 from './Dummy/img6.png'
-
+import default_avatar from './images/defaul_ avatar.png'
 
 export {
     close,
@@ -30,6 +30,7 @@ export {
     location,
     CakeHeroLogo,
     whatsappLogo,
+    default_avatar,
     /// dummy
     img1,
     img2,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Login.scss'
-import { CakeHeroLogo } from '../../assets'
+import { CakeHeroLogo, default_avatar } from '../../assets'
 import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from '../../Components/index.js';
 import { openModal } from '../../Store/actions/modalActions.js';
@@ -86,7 +86,7 @@ const Login = () => {
               <img className="w-[30%] h-[30%] cursor-pointer" onClick={() => navigate('/')} src={CakeHeroLogo} alt="logo" />
               <img
                 className="w-[30%] h-[30%] rounded-full"
-                src={user.profile_picture}
+                src={user.profile_picture || default_avatar}
                 alt={user.display_name}
               />
               <h1 className="text-white text-xl font-bold">Welcome, {user.display_name} Happy Cake!</h1>
