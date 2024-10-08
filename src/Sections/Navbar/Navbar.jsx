@@ -96,7 +96,7 @@ const Navbar = () => {
                         {!isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={location.pathname === '/' ? "/#contactus" : "/requestOrder"}>Contact Us</a>}
                         {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/orders"}>Order</a>}
                         {isAdmin && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/admin"}>Product</a>}
-                        {user == null && <a className="font-satisfy font-normal cursor-pointer text-white mr-10" href={"/login"}>
+                        {user == null && <a className="font-satisfy font-normal cursor-pointer text-black mr-10" href={"/login"}>
                             Login
                         </a>}
                         {user && (

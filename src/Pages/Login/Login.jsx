@@ -31,15 +31,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const result = await axios.post(`${BASE_API_URL}/api/v1/user/login`,formData)
-      if(result.data.success === true){
-          navigate('/')
-        Cookies.set('user', JSON.stringify(result.data.result));
+    await axios.post(`${BASE_API_URL}/api/v1/user/login`, formData).then((res) => {
+      console.log(res)
+      if (res.data.success) {
+        Cookies.set('user', JSON.stringify(res.data.result));
+        dispatch(showAlert(res.data.message, 'success'))
+        navigate('/')
+      } else if (!res.data.success) {
+        dispatch(showAlert(res.data.message, 'error'))
       }
-    } catch (error) {
-      console.log("error found",error)
-    }
+    }).catch((err) => {
+      dispatch(showAlert(err.response.data.message, 'error'))
+    })
   };
 
   useEffect(() => {
@@ -131,9 +134,9 @@ const Login = () => {
                   >
                     Login
                   </button>
-                  
-                  <p className='text-sm mt-2'>Create An Account <Link to={'/signup'} style={{color:'blue'}}>Sign Up</Link></p>
-                  
+
+                  <p className='text-sm mt-2'>Create An Account <Link to={'/signup'} style={{ color: 'blue' }}>Sign Up</Link></p>
+
                 </form>
                 {/* <p className='text-white text-center'>Or</p> */}
                 <button
