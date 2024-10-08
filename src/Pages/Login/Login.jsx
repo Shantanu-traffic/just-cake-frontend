@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import { showAlert } from '../../Store/actions/alertActionTypes.js';
 import { Link, useNavigate } from 'react-router-dom';
 import { BASE_API_URL } from '../../utils/commanFunctions.js';
+import axios from 'axios';
 
 const Login = () => {
   const [user, setUser] = useState(null)
@@ -28,9 +29,17 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted with: ", formData);
+    try {
+      const result = await axios.post(`${BASE_API_URL}/api/v1/user/login`,formData)
+      if(result.data.success === true){
+          navigate('/')
+        Cookies.set('user', JSON.stringify(result.data.result));
+      }
+    } catch (error) {
+      console.log("error found",error)
+    }
   };
 
   useEffect(() => {
