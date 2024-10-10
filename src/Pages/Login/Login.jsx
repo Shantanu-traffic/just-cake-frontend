@@ -136,6 +136,7 @@ const Login = () => {
                   </button>
 
                   <p className='text-sm mt-2'>Create An Account <Link to={'/signup'} style={{ color: 'blue' }}>Sign Up</Link></p>
+                  <Link to={'/forgot-password'} ><span className='text-sm mt-2' style={{ color: 'blue' }}>FORGOT PASSWORD </span></Link>
 
                 </form>
                 {/* <p className='text-white text-center'>Or</p> */}

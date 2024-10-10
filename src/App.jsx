@@ -4,6 +4,7 @@ import { Login, Admin, Payment, Cart, OrderHistoryAdmin, SignUp } from "./Pages"
 import Cookies from 'js-cookie';
 import { OrderPlaced } from './Components';
 import RequestOrder from './Pages/RequestOrder/RequestOrder';
+import ForgotPassword from './ForgotResetPassword/ForgotPassword';
 
 function App() {
   let isAdmin = false;
@@ -29,6 +30,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/order' element={<Cart />} />
           <Route path='/requestOrder' element={<RequestOrder />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
           {user && <Route path='/payment' element={<Payment />} />}
           {user && <Route path='/orderplaced' element={<OrderPlaced />} />}
           {isAdmin && <Route path='/admin' element={<Admin />} />}
