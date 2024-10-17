@@ -56,7 +56,7 @@ const ProductCard = ({ itemNum, cakeSrc, itemPrice, title, description, category
     return (
         <>
             <section className=' h-[34rem] w-[22rem] bg-white flex flex-col justify-start items-center gap-2 p-2 rounded-xl shadow-xl'>
-                <div className='h-[20rem] w-full flex justify-center items-center'>
+                <div className='h-[20rem] w-full flex justify-center items-center bg-gray-200 rounded-lg'>
                     <img width={"60%"} src={cakeSrc} alt={itemNum} />
                 </div>
                 <div className='h-[3rem] w-[90%]'>
@@ -81,7 +81,7 @@ const ProductCard = ({ itemNum, cakeSrc, itemPrice, title, description, category
                         Price: <strong className='text-black'>${itemPrice}</strong>
                     </p>
                 </div>
-                <div className='h-[3rem] w-[90%] flex justify-center items-center bg-primary rounded-lg text-white'>
+                <div className='h-[3rem] w-[90%] flex justify-center items-center bg-black rounded-lg text-white'>
                     <button id='addtocartbtn'
                         disabled={disabledCart}
                         onClick={handleAddToCart}

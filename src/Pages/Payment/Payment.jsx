@@ -133,7 +133,7 @@ export default function Payment() {
 
   return (
     <>
-      <div className="bg-primary min-h-screen flex justify-center items-center p-4">
+      <div className="bg-gray-200 min-h-screen flex justify-center items-center p-4">
         <div className="container min-h-[90vh] max-w-6xl bg-white shadow-lg rounded-lg flex flex-col lg:flex-row">
           {/* Left Side: Order Summary */}
           <div className="lg:w-1/2 w-full border-b lg:border-b-0 lg:border-r border-gray-200 p-6">
@@ -216,11 +216,11 @@ export default function Payment() {
                 </p>
               </div>
 
-              <button onClick={handleCheckoutCOD} className="w-full bg-primary text-white p-3 rounded-md shadow-sm hover:bg-primary-dark">
+              <button onClick={handleCheckoutCOD} className="w-full bg-black text-white p-3 rounded-md shadow-sm hover:bg-primary-dark">
                 Cash on Delivery
               </button>
               <p className="text-center my-1 text-gray-500">or proceed with</p>
-              <button onClick={handleBankPaymentClick} className="w-full bg-primary text-white p-3 rounded-md shadow-sm hover:bg-primary-dark">
+              <button onClick={handleBankPaymentClick} className="w-full bg-black text-white p-3 rounded-md shadow-sm hover:bg-primary-dark">
                 Bank Payment
               </button>
             </div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './Contact.scss'
 import { useDispatch } from "react-redux";
 import { Spinner } from "../../Components"
 import { showAlert } from "../../Store/actions/alertActionTypes";
@@ -71,10 +72,10 @@ const Contact = () => {
   return (
     <>
       {loading ? <Spinner /> :
-        <section className={`h-[auto] w-screen bg-primary flex justify-center items-center ss:px-10 px-6`} id='contactus'>
-          <form onSubmit={handleSubmit} className='w-full bg-secondary rounded-xl flex flex-col justify-center items-center ss:px-8 px-2 py-4 gap-5'>
-            <h1 className='text-center font-semibold ss:text-[1.6rem] text-[1.3rem]'>Request an Order</h1>
-            <p className='text-center text-[1.1rem]'>Tell us about your order and we will contact you shortly.</p>
+        <section className={`h-[auto] w-screen flex justify-center items-center py-6 ss:px-10 px-6 `} id='contactus'>
+          <form onSubmit={handleSubmit} className='w-full rounded-xl flex flex-col justify-center items-center bg-white bg-opacity-5 backdrop-blur-sm border border-white/30 ss:px-8 px-2 py-4 gap-5'>
+            <h1 className='text-center text-white font-semibold ss:text-[1.6rem] text-[1.3rem]'>Request an Order</h1>
+            <p className='text-center text-white text-[1.1rem]'>Tell us about your order and we will contact you shortly.</p>
 
             {error && <p className="text-red-500">{error}</p>}
 
@@ -86,7 +87,7 @@ const Contact = () => {
                   placeholder="Enter your name*"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100"
                 />
               </div>
               <div className="ss:w-1/2 w-full">
@@ -96,7 +97,7 @@ const Contact = () => {
                   placeholder="Enter your mail*"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100"
                 />
               </div>
             </div>
@@ -109,7 +110,7 @@ const Contact = () => {
                   placeholder="Enter your phone number*"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100"
                 />
               </div>
               <div className="ss:w-2/3 w-full">
@@ -119,7 +120,7 @@ const Contact = () => {
                   placeholder="Enter your address*"
                   value={formData.address}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100"
                 />
               </div>
             </div>
@@ -132,7 +133,7 @@ const Contact = () => {
                   placeholder="Write size of Cake (Small, Medium, Large)*"
                   value={formData.cake_size}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100"
                 />
               </div>
               <div className="ss:w-1/2 w-full">
@@ -142,7 +143,7 @@ const Contact = () => {
                   placeholder="Write type of cake (Birthday, Wedding, Aniversary, Corporate etc...)*"
                   value={formData.cake_type}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100"
                 />
               </div>
             </div>
@@ -155,7 +156,7 @@ const Contact = () => {
                   placeholder="Date of delivery (day-month-year)*"
                   value={formData.order_date}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100"
                 />
               </div>
               <div className="ss:w-1/2 w-full">
@@ -164,7 +165,7 @@ const Contact = () => {
                   name="image"
                   accept="image/*"
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-white rounded-md"
+                  className="w-full px-4 py-2 border border-white rounded-md bg-gray-100"
                 />
               </div>
             </div>
@@ -175,13 +176,13 @@ const Contact = () => {
               placeholder="Some additional note..."
               value={formData.message}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100"
             ></textarea>
 
             <button
               type="submit"
               disabled={loading}
-              className={`w-full px-4 py-2 ${loading ? 'bg-gray-500' : 'bg-primary'} text-black font-semibold rounded-md`}
+              className={`w-full px-4 py-2 ${loading ? 'bg-gray-500' : 'bg-white'} text-black font-semibold rounded-md`}
             >
               {loading ? 'Submitting...' : 'Submit'}
             </button>

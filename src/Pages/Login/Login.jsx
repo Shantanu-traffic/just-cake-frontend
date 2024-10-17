@@ -79,8 +79,8 @@ const Login = () => {
 
   return (
     <>
-      <section className="min-h-[100vh] p-2 bg-primary flex flex-col justify-center items-center">
-        <div className="h-auto w-98 bg-secondary rounded-xl py-5 flex flex-col justify-center items-center gap-4">
+      <section className="min-h-[100vh] p-2 flex flex-col justify-center items-center loginBanner-img">
+        <div className="h-auto w-98 bg-white bg-opacity-10 backdrop-blur-md border border-white/30 rounded-xl py-5 flex flex-col justify-center items-center gap-4">
           {user ? (
             <>
               <img className="w-[30%] h-[30%] cursor-pointer" onClick={() => navigate('/')} src={CakeHeroLogo} alt="logo" />
@@ -130,7 +130,7 @@ const Login = () => {
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="w-full bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   >
                     Login
                   </button>

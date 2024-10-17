@@ -180,7 +180,7 @@ export const ShippingDetail = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button variant="contained" type="submit">Submit</Button>
+            <Button variant="contained" sx={{background:"black"}} type="submit">Submit</Button>
           </DialogActions>
         </form>
         {loading && <Spinner />}

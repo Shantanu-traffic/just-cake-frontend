@@ -7,7 +7,7 @@ const Info = () => {
     window.open('https://wa.me/+6421344365?text=Welcome %20 to %20 JustCakes!', '_blank')
   }
   return (
-    <section className='w-full bg-white h-[40vh] flex ss:flex-row flex-col justify-evenly items-center'>
+    <section className='w-full bg-gray-100 h-[40vh] flex ss:flex-row flex-col justify-evenly items-center'>
       <a href="">
         <div className=" flex justify-center items-center ">
           <div className="w-[60px] mr-2">

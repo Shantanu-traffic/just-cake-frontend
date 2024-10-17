@@ -2,7 +2,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
 
 
-.hero_area {
+.hero-banner-img {
+    background-image: url('./assets/Banner/cakeHeroBanner5.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.chef-banner-img {
+    background-color: black;
+}
+
+.contact-banner-img {
+    background-image: url('./assets/Banner/contactusBanner1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+/* .hero_area {
     height: 100vh;
     background: linear-gradient(130deg, #fb8263 73%, #fdc5b1 73%);
-}
+} */

@@ -5,7 +5,7 @@ import Footer from '../../Components/Footer/Footer'
 
 const RequestOrder = () => {
     return (
-        <section className=' bg-primary flex flex-col justify-center items-center gap-4 '>
+        <section className='flex flex-col justify-center items-center gap-4'>
             <Navbar />
             <Contact />
             <Footer />

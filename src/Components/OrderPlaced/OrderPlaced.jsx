@@ -29,7 +29,7 @@ const OrderPlaced = () => {
     return (
         <>
             {loading ? <Spinner /> :
-                <section className='w-full min-h-screen bg-primary flex flex-col justify-center items-center'>
+                <section className='w-full min-h-screen bg-gray-200 flex flex-col justify-center items-center'>
                     <Navbar />
                     <div className='min-h-[80vh] w-2/4 bg-white rounded-xl m-2 p-5 flex flex-col justify-start items-center gap-6 shadow-lg'>
 
@@ -56,7 +56,7 @@ const OrderPlaced = () => {
                         </div>
 
                         {/* Back to Home Button */}
-                        <button onClick={handleNavigate} className="px-6 py-2 bg-primary text-white rounded-md shadow-md hover:bg-opacity-90 transition duration-300">
+                        <button onClick={handleNavigate} className="px-6 py-2 bg-black text-white rounded-md shadow-md hover:bg-opacity-90 transition duration-300">
                             Continue Shopping
                         </button>
                     </div>

@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { OrderPlaced } from './Components';
 import RequestOrder from './Pages/RequestOrder/RequestOrder';
 import ForgotPassword from './ForgotResetPassword/ForgotPassword';
+import LandingPage from './LandingPage';
 
 function App() {
   let isAdmin = false;
@@ -25,7 +26,8 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<LandingPage />} />
+          {/* <Route path='/landingpage' element={<LandingPage />} /> */}
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/order' element={<Cart />} />

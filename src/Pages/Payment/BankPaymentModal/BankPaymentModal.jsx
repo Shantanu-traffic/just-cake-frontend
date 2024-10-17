@@ -81,7 +81,7 @@ const BankPaymentModal = ({ isModalOpen, finalTotalPriceWithTax }) => {
 
     return (
         <>
-            {loading ? <Spinner /> : <Dialog className=""
+            {loading ? <Spinner /> : <Dialog
                 open={isModalOpen}
                 onClose={handleClose}
             >
@@ -141,7 +141,7 @@ const BankPaymentModal = ({ isModalOpen, finalTotalPriceWithTax }) => {
                         </button>
                         <button
                             type="submit"
-                            className="bg-primary px-5 py-2 text-white rounded-md hover:bg-opacity-80 transition duration-150"
+                            className="bg-black px-5 py-2 text-white rounded-md hover:bg-opacity-80 transition duration-150"
                         >
                             Add
                         </button>

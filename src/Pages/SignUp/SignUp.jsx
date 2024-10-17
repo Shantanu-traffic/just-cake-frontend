@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './signup.css'
 import axios from 'axios';
 import { BASE_API_URL } from '../../utils/commanFunctions';
 import { useDispatch } from 'react-redux';
@@ -47,9 +48,9 @@ const SignUp = () => {
     return (
         <>
             {loading ? <Spinner /> :
-                <section className='w-full bg-primary flex flex-col justify-center items-center h-screen'>
-                    <div className='h-auto w-full max-w-lg bg-secondary rounded-xl py-10 px-8 sm:px-10 lg:px-16 flex flex-col justify-center items-center gap-6'>
-                        <form onSubmit={handleSubmit} className="w-full bg-white rounded-lg max-w-md px-6 sm:px-8 lg:px-10 pt-6 pb-8">
+                <section className='w-full bg- flex flex-col justify-center items-center h-screen signup-banner-img'>
+                    <div className='h-auto w-full max-w-lg bg-white bg-opacity-10 backdrop-blur-md border border-white/30 rounded-xl py-10 px-8 sm:px-10 lg:px-16 flex flex-col justify-center items-center gap-6'>
+                        <form onSubmit={handleSubmit} className="w-full bg-gray-200 rounded-lg max-w-md px-6 sm:px-8 lg:px-10 pt-6 pb-8">
                             <h1 className="text-black text-2xl font-semibold mb-6 text-center">Sign Up</h1>
 
                             <div className="mb-5">
@@ -96,7 +97,7 @@ const SignUp = () => {
 
                             <button
                                 type="submit"
-                                className="w-full bg-primary text-black font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline"
+                                className="w-full bg-black text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline"
                             >
                                 Sign Up
                             </button>

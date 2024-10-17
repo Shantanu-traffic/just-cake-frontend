@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './Cart.scss'
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '../../Store/actions/modalActions';
@@ -24,7 +25,7 @@ import axios from 'axios';
 import { yellow } from '@mui/material/colors';
 
 
-const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, addNote, setAddNote, product_id, note}) => {
+const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, addNote, setAddNote, product_id, note }) => {
     const [cartQuantity, setCartQuantity] = useState(quantity);
     const [noteCartId, setCartId] = useState(null);
     const [notes, setNotes] = useState('')
@@ -70,7 +71,7 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
         try {
             const result = await axios.patch(`${BASE_API_URL}/api/v1/cart/update-cart`, payload)
 
-            if(result.data.success){
+            if (result.data.success) {
                 dispatch(showAlert("Notes added succesffully", "success"))
                 dispatch(getAllCartItems(user_id))
             }
@@ -82,7 +83,7 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
     }
 
     useEffect(() => {
-     setNotes(note)
+        setNotes(note)
     }, [])
 
     return (
@@ -109,26 +110,26 @@ const CartItem = ({ value, title, img, quantity, cart_id, user_id, isModalOpen, 
                 </div>
 
                 <div className="w-full sm:w-1/6 flex items-center justify-center">
-                    <button className="bg-[#fb8263] text-white px-4 py-2 rounded-md shadow-sm hover:bg-opacity-90 transition-all">
+                    <button className="bg-black text-white px-4 py-2 rounded-md shadow-sm hover:bg-opacity-90 transition-all">
                         ${value}
                     </button>
                 </div>
 
                 <div className="w-full sm:w-1/12 flex justify-center">
                     <IconButton onClick={() => handleDeleteFromCart(cart_id)} className="hover:text-primary-dark">
-                        <DeleteIcon sx={{ color: "#fb8263" }} />
+                        <DeleteIcon sx={{ color: "black" }} />
                     </IconButton>
                 </div>
             </div>
             <form onSubmit={handleSubmit} className="mt-4 flex items-center gap-3">
                 <input
                     type="text" value={notes}
-                    className="w-full border-2 border-[#fb8263] rounded-md p-2 focus:outline-none focus:border-[#fdc5b1] transition-all"
+                    className="w-full border-2 border-black rounded-md p-2 focus:outline-none focus:border-[#fdc5b1] transition-all"
                     placeholder="Add your note here..."
                     onChange={(e) => setNotes(e.target.value)}
                 />
                 <button
-                    type="submit" disabled={!notes && true} style={{background: !notes ? 'grey' : "#fb8263" }}
+                    type="submit" disabled={!notes && true} style={{ background: !notes ? 'grey' : "black" }}
                     className="text-white px-4 py-2 rounded-md shadow-sm hover:bg-opacity-90 transition-all"
                 >
                     Add
@@ -233,13 +234,12 @@ export const Cart = () => {
 
     return (
         <>
-            {/* {loading && <Spinner />} */}
-            <section className="min-h-[100vh] bg-primary py-2 flex flex-col justify-start items-center gap-4">
-                <div className='w-full flex justify-between items-center ss:px-10 px-5'>
+            <section className="min-h-[100vh] flex flex-col justify-start items-center gap-4 cartBanner-img">
+                <div className='w-full flex justify-between items-center '>
                     <Navbar />
                 </div>
 
-                <main className="bg-secondary ss:w-[800px] w-full p-6 rounded-xl space-y-6 shadow-lg">
+                <main className="bg-white bg-opacity-10 backdrop-blur-md border border-white/30 ss:w-[800px] w-full p-6 rounded-xl space-y-6 shadow-lg">
                     {uniqueCartItems.map((item) => {
                         return (
                             <CartItem
@@ -261,29 +261,29 @@ export const Cart = () => {
                     <article className="space-y-3 mt-5 border-t pt-4">
                         <button
                             onClick={() => dispatch(openModal())}
-                            className='px-4 py-2 bg-white text-black font-semibold rounded-md shadow hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition duration-300'>
+                            className='px-4 py-2 bg-white text-black font-semibold rounded-md shadow hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition duration-300'>
                             Add Shipping Address*
                         </button>
 
                         <div className="flex justify-between items-center">
-                            <h4 className="text-lg font-semibold">Sub Total</h4>
-                            <p className="text-lg font-bold">${roundedTotalCartPrice}</p>
+                            <h4 className="text-lg text-white font-semibold">Sub Total</h4>
+                            <p className="text-lg text-white font-bold">${roundedTotalCartPrice}</p>
                         </div>
 
                         <div className="flex justify-between items-center">
-                            <span className="text-sm text-gray-600">18% GST included</span>
-                            <span className="text-sm text-gray-600">${gstAmount}</span>
+                            <span className="text-sm text-white">18% GST included</span>
+                            <span className="text-sm text-white">${gstAmount}</span>
                         </div>
 
                         <div className='border-t'></div>
 
                         <div className="flex justify-between items-center">
-                            <h4 className="text-lg font-semibold">Total</h4>
-                            <p className="text-lg font-bold">${finalTotalPriceWithTax}</p>
+                            <h4 className="text-lg text-white font-semibold">Total</h4>
+                            <p className="text-lg text-white font-bold">${finalTotalPriceWithTax}</p>
                         </div>
                         <button
                             onClick={handleCheckoutClick}
-                            className="w-full block text-center bg-primary text-white py-2 px-4 rounded-lg mt-4 hover:bg-opacity-90 transition duration-300">
+                            className="w-full block text-center bg-white text-black py-2 px-4 rounded-lg mt-4 hover:bg-opacity-90 transition duration-300">
                             Checkout
                         </button>
                     </article>

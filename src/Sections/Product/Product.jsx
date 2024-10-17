@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-// import { HeroLogo } from '../../assets'
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from './ProductCard/ProductCard'
 import { getProducts } from '../../Store/actions/getAllProductsAction';
@@ -26,7 +25,7 @@ const Product = () => {
 
     return (
         <>
-            <section className='w-full h-auto flex flex-wrap justify-center items-center gap-4'>
+            <section className='w-full bg-gray-100 h-auto flex flex-wrap justify-center items-center gap-4'>
                 {loading && <Spinner />}
                 {products?.map((product, index) => (
                     <ProductCard
@@ -41,17 +40,17 @@ const Product = () => {
                     />
                 ))}
             </section>
-            <div className=" flex justify-center items-center gap-5 mt-4">
+            <div className="bg-gray-100 flex justify-center items-center gap-5 mt-4">
                 <button
                     onClick={handlePrev}
                     disabled={offSet === 1}
-                    className="bg-white text-black px-4 py-2 rounded"
+                    className="bg-black text-white px-4 py-2 rounded"
                 >
                     Prev
                 </button>
                 <button
                     onClick={handleNext}
-                    className="bg-white text-black px-4 py-2 rounded"
+                    className="bg-black text-white px-4 py-2 rounded"
                 >
                     Next
                 </button>
