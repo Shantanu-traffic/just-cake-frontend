@@ -88,7 +88,7 @@ const Navbar = () => {
 
                 {/* Mobile menu toggle */}
                 <div className='ms:hidden flex flex-1 justify-end items-center cursor-pointer'>
-                    <img src={toggle ? close : menu} alt='menu' className='text-black' onClick={() => settoggle((prev) => !prev)} />
+                    <img src={toggle ? close : menu} alt='menu' className='text-black bg-black' onClick={() => settoggle((prev) => !prev)} />
                 </div>
 
                 {/* Mobile navigation links */}

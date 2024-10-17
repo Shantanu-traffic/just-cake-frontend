@@ -1,6 +1,6 @@
 import React from 'react'
 import './CheifSection.scss'
-import { cheifImg } from '../../assets'
+import { chefImg, cheifImg } from '../../assets'
 import { chefData, chefExp } from '../../Constants/Data'
 import { Styles } from '../../Styles'
 
@@ -17,9 +17,9 @@ const CheifSection = () => {
                 </p>
             </div>
             <section className={`chef-section w-full h-full rounded-xl ${Styles.paddingX}`}>
-                <div className='w-full flex flex-col ss:flex-row justify-center items-center p-4'>
+                <div className='w-full flex flex-col ss:flex-row justify-center items-start p-4 gap-2'>
                     <div className='ss:w-[40%] w-full'>
-                        <img width={"100%"} height={"100%"} src={cheifImg} alt='chef-pic' className="rounded-lg" />
+                        <img width={"70%"} src={chefImg} alt='chef-pic' className="rounded-xl" />
                     </div>
                     <div className='ss:w-[60%] w-full flex flex-col justify-center items-start gap-4 p-4 bg-white bg-opacity-10 backdrop-blur-md border border-white/30 rounded-lg'>
                         <h1 className="font-bold ss:text-[1.5rem] text-[2rem] text-center text-white">About Our Chef</h1>

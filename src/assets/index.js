@@ -5,6 +5,7 @@ import cakeLogoWhite from "./icons/cakeLogoWhite.png"
 import logo from './images/logo.png'
 import HeroLogo from './images/HeroCake.png'
 import cheifImg from './images/cheif-img.png'
+import chefImg from './images/chefImg.jpeg'
 import mail from "./icons/mail.png"
 import location from "./icons/location.png"
 import CakeHeroLogo from './icons/image.png'
@@ -27,6 +28,7 @@ export {
     logo,
     HeroLogo,
     cheifImg,
+    chefImg,
     mail,
     location,
     CakeHeroLogo,
