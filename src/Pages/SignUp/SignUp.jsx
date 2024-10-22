@@ -5,7 +5,7 @@ import { BASE_API_URL } from '../../utils/commanFunctions';
 import { useDispatch } from 'react-redux';
 import { showAlert } from '../../Store/actions/alertActionTypes';
 import { Spinner } from '../../Components';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -101,6 +101,8 @@ const SignUp = () => {
                             >
                                 Sign Up
                             </button>
+                        <p className='text-sm mt-2'>Create An Account <Link to={'/login'} style={{ color: 'blue' }}>Log In</Link></p>
+
                         </form>
                     </div>
                 </section>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Login.scss'
-import { CakeHeroLogo, default_avatar } from '../../assets'
+import { CakeHeroLogo, default_avatar, heroLogo } from '../../assets'
 import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from '../../Components/index.js';
 import { openModal } from '../../Store/actions/modalActions.js';
@@ -80,10 +80,13 @@ const Login = () => {
   return (
     <>
       <section className="min-h-[100vh] p-2 flex flex-col justify-center items-center loginBanner-img">
-        <div className="h-auto w-98 bg-white bg-opacity-10 backdrop-blur-md border border-white/30 rounded-xl py-5 flex flex-col justify-center items-center gap-4">
+        <div className="h-auto ss:w-[500px] w-[360px] bg-white bg-opacity-10 backdrop-blur-md border border-white/30 rounded-xl py-5 flex flex-col justify-center items-center gap-4">
           {user ? (
             <>
               <img className="w-[30%] h-[30%] cursor-pointer" onClick={() => navigate('/')} src={CakeHeroLogo} alt="logo" />
+              {/* <div className=' rounded-ful'>
+                <img src={heroLogo} className='h-28 w-28 rounded-full' alt='logo' />
+              </div> */}
               <img
                 className="w-[30%] h-[30%] rounded-full"
                 src={user.profile_picture || default_avatar}
@@ -101,7 +104,11 @@ const Login = () => {
             </>
           ) : (
             <>
-              <img className="w-[20%] h-[20%]" src={CakeHeroLogo} alt="logo" />
+              {/* <img className="w-[20%] h-[20%]" src={CakeHeroLogo} alt="logo" /> */}
+
+              <div className=' rounded-ful'>
+                <img src={heroLogo} className='h-28 w-28 rounded-full' alt='logo' />
+              </div>
 
               <div className="w-full max-w-sm mx-auto">
                 <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-xl px-8 pt-4 pb-8 mb-2">
@@ -136,7 +143,7 @@ const Login = () => {
                   </button>
 
                   <p className='text-sm mt-2'>Create An Account <Link to={'/signup'} style={{ color: 'blue' }}>Sign Up</Link></p>
-                  <Link to={'/forgot-password'} ><span className='text-sm mt-2' style={{ color: 'blue' }}>FORGOT PASSWORD </span></Link>
+                  {/* <Link to={'/forgot-password'} ><span className='text-sm mt-2' style={{ color: 'blue' }}>FORGOT PASSWORD </span></Link> */}
 
                 </form>
                 {/* <p className='text-white text-center'>Or</p> */}

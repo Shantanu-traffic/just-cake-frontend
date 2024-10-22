@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { MobNavLinks, navLinks } from '../../Constants/Data'
-import { close, menu, cakeLogoWhite, cakeLogo } from '../../assets'
+import { close, menu, cakeLogoWhite, cakeLogo, heroLogo } from '../../assets'
 import './Navbar.scss'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Avatar } from '@mui/material';
@@ -48,12 +48,13 @@ const Navbar = () => {
         <>
             <nav className={` ${Styles.paddingX} navbar w-full flex justify-between items-center ss:py-0 bg-white`}>
                 <div className='flex justify-center items-center'>
-                    <div style={{ width: "50px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <img onClick={() => navigate('/')} className=' cursor-pointer ' src={cakeLogo} alt='cakelogo' />
+                    <div style={{ width: "100px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <img onClick={() => navigate('/')} className=' cursor-pointer ' src={heroLogo} alt='cakelogo' />
+                        {/* <img onClick={() => navigate('/')} className=' cursor-pointer ' src={cakeLogo} alt='cakelogo' />/ */}
                     </div>
-                    <h1 className=' py-0 ml-2 font-satisfy text-black font-semibold ss:text-[1.6rem] text-[1.1rem] ss:leading-[100px]'>
+                    {/* <h1 className=' py-0 ml-2 font-satisfy text-black font-semibold ss:text-[1.6rem] text-[1.1rem] ss:leading-[100px]'>
                         Cakes Crafts
-                    </h1>
+                    </h1> */}
                 </div>
 
                 {/* Main navigation links */}
