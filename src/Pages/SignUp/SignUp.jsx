@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './signup.css'
+import './Signup.css'
 import axios from 'axios';
 import { BASE_API_URL } from '../../utils/commanFunctions';
 import { useDispatch } from 'react-redux';
