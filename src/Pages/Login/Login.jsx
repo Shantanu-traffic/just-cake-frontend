@@ -83,10 +83,9 @@ const Login = () => {
         <div className="h-auto ss:w-[500px] w-[360px] bg-white bg-opacity-10 backdrop-blur-md border border-white/30 rounded-xl py-5 flex flex-col justify-center items-center gap-4">
           {user ? (
             <>
-              <img className="w-[30%] h-[30%] cursor-pointer" onClick={() => navigate('/')} src={CakeHeroLogo} alt="logo" />
-              {/* <div className=' rounded-ful'>
+              <div className=' rounded-ful'>
                 <img src={heroLogo} className='h-28 w-28 rounded-full' alt='logo' />
-              </div> */}
+              </div>
               <img
                 className="w-[30%] h-[30%] rounded-full"
                 src={user.profile_picture || default_avatar}
@@ -104,8 +103,6 @@ const Login = () => {
             </>
           ) : (
             <>
-              {/* <img className="w-[20%] h-[20%]" src={CakeHeroLogo} alt="logo" /> */}
-
               <div className=' rounded-ful'>
                 <img src={heroLogo} className='h-28 w-28 rounded-full' alt='logo' />
               </div>

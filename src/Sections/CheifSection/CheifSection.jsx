@@ -13,7 +13,7 @@ const CheifSection = () => {
                 </h1>
 
                 <p className='p-0 ss:text-xl text-lg font-satisfy text-gray-700'>
-                    Focuses on the <span className='text-pink-500 font-bold'>pleasure</span> and <span className='text-yellow-500 font-bold'>happiness</span> your cakes bring to customers.
+                    Focuses on the <span className='text-pink-500 font-bold'>pleasure</span> and <span className='text-yellow-500 font-bold'>happiness</span> our cakes bring to customers.
                 </p>
             </div>
             <section className={`chef-section w-full h-full rounded-xl ${Styles.paddingX}`}>

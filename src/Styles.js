@@ -1,6 +1,6 @@
 export const Styles = {
     boxWidth: "xl:max-w-[1280px] w-full",
-    divWidth: "w-[100wh] h-[100vh] bg-primary ",
+    divWidth: "w-[100wh] h-[100vh] ",
     fullWidthHieight: "w-[100%] h-[100%]",
 
     heading2: "font-poppins font-semibold xs:text-[48px] text-[40px] text-white xs:leading-[76.8px] leading-[66.8px] w-full",

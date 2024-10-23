@@ -36,7 +36,7 @@ const Home = () => {
 
     return (
         <>
-            <div className=' bg-primary  w-full overflow-hidden flex flex-col gap-[3rem] '>
+            <div className='w-full overflow-hidden flex flex-col gap-[3rem] '>
                 <div className='hero_area w-full overflow-hidden flex flex-col gap-[3rem] '>
                     <div className={`${Styles.paddingX}  ${Styles.flexCenter} `} >
                         <div className={`${Styles.boxWidth}`} >

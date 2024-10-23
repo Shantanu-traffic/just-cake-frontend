@@ -14,7 +14,7 @@ const ForgotPassword = ()=>{
     const handleSubmit = ()=>{}
     return (
         <>
-          <section className="min-h-[100vh] p-2 bg-primary flex flex-col justify-center items-center img-banner">
+          <section className="min-h-[100vh] p-2 flex flex-col justify-center items-center img-banner">
             <div className="h-auto w-98 bg-white bg-opacity-10 backdrop-blur-md border border-white/30 rounded-xl py-5 flex flex-col justify-center items-center gap-4">
               
                 <>

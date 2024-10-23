@@ -57,7 +57,7 @@ const Admin = () => {
   }
   return (
     <>
-      <section className='w-full min-h-[100vh] bg-primary flex flex-col justify-start items-start gap-4'>
+      <section className='w-full min-h-[100vh] bg-black flex flex-col justify-start items-start gap-4'>
         <div className='flex w-full flex-col justify-center items-start p-4 gap-4'>
           <Navbar />
           <button onClick={() => dispatch(openModal())}

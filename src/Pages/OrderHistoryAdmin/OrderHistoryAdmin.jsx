@@ -35,9 +35,9 @@ const OrderHistoryAdmin = () => {
     console.log("orderHistory", orderHistory)
 
     return (
-        <section className='w-full min-h-screen bg-primary flex flex-col justify-center items-center'>
+        <section className='w-full min-h-screen bg-white flex flex-col justify-center items-center'>
             <Navbar />
-            <p className='text-white font-semibold text-3xl text-center'>Order history</p>
+            <p className='text-black font-semibold text-3xl text-center'>Order history</p>
             <div className='w-full min-h-[90vh] p-5'>
                 <TableContainer component={Paper}>
                     <Table>

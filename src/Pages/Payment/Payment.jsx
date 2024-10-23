@@ -154,7 +154,7 @@ export default function Payment() {
                   />
                 </svg>
               </button>
-              <h2 className="text-lg font-normal font-satisfy">Cakes Crafts</h2>
+              <h2 className="text-lg font-normal font-satisfy">Cake Crafts</h2>
             </div>
             <h1 className="text-2xl font-bold mb-4">Amount to pay ${finalTotalPriceWithTax}</h1>
 
