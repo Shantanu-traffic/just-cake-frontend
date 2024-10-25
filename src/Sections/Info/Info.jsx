@@ -8,21 +8,18 @@ const Info = () => {
   }
   return (
     <section className='w-full bg-gray-100 h-[40vh] flex ss:flex-row flex-col justify-evenly items-center'>
-      <a href="">
-        <div className=" flex justify-center items-center ">
+        <div className=" flex justify-center items-center cursor-pointer " onClick={openWhatsapp}>
           <div className="w-[60px] mr-2">
             <img src={whatsappLogo} alt="call" />
           </div>
           <div className="text-gray-700">
-            <p className="m-0 font-semibold" onClick={openWhatsapp}>
+            <p className="m-0 font-semibold">
               +64 21 153 5957
             </p>
           </div>
         </div>
-      </a>
-
-      <a href="">
-        <div className=" flex items-center text-center">
+        <a href="mailto:Justcakes777@gmail.com">
+        <div className=" flex items-center text-center cursor-pointer">
           <div className="w-[60px] mr-2">
             <img src={mail} alt="mail" />
           </div>
@@ -32,9 +29,8 @@ const Info = () => {
             </p>
           </div>
         </div>
-      </a>
+        </a>
 
-      <a href="">
         <div className=" flex items-center text-center">
           <div className="w-[60px] mr-2">
             <img src={location} alt="location" />
@@ -46,7 +42,6 @@ const Info = () => {
             <p className="m-0 text-lg font-semibold">Auckland</p>
           </div>
         </div>
-      </a>
     </section>
   )
 }
