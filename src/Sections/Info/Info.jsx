@@ -4,7 +4,7 @@ import { mail, location, whatsappLogo } from "../../assets"
 const Info = () => {
 
   const openWhatsapp = () => {
-    window.open('https://wa.me/+6421344365?text=Welcome %20 to %20 JustCakes!', '_blank')
+    window.open('https://wa.me/+64211535957?text=Welcome %20 to %20 JustCakes!', '_blank')
   }
   return (
     <section className='w-full bg-gray-100 h-[40vh] flex ss:flex-row flex-col justify-evenly items-center'>

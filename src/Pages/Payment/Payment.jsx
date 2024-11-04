@@ -46,7 +46,7 @@ export default function Payment() {
   const isModalOpen = useSelector((state) => state?.isModalOpen?.isOpen)
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const TAX_RATE = 0.18;
+  const TAX_RATE = 0.20;
 
   useEffect(() => {
     const userCookie = Cookies.get('user');
@@ -87,7 +87,7 @@ export default function Payment() {
   // gst amount
   const gstAmount = parseFloat((roundedTotalCartPrice * TAX_RATE).toFixed(2));
 
-  // Add 18% tax/fee to the total price
+  // Add 20% tax/fee to the total price
   const totalPriceWithTax = roundedTotalCartPrice + gstAmount;
 
   // Round totalPriceWithTax to two decimal places
@@ -171,7 +171,7 @@ export default function Payment() {
               </div>
               <div className='py-2'><Divider /></div>
               <div className="flex justify-between mt-2">
-                <p>GST(18%)</p>
+                <p>GST(20%)</p>
                 <p>${gstAmount}</p>
               </div>
               <div className='py-2'><Divider /></div>

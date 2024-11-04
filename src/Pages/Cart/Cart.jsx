@@ -145,7 +145,7 @@ export const Cart = () => {
     const [addNote, setAddNote] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const TAX_RATE = 0.18;
+    const TAX_RATE = 0.20;
 
     useEffect(() => {
         const userCookie = Cookies.get('user');
@@ -201,7 +201,7 @@ export const Cart = () => {
 
     // gst amount
     const gstAmount = parseFloat((roundedTotalCartPrice * TAX_RATE).toFixed(2));
-    // Add 18% tax/fee to the total price
+    // Add 20% tax/fee to the total price
     const totalPriceWithTax = roundedTotalCartPrice + gstAmount;
 
     // Round totalPriceWithTax to two decimal places
@@ -271,7 +271,7 @@ export const Cart = () => {
                         </div>
 
                         <div className="flex justify-between items-center">
-                            <span className="text-sm text-white">18% GST included</span>
+                            <span className="text-sm text-white">20% GST included</span>
                             <span className="text-sm text-white">${gstAmount}</span>
                         </div>
 
