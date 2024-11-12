@@ -103,7 +103,7 @@ const BankPaymentModal = ({ isModalOpen, finalTotalPriceWithTax }) => {
 
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                Account Number: <strong>12-3216-0105382-51</strong>
+                                Account Number: <strong>12-3216-0138926-00</strong>
                             </label>
                         </div>
                         <div className="mb-4">

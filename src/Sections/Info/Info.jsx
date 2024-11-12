@@ -4,7 +4,7 @@ import { mail, location, whatsappLogo } from "../../assets"
 const Info = () => {
 
   const openWhatsapp = () => {
-    window.open('https://wa.me/+64211535957?text=Welcome %20 to %20 JustCakes!', '_blank')
+    window.open('https://wa.me/+64211535957?text=Welcome %20 to %20 Cake Crafts!', '_blank')
   }
   return (
     <section className='w-full bg-gray-100 h-[40vh] flex ss:flex-row flex-col justify-evenly items-center'>
@@ -18,14 +18,14 @@ const Info = () => {
             </p>
           </div>
         </div>
-        <a href="mailto:Justcakes777@gmail.com">
+        <a href="mailto:cakecrafts777@gmail.com">
         <div className=" flex items-center text-center cursor-pointer">
           <div className="w-[60px] mr-2">
             <img src={mail} alt="mail" />
           </div>
           <div className="text-gray-700">
             <p className="m-0 font-semibold">
-              Justcakes777@gmail.com
+              cakecrafts777@gmail.com
             </p>
           </div>
         </div>

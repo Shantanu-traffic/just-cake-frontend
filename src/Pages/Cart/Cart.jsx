@@ -200,7 +200,8 @@ export const Cart = () => {
     const roundedTotalCartPrice = parseFloat(totalCartPrice.toFixed(2));
 
     // gst amount
-    const gstAmount = parseFloat((roundedTotalCartPrice * TAX_RATE).toFixed(2));
+    // const gstAmount = parseFloat((roundedTotalCartPrice * TAX_RATE).toFixed(2));
+    const gstAmount = 0;
     // Add 20% tax/fee to the total price
     const totalPriceWithTax = roundedTotalCartPrice + gstAmount;
 
@@ -270,10 +271,10 @@ export const Cart = () => {
                             <p className="text-lg text-white font-bold">${roundedTotalCartPrice}</p>
                         </div>
 
-                        <div className="flex justify-between items-center">
+                        {/* <div className="flex justify-between items-center">
                             <span className="text-sm text-white">20% GST included</span>
                             <span className="text-sm text-white">${gstAmount}</span>
-                        </div>
+                        </div> */}
 
                         <div className='border-t'></div>
 

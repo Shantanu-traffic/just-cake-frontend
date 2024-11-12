@@ -85,8 +85,8 @@ export default function Payment() {
   const roundedTotalCartPrice = parseFloat(totalCartPrice.toFixed(2));
 
   // gst amount
-  const gstAmount = parseFloat((roundedTotalCartPrice * TAX_RATE).toFixed(2));
-
+  // const gstAmount = parseFloat((roundedTotalCartPrice * TAX_RATE).toFixed(2));
+    const gstAmount = 0;
   // Add 20% tax/fee to the total price
   const totalPriceWithTax = roundedTotalCartPrice + gstAmount;
 
@@ -169,11 +169,11 @@ export default function Payment() {
                 <p>Subtotal</p>
                 <p>${roundedTotalCartPrice}</p>
               </div>
-              <div className='py-2'><Divider /></div>
+              {/* <div className='py-2'><Divider /></div>
               <div className="flex justify-between mt-2">
                 <p>GST(20%)</p>
                 <p>${gstAmount}</p>
-              </div>
+              </div> */}
               <div className='py-2'><Divider /></div>
               <div className="flex justify-between mt-2 font-bold">
                 <p>Total due</p>
